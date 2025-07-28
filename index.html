@@ -19,6 +19,7 @@
 
 <section>
 <img src="assets/hero.jpg" alt="Hero Image">
+<div id="globe-container" style="width:600px;height:600px;margin:20px auto;"></div>
 <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
 <ul>
 <li>外国人スタッフを雇用したいけど、どうしたらいいかわからない</li>
@@ -40,4 +41,34 @@
 </ul>
 </section>
 <footer><p>&copy; 2025 広昌会協同組合</p></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, 600/600, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.setSize(600, 600);
+  document.getElementById("globe-container").appendChild(renderer.domElement);
+
+  // 创建地球
+  const geometry = new THREE.SphereGeometry(2, 64, 64);
+  const texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/trekhleb/threejs-course-assets/master/earth.jpg');
+  const material = new THREE.MeshStandardMaterial({map: texture});
+  const earth = new THREE.Mesh(geometry, material);
+  scene.add(earth);
+
+  // 光源
+  const light = new THREE.PointLight(0xffffff, 1);
+  light.position.set(5, 3, 5);
+  scene.add(light);
+
+  camera.position.z = 5;
+
+  // 动画
+  function animate() {
+    requestAnimationFrame(animate);
+    earth.rotation.y += 0.002;
+    renderer.render(scene, camera);
+  }
+  animate();
+</script>
 </body></html>
