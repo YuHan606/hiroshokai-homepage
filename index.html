@@ -10,6 +10,7 @@
       height: 600px;
       margin: 30px auto;
     }
+    canvas { display:block; }
   </style>
 </head>
 <body>
@@ -45,22 +46,13 @@
     <li>過去に失敗した経験がある</li>
   </ul>
   <p>このお悩み広昌会協同組合が解決します!</p>
-
-  <h3>Why Choose Us？</h3>
-  <ul>
-    <li>配属後のサポート力</li>
-    <li>一般管理事業認定（優良許可）</li>
-    <li>登録支援機関許可</li>
-    <li>通信設備＋家電の手配相談</li>
-    <li>30年以上の経験</li>
-  </ul>
 </section>
 
 <footer>
   <p>&copy; 2025 広昌会協同組合</p>
 </footer>
 
-<!-- Three.js 库 -->
+<!-- Three.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
   const width = 600, height = 600;
@@ -70,26 +62,30 @@
   renderer.setSize(width, height);
   document.getElementById("globe-container").appendChild(renderer.domElement);
 
-  // 创建地球
+  // 地球几何体
   const geometry = new THREE.SphereGeometry(2, 64, 64);
+  // 使用稳定的CDN纹理
   const texture = new THREE.TextureLoader().load(
-    "https://raw.githubusercontent.com/trekhleb/threejs-course-assets/master/earth.jpg"
+    "https://threejs.org/examples/textures/earth_atmos_2048.jpg",
+    () => { renderer.render(scene, camera); } // 确保加载后刷新
   );
   const material = new THREE.MeshStandardMaterial({map: texture});
   const earth = new THREE.Mesh(geometry, material);
   scene.add(earth);
 
   // 光源
-  const light = new THREE.PointLight(0xffffff, 1);
-  light.position.set(5, 3, 5);
+  const light = new THREE.PointLight(0xffffff, 1.2);
+  light.position.set(5, 5, 5);
   scene.add(light);
+  const ambient = new THREE.AmbientLight(0x404040, 1); // 环境光
+  scene.add(ambient);
 
   camera.position.z = 5;
 
-  // 动画循环
+  // 动画
   function animate() {
     requestAnimationFrame(animate);
-    earth.rotation.y += 0.002; // 旋转速度
+    earth.rotation.y += 0.002;
     renderer.render(scene, camera);
   }
   animate();
