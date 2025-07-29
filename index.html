@@ -5,164 +5,26 @@
   <title>Home - 広昌会協同組合</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
       margin: 0;
-      padding: 0;
-      line-height: 1.6;
-      color: #333;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    header {
-      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,248,255,0.95) 100%);
-      padding: 0;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    header h1 {
-      text-align: center;
-      margin: 0;
-      color: #2c3e50;
-      font-size: 2.8rem;
-      font-weight: 700;
-      padding: 20px 0 10px 0;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    nav {
-      background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
-    }
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 60px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    nav li {
-      flex: 1;
-      text-align: center;
-      border-right: 1px solid rgba(255,255,255,0.2);
-    }
-    nav li:last-child { border-right: none; }
-    nav a {
-      display: block;
-      text-decoration: none;
-      color: white;
-      font-weight: 600;
-      padding: 18px 20px;
-      transition: 0.3s;
-    }
-    nav a:hover {
-      color: #667eea;
-      background: rgba(255,255,255,0.95);
-    }
-    section {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      background: rgba(255, 255, 255, 0.95);
-      margin-top: 20px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      backdrop-filter: blur(10px);
+      overflow-x: hidden;
     }
     #globe-container {
       width: 500px;
       height: 500px;
-      margin: 30px auto;
+      margin: 50px auto;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 
+      box-shadow:
         0 0 50px rgba(102, 126, 234, 0.4),
         0 0 100px rgba(102, 126, 234, 0.2),
         inset 0 0 50px rgba(0,0,0,0.1);
-      background: radial-gradient(circle at 30% 30%, #4a90e2 0%, #1e3c72 70%, #0f1419 100%);
-      position: relative;
     }
-    h2 { text-align: center; color: #2c3e50; font-size: 1.8rem; margin: 40px 0 30px 0; }
-    section ul {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0;
-    }
-    section li {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      margin: 15px 0;
-      padding: 15px 20px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      opacity: 0;
-      animation: slideIn 0.6s ease forwards;
-    }
-    section li:nth-child(1) { animation-delay: 0.1s; }
-    section li:nth-child(2) { animation-delay: 0.2s; }
-    section li:nth-child(3) { animation-delay: 0.3s; }
-    section li:nth-child(4) { animation-delay: 0.4s; }
-    section li:nth-child(5) { animation-delay: 0.5s; }
-    section li:nth-child(6) { animation-delay: 0.6s; }
-    section li:nth-child(7) { animation-delay: 0.7s; }
-    @keyframes slideIn { to { transform: translateX(0); opacity: 1; } }
-    section p {
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #e74c3c;
-      margin: 40px 0;
-      padding: 20px;
-      background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-      border-radius: 15px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    footer { text-align: center; padding: 30px; background: rgba(44, 62, 80, 0.9); color: white; margin-top: 40px; }
     canvas { display: block; border-radius: 50%; }
   </style>
 </head>
 <body>
-<header>
-  <h1>広昌会協同組合</h1>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="overview.html">組合概要</a></li>
-      <li><a href="ginou.html">技能実習</a></li>
-      <li><a href="tokutei.html">特定技能</a></li>
-      <li><a href="sending.html">送り出し紹介</a></li>
-      <li><a href="training.html">研修センター紹介</a></li>
-      <li><a href="contact.html">お問い合わせ</a></li>
-    </ul>
-  </nav>
-</header>
-
-<section>
-  <div id="globe-container"></div>
-  <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
-  <ul>
-    <li>外国人スタッフを雇用したいけど、どうしたらいいかわからない</li>
-    <li>言葉は、通じるの・・・</li>
-    <li>仕事の内容は伝わるの</li>
-    <li>習慣や文化は大丈夫なの</li>
-    <li>ビザの更新とか手続きが面倒じゃないの</li>
-    <li>外国人はいい加減なんじゃないの</li>
-    <li>過去に失敗した経験がある</li>
-  </ul>
-  <p>このお悩み広昌会協同組合が解決します!</p>
-</section>
-
-<footer>
-  <p>&copy; 2025 広昌会協同組合</p>
-</footer>
+<div id="globe-container"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -171,85 +33,61 @@
   const height = container.offsetHeight;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 1000);
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(width, height);
   renderer.setClearColor(0x000000, 0); // 透明背景
   container.appendChild(renderer.domElement);
 
-  const geometry = new THREE.SphereGeometry(1.8, 64, 64);
+  // 光照
+  const ambientLight = new THREE.AmbientLight(0x888888);
+  scene.add(ambientLight);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  directionalLight.position.set(5, 3, 5).normalize();
+  scene.add(directionalLight);
+
+  // 创建地球
+  const geometry = new THREE.SphereGeometry(2, 64, 64);
   const loader = new THREE.TextureLoader();
+  loader.crossOrigin = ""; // 允许跨域
 
-  // 使用 NASA Blue Marble 地球贴图
   const earthTexture = loader.load(
-    "https://eoimages.gsfc.nasa.gov/images/imagerecords/74000/74419/world.topo.bathy.200412.3x5400x2700.jpg"
+    "https://raw.githubusercontent.com/fireship-io/threejs-earth/main/land_ocean_ice_cloud_2048.jpg", 
+    () => renderer.render(scene, camera) // 确保加载后立即渲染
   );
-
-  const material = new THREE.MeshPhongMaterial({
-    map: earthTexture,
-    shininess: 30
-  });
-  const earth = new THREE.Mesh(geometry, material);
+  const earthMaterial = new THREE.MeshPhongMaterial({ map: earthTexture });
+  const earth = new THREE.Mesh(geometry, earthMaterial);
   scene.add(earth);
 
-  // 云层
-  const cloudGeometry = new THREE.SphereGeometry(1.83, 64, 64);
+  // 添加云层
+  const cloudGeometry = new THREE.SphereGeometry(2.03, 64, 64);
   const cloudTexture = loader.load(
-    "https://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73909/world.clouds.200412.3x5400x2700.jpg"
+    "https://raw.githubusercontent.com/fireship-io/threejs-earth/main/fair_clouds_4k.png"
   );
   const cloudMaterial = new THREE.MeshLambertMaterial({
     map: cloudTexture,
     transparent: true,
-    opacity: 0.4
+    opacity: 0.5
   });
   const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
   scene.add(clouds);
 
-  // 大气层
-  const atmosphereGeometry = new THREE.SphereGeometry(1.85, 64, 64);
-  const atmosphereMaterial = new THREE.ShaderMaterial({
-    transparent: true,
-    side: THREE.BackSide,
-    vertexShader: `
-      varying vec3 vNormal;
-      void main() {
-        vNormal = normalize(normalMatrix * normal);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-      }
-    `,
-    fragmentShader: `
-      varying vec3 vNormal;
-      void main() {
-        float intensity = pow(0.7 - dot(vNormal, vec3(0.0,0.0,1.0)),2.0);
-        gl_FragColor = vec4(0.3,0.6,1.0,0.8) * intensity;
-      }
-    `
-  });
-  const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-  scene.add(atmosphere);
+  camera.position.z = 6;
 
-  // 光照
-  scene.add(new THREE.AmbientLight(0x404040, 0.6));
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(5, 3, 5);
-  scene.add(directionalLight);
-
-  camera.position.z = 4;
-
-  // 动画
+  // 动画循环
   function animate() {
     requestAnimationFrame(animate);
-    earth.rotation.y += 0.003;
-    clouds.rotation.y += 0.004;
+    earth.rotation.y += 0.002; // 地球自转
+    clouds.rotation.y += 0.0025; // 云层稍快
     renderer.render(scene, camera);
   }
   animate();
 
-  // 自适应窗口大小
+  // 窗口大小自适应
   window.addEventListener('resize', () => {
     const newWidth = container.offsetWidth;
     const newHeight = container.offsetHeight;
-    camera.aspect = newWidth/newHeight;
+    camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(newWidth, newHeight);
   });
