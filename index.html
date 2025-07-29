@@ -1,10 +1,132 @@
-// 动画循环 - 更流畅的动画
+// 国家展示功能
+  function showCountry(index) {
+    // 隐藏所有标签
+    document.querySelectorAll('.country-label').forEach(label => {
+      label.classList.remove('active');
+    });
+    
+    if (index < seaCountries.length) {
+      const country = seaCountries[index];
+      const label = document.getElementById(`label-${country.name}`);
+      
+      // 计算屏幕位置
+      const vector = new THREE.Vector3();
+      const marker = countryMarkers[index];
+      vector.setFromMatrixPosition(marker.matrixWorld);
+      vector.project(camera);
+      
+      const x = (vector.x * 0.5 + 0.5) * container.offsetWidth;
+      const y = (vector.y * -0.5 + 0.5) * container.offsetHeight;
+      
+      // 设置标签位置和显示
+      label.style.left = x + 'px';
+      label.style.top = (y - 60) + 'px';
+      label.classList.add('active');
+      
+      // 设置地球旋转目标
+      rotationTarget = -country.longitude * (Math.PI / 180) + Math.PI;
+      showingCountry = true;
+      
+      // 高亮标记
+      countryMarkers.forEach((marker, i) => {
+        if (i === index) {
+          marker.scale.setScalar(3);
+          marker.material.opacity = 1;
+        } else {
+          marker.scale.setScalar(1);
+          marker.material.opacity = 0.5;
+        }
+      });
+    }
+  }
+  
+  // 自动循环展示国家
+  function startCountryLoop() {
+    setInterval(() => {
+      showCountry(currentCountryIndex);
+      currentCountryIndex = (currentCountryIndex + 1) % seaCountries.length;
+    }, 4000); // 每4秒切换一个国家
+  }
+  
+  // 延迟开始循环，让地球先转一下
+  setTimeout(() => {
+    startCountryLoop();
+  }, 2000);
+  
+  // 更新标签位置的函数
+  function updateCountryLabels() {
+    countryMarkers.forEach((marker, index) => {
+      const vector = new THREE.Vector3();
+      vector.setFromMatrixPosition(marker.matrixWorld);
+      vector.project(camera);
+      
+      const x = (vector.x * 0.5 + 0.5) * container.offsetWidth;
+      const y = (vector.y * -0.5 + 0.5) * container.offsetHeight;
+      
+      const country = seaCountries[index];
+      const label = document.getElementById(`label-${country.name}`);
+      
+      // 只更新当前显示的标签位置
+      if (label.classList.contains('active')) {
+        label.style.left = x + 'px';
+        label.style.top = (y - 60) + 'px';
+        
+        // 检查是否在可见范围内
+        if (vector.z > 0) {
+          label.style.opacity = '0';
+        } else {
+          label.style.opacity = '1';
+        }
+      }
+    });
+  }  // 动画循环 - 更流畅的动画和国家展示
   function animate() {
     requestAnimationFrame(animate);
     
     const time = Date.now() * 0.0005;
     
-    //<!DOCTYPE html>
+    // 地球自转
+    if (showingCountry) {
+      // 平滑转向目标国家
+      const diff = rotationTarget - earth.rotation.y;
+      earth.rotation.y += diff * 0.02;
+      clouds.rotation.y = earth.rotation.y + 0.1;
+      
+      // 检查是否接近目标
+      if (Math.abs(diff) < 0.01) {
+        showingCountry = false;
+      }
+    } else {
+      // 正常缓慢自转
+      earth.rotation.y += 0.002;
+      clouds.rotation.y += 0.003;
+    }
+    
+    // 更新标记位置
+    countryMarkers.forEach(marker => {
+      // 让标记跟随地球旋转
+      const originalPosition = marker.userData.originalPosition || marker.position.clone();
+      if (!marker.userData.originalPosition) {
+        marker.userData.originalPosition = originalPosition;
+      }
+      
+      const rotatedPosition = originalPosition.clone();
+      rotatedPosition.applyAxisAngle(new THREE.Vector3(0, 1, 0), earth.rotation.y);
+      marker.position.copy(rotatedPosition);
+    });
+    
+    // 鼠标交互
+    camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+    camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+    camera.lookAt(scene.position);
+    
+    // 更新国家标签位置
+    updateCountryLabels();
+    
+    renderer.render(scene, camera);
+  }
+  
+  animate();<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -125,33 +247,57 @@
       width: 500px;
       height: 500px;
       margin: 30px auto;
-      border-radius: 50%;
-      overflow: hidden;
+      border-radius: 20px;
       box-shadow: 
-        0 0 50px rgba(102, 126, 234, 0.4),
-        0 0 100px rgba(102, 126, 234, 0.2),
-        inset 0 0 50px rgba(0,0,0,0.1);
-      background: radial-gradient(circle at 30% 30%, #4a90e2 0%, #1e3c72 70%, #0f1419 100%);
+        0 20px 60px rgba(0,0,0,0.2),
+        0 0 20px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
       position: relative;
+      overflow: visible;
     }
     
-    #globe-container::before {
+    .country-label {
+      position: absolute;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 14px;
+      white-space: nowrap;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transform: translateX(-50%) translateY(-50%);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.5s ease;
+      pointer-events: none;
+    }
+    
+    .country-label.active {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-50%) scale(1.1);
+    }
+    
+    .country-label::before {
       content: '';
       position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: conic-gradient(from 0deg, #667eea, #764ba2, #667eea, #764ba2, #667eea);
-      border-radius: 50%;
-      z-index: -1;
-      animation: rotate 20s linear infinite;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid #667eea;
     }
     
-    @keyframes rotate {
-      to {
-        transform: rotate(360deg);
-      }
+    @keyframes pulse {
+      0%, 100% { transform: translateX(-50%) translateY(-50%) scale(1.1); }
+      50% { transform: translateX(-50%) translateY(-50%) scale(1.2); }
+    }
+    
+    .country-label.active {
+      animation: pulse 2s ease-in-out infinite;
     }
     
     h2 {
@@ -305,7 +451,14 @@
 
 <section>
   <!-- 3D地球 -->
-  <div id="globe-container"></div>
+  <div id="globe-container">
+    <div class="country-label" id="label-indonesia">インドネシア</div>
+    <div class="country-label" id="label-myanmar">ミャンマー</div>
+    <div class="country-label" id="label-china">中国</div>
+    <div class="country-label" id="label-cambodia">カンボジア</div>
+    <div class="country-label" id="label-vietnam">ベトナム</div>
+    <div class="country-label" id="label-nepal">ネパール</div>
+  </div>
   
   <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
   <ul>
@@ -345,95 +498,100 @@
   // 创建地球几何体
   const geometry = new THREE.SphereGeometry(1.8, 64, 64);
   
-  // 创建更真实的地球纹理
+  // 创建真实的地球纹理
   function createRealisticEarthTexture() {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = 1024;
-    canvas.height = 512;
+    canvas.width = 2048;
+    canvas.height = 1024;
     
-    // 创建海洋渐变
+    // 海洋颜色
     const oceanGradient = ctx.createRadialGradient(
       canvas.width/2, canvas.height/2, 0,
       canvas.width/2, canvas.height/2, canvas.width/2
     );
-    oceanGradient.addColorStop(0, '#4a90e2');
-    oceanGradient.addColorStop(0.7, '#2980b9');
-    oceanGradient.addColorStop(1, '#1e3c72');
+    oceanGradient.addColorStop(0, '#4A90E2');
+    oceanGradient.addColorStop(0.5, '#357ABD');
+    oceanGradient.addColorStop(1, '#1E3A5F');
     
     ctx.fillStyle = oceanGradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // 添加海洋纹理
-    for(let i = 0; i < 500; i++) {
-      ctx.globalAlpha = 0.1;
-      ctx.fillStyle = '#74b9ff';
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height;
-      const size = Math.random() * 3 + 1;
-      ctx.beginPath();
-      ctx.arc(x, y, size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    
-    ctx.globalAlpha = 1;
-    
-    // 绘制更详细的大陆
+    // 绘制详细的大陆轮廓
     const continents = [
-      // 亚洲 - 更复杂的形状
+      // 亚洲 - 详细轮廓
       {
+        name: 'asia',
+        color: '#228B22',
         points: [
-          {x: 750, y: 120}, {x: 850, y: 100}, {x: 920, y: 130},
-          {x: 950, y: 180}, {x: 900, y: 220}, {x: 820, y: 200},
-          {x: 770, y: 180}, {x: 750, y: 150}
-        ],
-        color: '#27ae60'
+          // 中国
+          {x: 1400, y: 300}, {x: 1500, y: 280}, {x: 1580, y: 320},
+          {x: 1600, y: 380}, {x: 1550, y: 420}, {x: 1480, y: 400},
+          {x: 1420, y: 360}, {x: 1400, y: 320},
+          // 印度
+          {x: 1300, y: 400}, {x: 1350, y: 380}, {x: 1380, y: 420},
+          {x: 1370, y: 480}, {x: 1320, y: 500}, {x: 1290, y: 460},
+          // 东南亚
+          {x: 1480, y: 450}, {x: 1520, y: 480}, {x: 1550, y: 520},
+          {x: 1580, y: 560}, {x: 1600, y: 580}, {x: 1620, y: 600},
+          {x: 1580, y: 620}, {x: 1540, y: 600}, {x: 1500, y: 580},
+          {x: 1460, y: 550}, {x: 1440, y: 520}, {x: 1460, y: 480}
+        ]
       },
       // 欧洲
       {
+        name: 'europe',
+        color: '#32CD32',
         points: [
-          {x: 650, y: 110}, {x: 720, y: 100}, {x: 740, y: 130},
-          {x: 720, y: 150}, {x: 680, y: 140}, {x: 650, y: 130}
-        ],
-        color: '#2ecc71'
+          {x: 1200, y: 250}, {x: 1280, y: 240}, {x: 1320, y: 280},
+          {x: 1300, y: 320}, {x: 1250, y: 330}, {x: 1200, y: 300}
+        ]
       },
       // 非洲
       {
+        name: 'africa',
+        color: '#DEB887',
         points: [
-          {x: 650, y: 160}, {x: 720, y: 150}, {x: 740, y: 200},
-          {x: 720, y: 280}, {x: 680, y: 290}, {x: 650, y: 250}
-        ],
-        color: '#f39c12'
+          {x: 1200, y: 350}, {x: 1280, y: 340}, {x: 1300, y: 400},
+          {x: 1290, y: 500}, {x: 1270, y: 600}, {x: 1250, y: 650},
+          {x: 1200, y: 640}, {x: 1180, y: 580}, {x: 1190, y: 480},
+          {x: 1200, y: 400}
+        ]
       },
       // 北美洲
       {
+        name: 'north_america',
+        color: '#228B22',
         points: [
-          {x: 200, y: 80}, {x: 350, y: 70}, {x: 380, y: 120},
-          {x: 350, y: 180}, {x: 280, y: 190}, {x: 220, y: 150}
-        ],
-        color: '#27ae60'
+          {x: 400, y: 200}, {x: 600, y: 180}, {x: 700, y: 220},
+          {x: 720, y: 300}, {x: 680, y: 380}, {x: 600, y: 400},
+          {x: 500, y: 390}, {x: 420, y: 340}, {x: 380, y: 280}
+        ]
       },
       // 南美洲
       {
+        name: 'south_america',
+        color: '#DAA520',
         points: [
-          {x: 280, y: 200}, {x: 350, y: 190}, {x: 360, y: 250},
-          {x: 340, y: 320}, {x: 300, y: 330}, {x: 280, y: 280}
-        ],
-        color: '#e67e22'
+          {x: 600, y: 420}, {x: 680, y: 410}, {x: 700, y: 480},
+          {x: 690, y: 580}, {x: 670, y: 680}, {x: 640, y: 720},
+          {x: 600, y: 710}, {x: 580, y: 650}, {x: 590, y: 550},
+          {x: 600, y: 470}
+        ]
       },
       // 澳洲
       {
+        name: 'australia',
+        color: '#CD853F',
         points: [
-          {x: 820, y: 300}, {x: 900, y: 290}, {x: 920, y: 320},
-          {x: 900, y: 340}, {x: 850, y: 345}, {x: 820, y: 330}
-        ],
-        color: '#d35400'
+          {x: 1600, y: 650}, {x: 1700, y: 640}, {x: 1750, y: 670},
+          {x: 1740, y: 710}, {x: 1680, y: 720}, {x: 1620, y: 700}
+        ]
       }
     ];
     
     // 绘制大陆
     continents.forEach(continent => {
-      // 主体颜色
       ctx.fillStyle = continent.color;
       ctx.beginPath();
       ctx.moveTo(continent.points[0].x, continent.points[0].y);
@@ -443,27 +601,108 @@
       ctx.closePath();
       ctx.fill();
       
-      // 添加高光效果
-      ctx.fillStyle = 'rgba(255,255,255,0.2)';
+      // 添加阴影效果
+      ctx.fillStyle = 'rgba(0,0,0,0.2)';
       ctx.beginPath();
-      ctx.moveTo(continent.points[0].x, continent.points[0].y);
-      continent.points.slice(0, 3).forEach(point => {
-        ctx.lineTo(point.x, point.y);
+      ctx.moveTo(continent.points[0].x + 2, continent.points[0].y + 2);
+      continent.points.forEach(point => {
+        ctx.lineTo(point.x + 2, point.y + 2);
       });
       ctx.closePath();
       ctx.fill();
     });
     
-    // 添加山脉和地形细节
-    ctx.fillStyle = 'rgba(139,69,19,0.6)';
-    for(let i = 0; i < 100; i++) {
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height;
-      const size = Math.random() * 8 + 2;
+    // 突出显示东南亚国家
+    const seaCountries = [
+      // インドネシア
+      {
+        name: 'indonesia',
+        color: '#FF6B6B',
+        points: [
+          {x: 1500, y: 560}, {x: 1580, y: 580}, {x: 1620, y: 600},
+          {x: 1600, y: 620}, {x: 1540, y: 610}, {x: 1480, y: 590}
+        ]
+      },
+      // ミャンマー
+      {
+        name: 'myanmar',
+        color: '#4ECDC4',
+        points: [
+          {x: 1380, y: 450}, {x: 1420, y: 440}, {x: 1440, y: 480},
+          {x: 1430, y: 520}, {x: 1400, y: 530}, {x: 1370, y: 500}
+        ]
+      },
+      // 中国（东南部）
+      {
+        name: 'china',
+        color: '#45B7D1',
+        points: [
+          {x: 1450, y: 380}, {x: 1520, y: 360}, {x: 1550, y: 400},
+          {x: 1530, y: 440}, {x: 1480, y: 450}, {x: 1440, y: 420}
+        ]
+      },
+      // カンボジア
+      {
+        name: 'cambodia',
+        color: '#96CEB4',
+        points: [
+          {x: 1480, y: 480}, {x: 1510, y: 475}, {x: 1520, y: 495},
+          {x: 1510, y: 510}, {x: 1485, y: 505}, {x: 1475, y: 490}
+        ]
+      },
+      // ベトナム
+      {
+        name: 'vietnam',
+        color: '#FECA57',
+        points: [
+          {x: 1500, y: 460}, {x: 1530, y: 450}, {x: 1545, y: 480},
+          {x: 1535, y: 520}, {x: 1510, y: 530}, {x: 1490, y: 500}
+        ]
+      },
+      // ネパール
+      {
+        name: 'nepal',
+        color: '#FF9FF3',
+        points: [
+          {x: 1360, y: 400}, {x: 1390, y: 395}, {x: 1400, y: 410},
+          {x: 1390, y: 420}, {x: 1365, y: 415}, {x: 1355, y: 405}
+        ]
+      }
+    ];
+    
+    // 绘制东南亚国家
+    seaCountries.forEach(country => {
+      // 主体颜色
+      ctx.fillStyle = country.color;
       ctx.beginPath();
-      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.moveTo(country.points[0].x, country.points[0].y);
+      country.points.forEach(point => {
+        ctx.lineTo(point.x, point.y);
+      });
+      ctx.closePath();
       ctx.fill();
-    }
+      
+      // 添加高光
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.beginPath();
+      ctx.moveTo(country.points[0].x, country.points[0].y);
+      country.points.slice(0, 3).forEach(point => {
+        ctx.lineTo(point.x, point.y);
+      });
+      ctx.closePath();
+      ctx.fill();
+      
+      // 添加边框
+      ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(country.points[0].x, country.points[0].y);
+      country.points.forEach(point => {
+        ctx.lineTo(point.x, point.y);
+      });
+      ctx.closePath();
+      ctx.stroke();
+    });
     
     return new THREE.CanvasTexture(canvas);
   }
@@ -610,85 +849,93 @@
     return new THREE.CanvasTexture(canvas);
   }
   
-  // 设置更真实的光照
-  const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+  // 设置白色背景和更自然的光照
+  scene.background = new THREE.Color(0xffffff);
+  
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambientLight);
   
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
   directionalLight.position.set(5, 3, 5);
-  directionalLight.castShadow = true;
   scene.add(directionalLight);
   
-  // 添加点光源模拟太阳
-  const sunLight = new THREE.PointLight(0xffffff, 0.8, 100);
-  sunLight.position.set(10, 5, 10);
-  scene.add(sunLight);
+  // 不添加星空（白色背景）
   
-  // 添加背景渐变
-  scene.background = new THREE.Color(0x000011);
-  
-  // 添加更多的星空细节
-  function createStarField() {
-    const starGeometry = new THREE.BufferGeometry();
-    const starCount = 2000;
-    const positions = new Float32Array(starCount * 3);
-    const colors = new Float32Array(starCount * 3);
-    const sizes = new Float32Array(starCount);
-    
-    for(let i = 0; i < starCount; i++) {
-      // 位置
-      positions[i * 3] = (Math.random() - 0.5) * 200;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 200;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
-      
-      // 颜色 - 不同的星星颜色
-      const starType = Math.random();
-      if(starType < 0.3) {
-        // 蓝色星
-        colors[i * 3] = 0.7;
-        colors[i * 3 + 1] = 0.8;
-        colors[i * 3 + 2] = 1.0;
-      } else if(starType < 0.6) {
-        // 白色星
-        colors[i * 3] = 1.0;
-        colors[i * 3 + 1] = 1.0;
-        colors[i * 3 + 2] = 1.0;
-      } else {
-        // 黄色星
-        colors[i * 3] = 1.0;
-        colors[i * 3 + 1] = 0.9;
-        colors[i * 3 + 2] = 0.7;
-      }
-      
-      // 大小
-      sizes[i] = Math.random() * 3 + 1;
+  // 东南亚国家信息
+  const seaCountries = [
+    {
+      name: 'indonesia',
+      label: 'インドネシア',
+      longitude: 118, // 经度
+      latitude: -2,   // 纬度
+      color: '#FF6B6B'
+    },
+    {
+      name: 'myanmar',
+      label: 'ミャンマー',
+      longitude: 96,
+      latitude: 22,
+      color: '#4ECDC4'
+    },
+    {
+      name: 'china',
+      label: '中国',
+      longitude: 116,
+      latitude: 35,
+      color: '#45B7D1'
+    },
+    {
+      name: 'cambodia',
+      label: 'カンボジア',
+      longitude: 105,
+      latitude: 12,
+      color: '#96CEB4'
+    },
+    {
+      name: 'vietnam',
+      label: 'ベトナム',
+      longitude: 108,
+      latitude: 16,
+      color: '#FECA57'
+    },
+    {
+      name: 'nepal',
+      label: 'ネパール',
+      longitude: 85,
+      latitude: 28,
+      color: '#FF9FF3'
     }
+  ];
+  
+  // 创建国家标记
+  const countryMarkers = [];
+  seaCountries.forEach(country => {
+    // 将经纬度转换为3D坐标
+    const phi = (90 - country.latitude) * (Math.PI / 180);
+    const theta = (country.longitude + 180) * (Math.PI / 180);
     
-    starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    starGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-    starGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    const x = -(1.85 * Math.sin(phi) * Math.cos(theta));
+    const z = (1.85 * Math.sin(phi) * Math.sin(theta));
+    const y = (1.85 * Math.cos(phi));
     
-    const starMaterial = new THREE.PointsMaterial({
-      vertexColors: true,
-      size: 2,
-      sizeAttenuation: false,
+    // 创建标记几何体
+    const markerGeometry = new THREE.SphereGeometry(0.02, 16, 16);
+    const markerMaterial = new THREE.MeshBasicMaterial({ 
+      color: country.color,
       transparent: true,
       opacity: 0.8
     });
+    const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+    marker.position.set(x, y, z);
+    marker.userData = country;
     
-    const stars = new THREE.Points(starGeometry, starMaterial);
-    scene.add(stars);
-    
-    // 闪烁效果
-    setInterval(() => {
-      for(let i = 0; i < starCount; i++) {
-        if(Math.random() < 0.01) {
-          sizes[i] = Math.random() * 4 + 1;
-        }
-      }
-      starGeometry.attributes.size.needsUpdate = true;
-    }, 100);
-  }
+    scene.add(marker);
+    countryMarkers.push(marker);
+  });
+  
+  let currentCountryIndex = 0;
+  let rotationTarget = 0;
+  let showingCountry = false;
   
   createStarField();
   
