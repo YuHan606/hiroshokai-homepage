@@ -1,92 +1,732 @@
-<!DOCTYPE html>
+// 动画循环 - 更流畅的动画
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    const time = Date.now() * 0.0005;
+    
+    //<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>Home - 広昌会協同組合</title>
   <style>
     body {
+      font-family: 'Arial', sans-serif;
       margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      color: #333;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      overflow-x: hidden;
     }
+    
+    header {
+      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,248,255,0.95) 100%);
+      padding: 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    header h1 {
+      text-align: center;
+      margin: 0;
+      color: #2c3e50;
+      font-size: 2.8rem;
+      font-weight: 700;
+      padding: 20px 0 10px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    nav {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+      padding: 0;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    nav li {
+      flex: 1;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    nav li:last-child {
+      border-right: none;
+    }
+    
+    nav li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    nav li:hover::before {
+      left: 100%;
+    }
+    
+    nav a {
+      display: block;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      padding: 18px 20px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 2;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    nav a:hover {
+      color: #667eea;
+      background: rgba(255,255,255,0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: rgba(255, 255, 255, 0.95);
+      margin-top: 20px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+    }
+    
     #globe-container {
       width: 500px;
       height: 500px;
-      margin: 50px auto;
+      margin: 30px auto;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow:
+      box-shadow: 
         0 0 50px rgba(102, 126, 234, 0.4),
         0 0 100px rgba(102, 126, 234, 0.2),
         inset 0 0 50px rgba(0,0,0,0.1);
+      background: radial-gradient(circle at 30% 30%, #4a90e2 0%, #1e3c72 70%, #0f1419 100%);
+      position: relative;
     }
-    canvas { display: block; border-radius: 50%; }
+    
+    #globe-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: conic-gradient(from 0deg, #667eea, #764ba2, #667eea, #764ba2, #667eea);
+      border-radius: 50%;
+      z-index: -1;
+      animation: rotate 20s linear infinite;
+    }
+    
+    @keyframes rotate {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 1.8rem;
+      margin: 40px 0 30px 0;
+    }
+    
+    section ul {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    
+    section li {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin: 15px 0;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transform: translateX(-10px);
+      opacity: 0;
+      animation: slideIn 0.6s ease forwards;
+      animation-delay: calc(var(--i) * 0.1s);
+    }
+    
+    section li:nth-child(1) { --i: 1; }
+    section li:nth-child(2) { --i: 2; }
+    section li:nth-child(3) { --i: 3; }
+    section li:nth-child(4) { --i: 4; }
+    section li:nth-child(5) { --i: 5; }
+    section li:nth-child(6) { --i: 6; }
+    section li:nth-child(7) { --i: 7; }
+    
+    @keyframes slideIn {
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    section p {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #e74c3c;
+      margin: 40px 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(44, 62, 80, 0.9);
+      color: white;
+      margin-top: 40px;
+    }
+    
+    canvas { 
+      display: block; 
+      border-radius: 50%;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+      nav ul {
+        flex-wrap: wrap;
+        height: auto;
+      }
+      
+      nav li {
+        flex: 1 1 calc(50% - 1px);
+        border-right: 1px solid rgba(255,255,255,0.2);
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+      }
+      
+      nav li:nth-child(2n) {
+        border-right: none;
+      }
+      
+      nav li:nth-last-child(-n+2) {
+        border-bottom: none;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      #globe-container {
+        width: 350px;
+        height: 350px;
+      }
+      
+      header h1 {
+        font-size: 2.2rem;
+        padding: 15px 0 8px 0;
+      }
+      
+      nav ul {
+        flex-direction: column;
+        height: auto;
+      }
+      
+      nav li {
+        flex: none;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+      }
+      
+      nav li:last-child {
+        border-bottom: none;
+      }
+      
+      nav a {
+        padding: 15px 20px;
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      #globe-container {
+        width: 280px;
+        height: 280px;
+      }
+      
+      header h1 {
+        font-size: 1.8rem;
+      }
+    }
   </style>
 </head>
 <body>
-<div id="globe-container"></div>
+<header>
+  <h1>広昌会協同組合</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="overview.html">組合概要</a></li>
+      <li><a href="ginou.html">技能実習</a></li>
+      <li><a href="tokutei.html">特定技能</a></li>
+      <li><a href="sending.html">送り出し紹介</a></li>
+      <li><a href="training.html">研修センター紹介</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+    </ul>
+  </nav>
+</header>
 
+<section>
+  <!-- 3D地球 -->
+  <div id="globe-container"></div>
+  
+  <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
+  <ul>
+    <li>外国人スタッフを雇用したいけど、どうしたらいいかわからない</li>
+    <li>言葉は、通じるの・・・</li>
+    <li>仕事の内容は伝わるの</li>
+    <li>習慣や文化は大丈夫なの</li>
+    <li>ビザの更新とか手続きが面倒じゃないの</li>
+    <li>外国人はいい加減なんじゃないの</li>
+    <li>過去に失敗した経験がある</li>
+  </ul>
+  <p>このお悩み広昌会協同組合が解決します!</p>
+</section>
+
+<footer>
+  <p>&copy; 2025 広昌会協同組合</p>
+</footer>
+
+<!-- Three.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
   const container = document.getElementById("globe-container");
   const width = container.offsetWidth;
   const height = container.offsetHeight;
-
+  
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  const camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true
+  });
+  
   renderer.setSize(width, height);
-  renderer.setClearColor(0x000000, 0); // 透明背景
+  renderer.setClearColor(0x000000, 0);
   container.appendChild(renderer.domElement);
-
-  // 光照
-  const ambientLight = new THREE.AmbientLight(0x888888);
-  scene.add(ambientLight);
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(5, 3, 5).normalize();
-  scene.add(directionalLight);
-
-  // 创建地球
-  const geometry = new THREE.SphereGeometry(2, 64, 64);
-  const loader = new THREE.TextureLoader();
-  loader.crossOrigin = ""; // 允许跨域
-
-  const earthTexture = loader.load(
-    "https://raw.githubusercontent.com/fireship-io/threejs-earth/main/land_ocean_ice_cloud_2048.jpg", 
-    () => renderer.render(scene, camera) // 确保加载后立即渲染
-  );
-  const earthMaterial = new THREE.MeshPhongMaterial({ map: earthTexture });
-  const earth = new THREE.Mesh(geometry, earthMaterial);
+  
+  // 创建地球几何体
+  const geometry = new THREE.SphereGeometry(1.8, 64, 64);
+  
+  // 创建更真实的地球纹理
+  function createRealisticEarthTexture() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 1024;
+    canvas.height = 512;
+    
+    // 创建海洋渐变
+    const oceanGradient = ctx.createRadialGradient(
+      canvas.width/2, canvas.height/2, 0,
+      canvas.width/2, canvas.height/2, canvas.width/2
+    );
+    oceanGradient.addColorStop(0, '#4a90e2');
+    oceanGradient.addColorStop(0.7, '#2980b9');
+    oceanGradient.addColorStop(1, '#1e3c72');
+    
+    ctx.fillStyle = oceanGradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // 添加海洋纹理
+    for(let i = 0; i < 500; i++) {
+      ctx.globalAlpha = 0.1;
+      ctx.fillStyle = '#74b9ff';
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const size = Math.random() * 3 + 1;
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    ctx.globalAlpha = 1;
+    
+    // 绘制更详细的大陆
+    const continents = [
+      // 亚洲 - 更复杂的形状
+      {
+        points: [
+          {x: 750, y: 120}, {x: 850, y: 100}, {x: 920, y: 130},
+          {x: 950, y: 180}, {x: 900, y: 220}, {x: 820, y: 200},
+          {x: 770, y: 180}, {x: 750, y: 150}
+        ],
+        color: '#27ae60'
+      },
+      // 欧洲
+      {
+        points: [
+          {x: 650, y: 110}, {x: 720, y: 100}, {x: 740, y: 130},
+          {x: 720, y: 150}, {x: 680, y: 140}, {x: 650, y: 130}
+        ],
+        color: '#2ecc71'
+      },
+      // 非洲
+      {
+        points: [
+          {x: 650, y: 160}, {x: 720, y: 150}, {x: 740, y: 200},
+          {x: 720, y: 280}, {x: 680, y: 290}, {x: 650, y: 250}
+        ],
+        color: '#f39c12'
+      },
+      // 北美洲
+      {
+        points: [
+          {x: 200, y: 80}, {x: 350, y: 70}, {x: 380, y: 120},
+          {x: 350, y: 180}, {x: 280, y: 190}, {x: 220, y: 150}
+        ],
+        color: '#27ae60'
+      },
+      // 南美洲
+      {
+        points: [
+          {x: 280, y: 200}, {x: 350, y: 190}, {x: 360, y: 250},
+          {x: 340, y: 320}, {x: 300, y: 330}, {x: 280, y: 280}
+        ],
+        color: '#e67e22'
+      },
+      // 澳洲
+      {
+        points: [
+          {x: 820, y: 300}, {x: 900, y: 290}, {x: 920, y: 320},
+          {x: 900, y: 340}, {x: 850, y: 345}, {x: 820, y: 330}
+        ],
+        color: '#d35400'
+      }
+    ];
+    
+    // 绘制大陆
+    continents.forEach(continent => {
+      // 主体颜色
+      ctx.fillStyle = continent.color;
+      ctx.beginPath();
+      ctx.moveTo(continent.points[0].x, continent.points[0].y);
+      continent.points.forEach(point => {
+        ctx.lineTo(point.x, point.y);
+      });
+      ctx.closePath();
+      ctx.fill();
+      
+      // 添加高光效果
+      ctx.fillStyle = 'rgba(255,255,255,0.2)';
+      ctx.beginPath();
+      ctx.moveTo(continent.points[0].x, continent.points[0].y);
+      continent.points.slice(0, 3).forEach(point => {
+        ctx.lineTo(point.x, point.y);
+      });
+      ctx.closePath();
+      ctx.fill();
+    });
+    
+    // 添加山脉和地形细节
+    ctx.fillStyle = 'rgba(139,69,19,0.6)';
+    for(let i = 0; i < 100; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const size = Math.random() * 8 + 2;
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    return new THREE.CanvasTexture(canvas);
+  }
+  
+  // 创建法线贴图增强立体感
+  function createNormalMap() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 512;
+    canvas.height = 256;
+    
+    // 填充中性法线色
+    ctx.fillStyle = '#8080ff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // 添加一些随机的法线变化
+    for(let i = 0; i < 1000; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const r = Math.floor(Math.random() * 50 + 100);
+      const g = Math.floor(Math.random() * 50 + 100);
+      const b = Math.floor(Math.random() * 50 + 200);
+      
+      ctx.fillStyle = `rgb(${r},${g},${b})`;
+      ctx.beginPath();
+      ctx.arc(x, y, Math.random() * 3 + 1, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    return new THREE.CanvasTexture(canvas);
+  }
+  
+  // 创建高光贴图
+  function createSpecularMap() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 512;
+    canvas.height = 256;
+    
+    // 海洋区域高反射
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // 陆地区域低反射
+    ctx.fillStyle = '#333333';
+    const landAreas = [
+      {x: 350, y: 80, w: 120, h: 80},
+      {x: 280, y: 70, w: 60, h: 50},
+      {x: 280, y: 120, w: 50, h: 100},
+      {x: 80, y: 60, w: 80, h: 120},
+      {x: 120, y: 140, w: 40, h: 80},
+      {x: 400, y: 180, w: 60, h: 40}
+    ];
+    
+    landAreas.forEach(area => {
+      ctx.fillRect(area.x, area.y, area.w, area.h);
+    });
+    
+    return new THREE.CanvasTexture(canvas);
+  }
+  
+  // 使用更真实的纹理
+  const earthTexture = createRealisticEarthTexture();
+  const normalMap = createNormalMap();
+  const specularMap = createSpecularMap();
+  
+  const material = new THREE.MeshPhongMaterial({
+    map: earthTexture,
+    normalMap: normalMap,
+    specularMap: specularMap,
+    shininess: 100,
+    transparent: false
+  });
+  
+  const earth = new THREE.Mesh(geometry, material);
   scene.add(earth);
-
-  // 添加云层
-  const cloudGeometry = new THREE.SphereGeometry(2.03, 64, 64);
-  const cloudTexture = loader.load(
-    "https://raw.githubusercontent.com/fireship-io/threejs-earth/main/fair_clouds_4k.png"
-  );
+  
+  // 添加大气层效果
+  const atmosphereGeometry = new THREE.SphereGeometry(1.85, 64, 64);
+  const atmosphereMaterial = new THREE.ShaderMaterial({
+    transparent: true,
+    side: THREE.BackSide,
+    vertexShader: `
+      varying vec3 vNormal;
+      void main() {
+        vNormal = normalize(normalMatrix * normal);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vNormal;
+      void main() {
+        float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
+        gl_FragColor = vec4(0.3, 0.6, 1.0, 1.0) * intensity;
+      }
+    `
+  });
+  
+  const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+  scene.add(atmosphere);
+  
+  // 添加更真实的云层
+  const cloudGeometry = new THREE.SphereGeometry(1.83, 64, 64);
+  const cloudTexture = createRealisticCloudTexture();
   const cloudMaterial = new THREE.MeshLambertMaterial({
     map: cloudTexture,
     transparent: true,
-    opacity: 0.5
+    opacity: 0.4
   });
   const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
   scene.add(clouds);
-
-  camera.position.z = 6;
-
+  
+  function createRealisticCloudTexture() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 1024;
+    canvas.height = 512;
+    
+    ctx.fillStyle = 'rgba(0,0,0,0)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // 创建更真实的云朵
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    
+    // 生成云系
+    for(let i = 0; i < 50; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const size = Math.random() * 80 + 20;
+      
+      for(let j = 0; j < 20; j++) {
+        const offsetX = (Math.random() - 0.5) * 100;
+        const offsetY = (Math.random() - 0.5) * 40;
+        const cloudSize = size * (0.5 + Math.random() * 0.5);
+        
+        ctx.globalAlpha = Math.random() * 0.6 + 0.2;
+        ctx.beginPath();
+        ctx.arc(x + offsetX, y + offsetY, cloudSize, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    
+    ctx.globalAlpha = 1;
+    return new THREE.CanvasTexture(canvas);
+  }
+  
+  // 设置更真实的光照
+  const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+  scene.add(ambientLight);
+  
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  directionalLight.position.set(5, 3, 5);
+  directionalLight.castShadow = true;
+  scene.add(directionalLight);
+  
+  // 添加点光源模拟太阳
+  const sunLight = new THREE.PointLight(0xffffff, 0.8, 100);
+  sunLight.position.set(10, 5, 10);
+  scene.add(sunLight);
+  
+  // 添加背景渐变
+  scene.background = new THREE.Color(0x000011);
+  
+  // 添加更多的星空细节
+  function createStarField() {
+    const starGeometry = new THREE.BufferGeometry();
+    const starCount = 2000;
+    const positions = new Float32Array(starCount * 3);
+    const colors = new Float32Array(starCount * 3);
+    const sizes = new Float32Array(starCount);
+    
+    for(let i = 0; i < starCount; i++) {
+      // 位置
+      positions[i * 3] = (Math.random() - 0.5) * 200;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 200;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
+      
+      // 颜色 - 不同的星星颜色
+      const starType = Math.random();
+      if(starType < 0.3) {
+        // 蓝色星
+        colors[i * 3] = 0.7;
+        colors[i * 3 + 1] = 0.8;
+        colors[i * 3 + 2] = 1.0;
+      } else if(starType < 0.6) {
+        // 白色星
+        colors[i * 3] = 1.0;
+        colors[i * 3 + 1] = 1.0;
+        colors[i * 3 + 2] = 1.0;
+      } else {
+        // 黄色星
+        colors[i * 3] = 1.0;
+        colors[i * 3 + 1] = 0.9;
+        colors[i * 3 + 2] = 0.7;
+      }
+      
+      // 大小
+      sizes[i] = Math.random() * 3 + 1;
+    }
+    
+    starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    starGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    starGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    
+    const starMaterial = new THREE.PointsMaterial({
+      vertexColors: true,
+      size: 2,
+      sizeAttenuation: false,
+      transparent: true,
+      opacity: 0.8
+    });
+    
+    const stars = new THREE.Points(starGeometry, starMaterial);
+    scene.add(stars);
+    
+    // 闪烁效果
+    setInterval(() => {
+      for(let i = 0; i < starCount; i++) {
+        if(Math.random() < 0.01) {
+          sizes[i] = Math.random() * 4 + 1;
+        }
+      }
+      starGeometry.attributes.size.needsUpdate = true;
+    }, 100);
+  }
+  
+  createStarField();
+  
+  camera.position.z = 4;
+  
+  // 鼠标交互
+  let mouseX = 0;
+  let mouseY = 0;
+  
+  container.addEventListener('mousemove', (event) => {
+    const rect = container.getBoundingClientRect();
+    mouseX = (event.clientX - rect.left) / width - 0.5;
+    mouseY = (event.clientY - rect.top) / height - 0.5;
+  });
+  
   // 动画循环
   function animate() {
     requestAnimationFrame(animate);
-    earth.rotation.y += 0.002; // 地球自转
-    clouds.rotation.y += 0.0025; // 云层稍快
+    
+    // 地球自转
+    earth.rotation.y += 0.005;
+    clouds.rotation.y += 0.007;
+    
+    // 鼠标交互
+    camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+    camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+    camera.lookAt(scene.position);
+    
     renderer.render(scene, camera);
   }
+  
   animate();
-
-  // 窗口大小自适应
+  
+  // 处理窗口大小变化
   window.addEventListener('resize', () => {
     const newWidth = container.offsetWidth;
     const newHeight = container.offsetHeight;
+    
     camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(newWidth, newHeight);
