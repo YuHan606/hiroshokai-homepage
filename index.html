@@ -44,64 +44,168 @@
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
     }
     
-    nav ul {
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* 主导航 */
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 70px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .main-nav ul {
       list-style: none;
       padding: 0;
       margin: 0;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 60px;
-      max-width: 1200px;
-      margin: 0 auto;
+      gap: 0;
     }
     
-    nav li {
-      flex: 1;
-      text-align: center;
-      border-right: 1px solid rgba(255,255,255,0.2);
+    .main-nav li {
       position: relative;
       overflow: hidden;
     }
     
-    nav li:last-child {
+    .main-nav a {
+      display: block;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      padding: 20px 25px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      border-right: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .main-nav li:last-child a {
       border-right: none;
     }
     
-    nav li::before {
+    .main-nav a:hover {
+      color: #4facfe;
+      background: rgba(255,255,255,0.95);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+    
+    /* 二级导航 */
+    .sub-nav {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      min-height: 50px;
+    }
+    
+    .sub-nav a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: rgba(255,255,255,0.9);
+      font-weight: 500;
+      padding: 12px 15px;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+    }
+    
+    .sub-nav a::before {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: left 0.6s ease;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
     }
     
-    nav li:hover::before {
+    .sub-nav a:hover::before {
       left: 100%;
     }
     
-    nav a {
-      display: block;
-      text-decoration: none;
-      color: white;
-      font-weight: 600;
-      padding: 18px 20px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      z-index: 2;
-      font-size: 0.95rem;
-      letter-spacing: 0.5px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    .sub-nav a:hover {
+      color: #4facfe;
+      background: rgba(255,255,255,0.9);
+      transform: scale(1.02);
+      z-index: 10;
     }
     
-    nav a:hover {
-      color: #4facfe;
-      background: rgba(255,255,255,0.95);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    /* 响应式设计 */
+    @media (max-width: 1200px) {
+      .main-nav {
+        flex-wrap: wrap;
+        min-height: auto;
+      }
+      
+      .main-nav a {
+        padding: 15px 20px;
+        font-size: 0.9rem;
+      }
+      
+      .sub-nav {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+      
+      .sub-nav a {
+        font-size: 0.85rem;
+        padding: 10px 12px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 0 10px;
+      }
+      
+      .main-nav {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .main-nav ul {
+        width: 100%;
+        flex-direction: column;
+      }
+      
+      .main-nav a {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        text-align: center;
+      }
+      
+      .sub-nav {
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      
+      .sub-nav a {
+        border-right: 1px solid rgba(255,255,255,0.1);
+        font-size: 0.8rem;
+        padding: 12px 8px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .sub-nav {
+        grid-template-columns: 1fr;
+      }
+      
+      .sub-nav a {
+        border-right: none;
+      }
     }
     
     section {
@@ -200,15 +304,31 @@
 <header>
   <h1>広昌会協同組合</h1>
   <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="overview.html">組合概要</a></li>
-      <li><a href="ginou.html">技能実習</a></li>
-      <li><a href="tokutei.html">特定技能</a></li>
-      <li><a href="sending.html">送り出し紹介</a></li>
-      <li><a href="training.html">研修センター紹介</a></li>
-      <li><a href="contact.html">お問い合わせ</a></li>
-    </ul>
+    <div class="nav-container">
+      <!-- 主导航 -->
+      <div class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="overview.html">組合概要</a></li>
+          <li><a href="ginou.html">技能実習</a></li>
+          <li><a href="tokutei.html">特定技能</a></li>
+          <li><a href="training.html">研修センター</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </div>
+      
+      <!-- 二级导航 -->
+      <div class="sub-nav">
+        <a href="interview.html">専門家にインタビュー</a>
+        <a href="jinzai.html">人材情報一覧</a>
+        <a href="kyujin.html">求人掲載のお申し込み</a>
+        <a href="qa.html">外国人雇用Q＆A一覧</a>
+        <a href="sending.html">送り出し機関を探す</a>
+        <a href="denryoku.html">企業様に電力及び社員寮提供</a>
+        <a href="solar.html">太陽光発電及び蓄電提供</a>
+        <a href="denki.html">企業様に電気及び寮提供</a>
+      </div>
+    </div>
   </nav>
 </header>
 
@@ -374,16 +494,16 @@ photoUrls.forEach((url, i) => {
   });
 
   function animate() {
-        // 地球自转
+    // 地球自转
     requestAnimationFrame(animate);
     earth.rotation.y += 0.0015;
     earthNight.rotation.y = earth.rotation.y;
     clouds.rotation.y += 0.001;
        
-        // 卫星组公转
-      satelliteGroup.rotation.y += 0.002;
+    // 卫星组公转
+    satelliteGroup.rotation.y += 0.002;
 
-        // 鼠标交互
+    // 鼠标交互
     camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
     camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
     camera.lookAt(scene.position);
