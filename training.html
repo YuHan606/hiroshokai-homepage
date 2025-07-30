@@ -1,7 +1,220 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="UTF-8"><title>研修センター紹介 - 広昌会協同組合</title>
-<link rel="stylesheet" href="style.css"></head><body>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>研修センター紹介 - 広昌会協同組合</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* 背景浮动光效 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+      animation: backgroundFloat 15s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes backgroundFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+      50% { transform: translateY(-15px) rotate(3deg); opacity: 0.8; }
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 800;
+      padding: 25px 0 15px 0;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      letter-spacing: 2px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    nav li {
+      flex: 1;
+      text-align: center;
+    }
+
+    nav a {
+      display: block;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+      padding: 15px 20px;
+      border-radius: 12px;
+      transition: all 0.3s;
+      margin: 0 5px;
+      font-size: 0.95rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      color: white;
+    }
+
+    nav a[href="training.html"] {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+      font-weight: 700;
+    }
+
+    section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .hero-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      padding: 60px 50px;
+      margin-bottom: 40px;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #4ecdc4, #ff6b6b);
+      background-size: 300% 100%;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .main-title {
+      color: #2c3e50;
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: #666;
+      line-height: 1.8;
+      max-width: 800px;
+      margin: 0 auto 40px;
+    }
+
+    .center-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .center-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 25px;
+      padding: 30px 25px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .center-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .center-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .center-subtitle {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .center-content {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 60px;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .main-title { font-size: 2.2rem; }
+      .hero-section { padding: 40px 25px; }
+      .center-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
 <header>
   <h1>広昌会協同組合</h1>
   <nav>
@@ -18,12 +231,37 @@
 </header>
 
 <section>
-<h2>研修センター紹介</h2>
-<p>研修センターでは、技能実習生・特定技能生が日本での生活や就労にスムーズに適応できるよう教育を行っています。</p>
-<h3>関西地域（福山研修センター：株式会社デイスカバリー）</h3>
-<p>所在地：広島県福山市...<br>教育方針：生活習慣・日本語・法令遵守教育</p>
-<h3>関東地域（茨城研修センター：日本英才教育学院合同会社）</h3>
-<p>所在地：茨城県常総市...<br>教育方針：文化理解と職場適応力強化</p>
+  <div class="hero-section">
+    <h2 class="main-title">研修センター紹介</h2>
+    <p class="subtitle">
+      研修センターでは、技能実習生・特定技能生が日本での生活や就労にスムーズに適応できるよう、<br>
+      日本語教育や文化理解、法令遵守教育などを行っています。
+    </p>
+  </div>
+
+  <div class="center-grid">
+    <div class="center-card">
+      <h3 class="center-title">関西地域</h3>
+      <p class="center-subtitle">福山研修センター（株式会社デイスカバリー）</p>
+      <div class="center-content">
+        <p><strong>所在地：</strong> 広島県福山市...</p>
+        <p><strong>教育方針：</strong> 生活習慣・日本語・法令遵守教育</p>
+      </div>
+    </div>
+
+    <div class="center-card">
+      <h3 class="center-title">関東地域</h3>
+      <p class="center-subtitle">茨城研修センター（日本英才教育学院合同会社）</p>
+      <div class="center-content">
+        <p><strong>所在地：</strong> 茨城県常総市...</p>
+        <p><strong>教育方針：</strong> 文化理解と職場適応力強化</p>
+      </div>
+    </div>
+  </div>
 </section>
-<footer><p>&copy; 2025 広昌会協同組合</p></footer>
-</body></html>
+
+<footer>
+  <p>&copy; 2025 広昌会協同組合 - 国際人材育成パートナー</p>
+</footer>
+</body>
+</html>
