@@ -1,7 +1,174 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="UTF-8"><title>特定技能 - 広昌会協同組合</title>
-<link rel="stylesheet" href="style.css"></head><body>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>特定技能 - 広昌会協同組合</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
 
+    /* 背景特效 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.08) 0%, transparent 50%);
+      animation: floatBg 20s ease-in-out infinite;
+      z-index: -1;
+    }
+    @keyframes floatBg {
+      0%, 100% { transform: translateY(0px); opacity: 1; }
+      50% { transform: translateY(-20px); opacity: 0.9; }
+    }
+
+    header {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      position: sticky; top: 0; z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 800;
+      padding: 25px 0 15px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+      letter-spacing: 2px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    nav li { flex: 1; text-align: center; }
+    nav a {
+      display: block;
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 15px 20px;
+      border-radius: 12px;
+      margin: 0 5px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    nav a:hover {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    nav a[href="tokutei.html"] {
+      background: rgba(255,255,255,0.25);
+      color: white;
+      font-weight: 700;
+    }
+
+    section { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+
+    .hero-section {
+      background: rgba(255,255,255,0.95);
+      border-radius: 30px;
+      padding: 60px 50px;
+      text-align: center;
+      margin-bottom: 40px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg,#667eea,#764ba2,#4ecdc4,#ff6b6b);
+      background-size: 300% 100%;
+      animation: gradientShift 8s ease infinite;
+    }
+    @keyframes gradientShift {
+      0%,100%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+    }
+    .main-title {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg,#667eea,#764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      color: #555;
+      line-height: 1.8;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+
+    .info-card {
+      background: rgba(255,255,255,0.9);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 25px 0;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    .info-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    }
+    .info-card h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg,#667eea,#764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .info-card p, .info-card ol, .info-card ul {
+      color: #555;
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+    ol { padding-left: 25px; }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+      color: rgba(255,255,255,0.8);
+      margin-top: 60px;
+      font-size: 1rem;
+    }
+
+    @media(max-width:768px){
+      .main-title{font-size:2.2rem;}
+      .hero-section{padding:40px 25px;}
+      .info-card{padding:20px;}
+    }
+  </style>
+</head>
+<body>
 <header>
   <h1>広昌会協同組合</h1>
   <nav>
@@ -18,22 +185,51 @@
 </header>
 
 <section>
-<h2>特定技能</h2>
-<h3>特定技能制度とは</h3>
-<p>深刻な人手不足が発生している産業分野で、一定の専門性・技能を有する外国人が就労できる制度です。</p>
-<h3>特定技能1号・2号とは</h3>
-<p>1号：在留期間制限あり<br>2号：熟練技能、家族帯同可</p>
-<h3>取得までの流れ</h3>
-<ol>
-<li>技能試験・日本語試験に合格</li>
-<li>雇用契約締結</li>
-<li>在留資格申請</li>
-<li>特定技能外国人として就労開始</li>
-</ol>
-<h3>受け入れ可能な職種</h3>
-<p>介護、農業、建設、食品製造業、機械・金属加工、宿泊、ビルクリーニングなど</p>
-<h3>技能実習との違い</h3>
-<p>特定技能は即戦力としての雇用が可能で、実習よりも幅広い職種と権利が認められています。</p>
+  <div class="hero-section">
+    <h2 class="main-title">特定技能</h2>
+    <p class="subtitle">
+      深刻な人手不足が発生している産業分野で、<br>
+      一定の専門性・技能を有する外国人が安心して活躍できる制度です。<br>
+      広昌会協同組合は、特定技能制度の円滑な利用を全面的にサポートいたします。
+    </p>
+  </div>
+
+  <div class="info-card">
+    <h3>特定技能制度とは</h3>
+    <p>特定技能は、人材不足が顕著な分野で即戦力として外国人が就労できる制度です。一定の日本語能力と技能水準が求められます。</p>
+  </div>
+
+  <div class="info-card">
+    <h3>特定技能1号・2号</h3>
+    <p><strong>1号：</strong> 在留期間に制限あり。一定の技能を有する者が対象。<br>
+       <strong>2号：</strong> 熟練技能を有する者が対象。家族帯同が可能で、在留期間更新も認められます。</p>
+  </div>
+
+  <div class="info-card">
+    <h3>取得までの流れ</h3>
+    <ol>
+      <li>技能試験・日本語試験に合格</li>
+      <li>雇用契約締結</li>
+      <li>在留資格申請</li>
+      <li>特定技能外国人として就労開始</li>
+    </ol>
+  </div>
+
+  <div class="info-card">
+    <h3>受け入れ可能な職種</h3>
+    <p>介護、農業、建設、食品製造業、機械・金属加工、宿泊、ビルクリーニングなど幅広い分野に対応しています。</p>
+  </div>
+
+  <div class="info-card">
+    <h3>技能実習との違い</h3>
+    <p>技能実習が「学びながら働く制度」であるのに対し、特定技能は即戦力として雇用可能。<br>
+       また、より幅広い職種と権利が認められています。</p>
+  </div>
 </section>
-<footer><p>&copy; 2025 広昌会協同組合</p></footer>
-</body></html>
+
+<footer>
+  <p>&copy; 2025 広昌会協同組合 - 国際人材育成パートナー</p>
+</footer>
+
+</body>
+</html>
