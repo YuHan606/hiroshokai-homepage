@@ -1,7 +1,433 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="UTF-8"><title>技能実習 - 広昌会協同組合</title>
-<link rel="stylesheet" href="style.css"></head><body>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>技能実習 - 広昌会協同組合</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* 动态背景 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+      animation: backgroundFloat 15s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes backgroundFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+      50% { transform: translateY(-15px) rotate(3deg); opacity: 0.8; }
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 800;
+      padding: 25px 0 15px 0;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      letter-spacing: 2px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    nav li {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    nav a {
+      display: block;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+      padding: 15px 20px;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      margin: 0 5px;
+      font-size: 0.95rem;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    nav a:hover::before {
+      left: 100%;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      color: white;
+    }
+
+    nav a[href="ginou.html"] {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+      font-weight: 700;
+    }
+
+    section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .hero-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      padding: 60px 50px;
+      margin-bottom: 40px;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #4ecdc4, #ff6b6b);
+      background-size: 300% 100%;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .main-title {
+      color: #2c3e50;
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: #666;
+      line-height: 1.8;
+      max-width: 800px;
+      margin: 0 auto 40px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 25px;
+      padding: 40px 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      margin: 0 auto 25px;
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .feature-title {
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .feature-description {
+      color: #666;
+      line-height: 1.7;
+      text-align: center;
+      font-size: 1.05rem;
+    }
+
+    .benefits-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      padding: 50px;
+      margin-top: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .benefits-title {
+      color: #2c3e50;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .benefits-list {
+      list-style: none;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .benefits-list li {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin: 20px 0;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+      transform: translateX(-20px);
+      opacity: 0;
+      animation: slideInLeft 0.8s ease forwards;
+      animation-delay: calc(var(--i) * 0.2s);
+      position: relative;
+      overflow: hidden;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .benefits-list li:nth-child(1) { --i: 1; }
+    .benefits-list li:nth-child(2) { --i: 2; }
+    .benefits-list li:nth-child(3) { --i: 3; }
+
+    .benefits-list li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .benefits-list li:hover::before {
+      left: 100%;
+    }
+
+    .benefits-list li:hover {
+      transform: translateX(0) scale(1.02);
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+    }
+
+    @keyframes slideInLeft {
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .cta-section {
+      text-align: center;
+      margin-top: 60px;
+      padding: 50px 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .cta-title {
+      color: white;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta-text {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.9);
+      color: #667eea;
+      padding: 18px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      background: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 60px;
+      font-size: 1rem;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px;
+      }
+
+      nav li {
+        flex: none;
+        margin: 5px;
+      }
+
+      .hero-section,
+      .benefits-section {
+        padding: 40px 25px;
+        margin: 20px;
+      }
+
+      .main-title {
+        font-size: 2.5rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .feature-card {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
 <header>
   <h1>広昌会協同組合</h1>
   <nav>
@@ -18,13 +444,100 @@
 </header>
 
 <section>
-<h2>技能実習</h2>
-<p>外国人技能実習制度は、技能移転を目的として、外国人が日本の企業で働きながら学ぶ制度です。</p>
-<ul>
-<li>現場での実務経験を通じた技術習得</li>
-<li>日本語・文化への適応支援</li>
-<li>受け入れ企業への業務効率化と職場の活性化</li>
-</ul>
+  <div class="hero-section">
+    <h2 class="main-title">技能実習</h2>
+    <p class="subtitle">
+      外国人技能実習制度は、技能移転を目的として、外国人が日本の企業で働きながら学ぶ制度です。<br>
+      実践的な技術習得と文化交流を通じて、グローバルな人材育成を支援します。
+    </p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🔧</div>
+      <h3 class="feature-title">実務経験による技術習得</h3>
+      <p class="feature-description">
+        現場での実践的な作業を通じて、専門技術を身につけながら、日本の高品質な技術基準を学びます。理論と実践を組み合わせた効果的な学習環境を提供します。
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🌸</div>
+      <h3 class="feature-title">日本語・文化適応支援</h3>
+      <p class="feature-description">
+        日本語学習サポートから日常生活指導まで、包括的なサポート体系を整備。日本の文化や習慣を理解し、スムーズな職場適応を実現します。
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3 class="feature-title">企業の業務効率化</h3>
+      <p class="feature-description">
+        意欲的な外国人実習生の受け入れにより、職場の活性化と新しい視点の導入を実現。企業の国際化推進と業務効率の向上を支援します。
+      </p>
+    </div>
+  </div>
+
+  <div class="benefits-section">
+    <h3 class="benefits-title">技能実習の特徴</h3>
+    <ul class="benefits-list">
+      <li>📚 現場での実務経験を通じた技術習得</li>
+      <li>🗾 日本語・文化への適応支援</li>
+      <li>🚀 受け入れ企業への業務効率化と職場の活性化</li>
+    </ul>
+  </div>
+
+  <div class="cta-section">
+    <h3 class="cta-title">技能実習制度についてもっと知りたい方へ</h3>
+    <p class="cta-text">
+      技能実習生の受け入れや制度の詳細について、<br>
+      専門スタッフが丁寧にご説明いたします。
+    </p>
+    <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
+  </div>
 </section>
-<footer><p>&copy; 2025 広昌会協同組合</p></footer>
-</body></html>
+
+<footer>
+  <p>&copy; 2025 広昌会協同組合 - 国際人材育成のパートナー</p>
+</footer>
+
+<script>
+  // 页面加载动画
+  window.addEventListener('load', () => {
+    const heroSection = document.querySelector('.hero-section');
+    const featureCards = document.querySelectorAll('.feature-card');
+    
+    heroSection.style.opacity = '0';
+    heroSection.style.transform = 'translateY(30px)';
+    
+    featureCards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(50px)';
+    });
+    
+    setTimeout(() => {
+      heroSection.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+      heroSection.style.opacity = '1';
+      heroSection.style.transform = 'translateY(0)';
+      
+      featureCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 200 + index * 150);
+      });
+    }, 100);
+  });
+
+  // 滚动时的视差效果
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const background = document.querySelector('body::before');
+    
+    // 简单的视差效果
+    document.body.style.setProperty('--scroll', scrolled + 'px');
+  });
+</script>
+</body>
+</html>
