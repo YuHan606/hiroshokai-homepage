@@ -1,26 +1,784 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="UTF-8"><title>送り出し紹介 - 広昌会協同組合</title>
-<link rel="stylesheet" href="style.css"></head><body>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>派遣机构介绍 - 广昌会协同组合</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* 动态背景 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+      animation: backgroundFloat 15s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes backgroundFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+      50% { transform: translateY(-15px) rotate(3deg); opacity: 0.8; }
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 800;
+      padding: 25px 0 15px 0;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      letter-spacing: 2px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    nav li {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    nav a {
+      display: block;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+      padding: 15px 20px;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      margin: 0 5px;
+      font-size: 0.95rem;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    nav a:hover::before {
+      left: 100%;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      color: white;
+    }
+
+    nav a[href="sending.html"] {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+      font-weight: 700;
+    }
+
+    section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .hero-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      padding: 60px 50px;
+      margin-bottom: 40px;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #4ecdc4, #ff6b6b);
+      background-size: 300% 100%;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .main-title {
+      color: #2c3e50;
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: #666;
+      line-height: 1.8;
+      max-width: 800px;
+      margin: 0 auto 40px;
+    }
+
+    .countries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .country-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 25px;
+      padding: 0;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .country-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .country-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .country-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .country-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      position: relative;
+    }
+
+    .country-flag {
+      width: 80px;
+      height: 50px;
+      margin: 0 auto 15px;
+      border-radius: 8px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .indonesia { background: linear-gradient(to bottom, #ff0000 50%, #ffffff 50%); color: #333; }
+    .vietnam { background: linear-gradient(to bottom, #da251d 33%, #ffff00 33%, #ffff00 66%, #da251d 66%); color: #333; }
+    .myanmar { background: linear-gradient(to bottom, #ffcd00 33%, #008000 33%, #008000 66%, #ea2839 66%); color: white; }
+
+    .country-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .country-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+
+    .country-content {
+      padding: 30px 25px;
+    }
+
+    .country-features {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    .country-features li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+      color: #555;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .country-features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .country-skills {
+      background: #f8f9fa;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-top: 15px;
+      border-left: 4px solid #667eea;
+    }
+
+    .country-skills strong {
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .services-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      padding: 50px;
+      margin-top: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .services-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #4ecdc4, #ff6b6b);
+      background-size: 300% 100%;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    .services-title {
+      color: #2c3e50;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .service-item {
+      text-align: center;
+      padding: 30px 25px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(102, 126, 234, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.05), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .service-item:hover::before {
+      left: 100%;
+    }
+
+    .service-item:hover {
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.15);
+    }
+
+    .service-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: white;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .service-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 12px;
+    }
+
+    .service-description {
+      color: #666;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .benefits-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      padding: 50px;
+      margin-top: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .benefits-title {
+      color: #2c3e50;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .benefits-list {
+      list-style: none;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .benefits-list li {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin: 20px 0;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+      transform: translateX(-20px);
+      opacity: 0;
+      animation: slideInLeft 0.8s ease forwards;
+      animation-delay: calc(var(--i) * 0.2s);
+      position: relative;
+      overflow: hidden;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .benefits-list li:nth-child(1) { --i: 1; }
+    .benefits-list li:nth-child(2) { --i: 2; }
+    .benefits-list li:nth-child(3) { --i: 3; }
+    .benefits-list li:nth-child(4) { --i: 4; }
+
+    .benefits-list li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .benefits-list li:hover::before {
+      left: 100%;
+    }
+
+    .benefits-list li:hover {
+      transform: translateX(0) scale(1.02);
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+    }
+
+    @keyframes slideInLeft {
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .cta-section {
+      text-align: center;
+      margin-top: 60px;
+      padding: 50px 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .cta-title {
+      color: white;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta-text {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.9);
+      color: #667eea;
+      padding: 18px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      background: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 60px;
+      font-size: 1rem;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px;
+      }
+
+      nav li {
+        flex: none;
+        margin: 5px;
+      }
+
+      .hero-section,
+      .services-section,
+      .benefits-section {
+        padding: 40px 25px;
+        margin: 20px;
+      }
+
+      .main-title {
+        font-size: 2.5rem;
+      }
+
+      .countries-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .country-card {
+        margin: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
 <header>
-  <h1>広昌会協同組合</h1>
+  <h1>广昌会协同组合</h1>
   <nav>
     <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="overview.html">組合概要</a></li>
-      <li><a href="ginou.html">技能実習</a></li>
+      <li><a href="index.html">首页</a></li>
+      <li><a href="overview.html">组合概要</a></li>
+      <li><a href="ginou.html">技能实习</a></li>
       <li><a href="tokutei.html">特定技能</a></li>
-      <li><a href="sending.html">送り出し紹介</a></li>
-      <li><a href="training.html">研修センター紹介</a></li>
-      <li><a href="contact.html">お問い合わせ</a></li>
+      <li><a href="sending.html">派遣机构介绍</a></li>
+      <li><a href="training.html">研修中心介绍</a></li>
+      <li><a href="contact.html">联系我们</a></li>
     </ul>
   </nav>
 </header>
 
 <section>
-<h2>送り出し紹介</h2>
-<p>インドネシア・ベトナム・ミャンマーなど各国に信頼できる送り出し機関を有し、候補者の選定から渡航準備まで一貫したサポートを行います。</p>
-<p>（ここに送り出し国別の写真や紹介文を配置予定です）</p>
+  <div class="hero-section">
+    <h2 class="main-title">派遣机构介绍</h2>
+    <p class="subtitle">
+      我们在印度尼西亚、越南、缅甸等各国拥有值得信赖的派遣机构，<br>
+      从候选人选拔到出国准备，提供一条龙的全面支持服务。<br>
+      确保每一位技能实习生和特定技能工作者都能顺利来日工作。
+    </p>
+  </div>
+
+  <div class="countries-grid">
+    <div class="country-card">
+      <div class="country-header">
+        <div class="country-flag indonesia">🇮🇩</div>
+        <div class="country-name">印度尼西亚</div>
+        <div class="country-subtitle">Indonesia</div>
+      </div>
+      <div class="country-content">
+        <ul class="country-features">
+          <li>人口众多，劳动力资源丰富</li>
+          <li>勤奋踏实，适应能力强</li>
+          <li>多元文化背景，沟通能力佳</li>
+          <li>技能培训体系完善</li>
+          <li>对日本文化接受度高</li>
+        </ul>
+        <div class="country-skills">
+          <strong>主要技能领域：</strong>制造业、建筑业、农业、介护等
+        </div>
+      </div>
+    </div>
+
+    <div class="country-card">
+      <div class="country-header">
+        <div class="country-flag vietnam">🇻🇳</div>
+        <div class="country-name">越南</div>
+        <div class="country-subtitle">Vietnam</div>
+      </div>
+      <div class="country-content">
+        <ul class="country-features">
+          <li>学习能力强，技术接受度高</li>
+          <li>工作态度认真负责</li>
+          <li>年轻化程度高，活力充沛</li>
+          <li>日语学习热情高涨</li>
+          <li>团队合作精神强</li>
+        </ul>
+        <div class="country-skills">
+          <strong>主要技能领域：</strong>电子制造、纺织业、食品加工、建筑等
+        </div>
+      </div>
+    </div>
+
+    <div class="country-card">
+      <div class="country-header">
+        <div class="country-flag myanmar">🇲🇲</div>
+        <div class="country-name">缅甸</div>
+        <div class="country-subtitle">Myanmar</div>
+      </div>
+      <div class="country-content">
+        <ul class="country-features">
+          <li>温和友善，人际关系和谐</li>
+          <li>手工技艺精湛，细致入微</li>
+          <li>学习意愿强烈，进步迅速</li>
+          <li>文化素养较高</li>
+          <li>适应性强，稳定性好</li>
+        </ul>
+        <div class="country-skills">
+          <strong>主要技能领域：</strong>纺织、农业、制造业、服务业等
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-section">
+    <h3 class="services-title">我们的服务内容</h3>
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="service-icon">👥</div>
+        <div class="service-title">候选人选拔</div>
+        <p class="service-description">严格筛选优秀候选人，确保技能水平和日语能力符合要求</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">📚</div>
+        <div class="service-title">事前培训</div>
+        <p class="service-description">提供日语培训、技能培训和日本文化适应训练</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">📋</div>
+        <div class="service-title">文件办理</div>
+        <p class="service-description">协助办理各种签证申请和相关法律文件</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">✈️</div>
+        <div class="service-title">出国安排</div>
+        <p class="service-description">安排机票预订、接机服务和初期生活安排</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">🤝</div>
+        <div class="service-title">持续支持</div>
+        <p class="service-description">在日期间提供生活和工作方面的持续支持服务</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">📞</div>
+        <div class="service-title">24小时支援</div>
+        <p class="service-description">提供24小时紧急联络和问题解决支援服务</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="benefits-section">
+    <h3 class="benefits-title">派遣服务优势</h3>
+    <ul class="benefits-list">
+      <li>🌏 多国派遣网络，丰富的人才资源池</li>
+      <li>🔍 严格的候选人筛选和培训体系</li>
+      <li>📋 一站式服务，从选拔到来日全程支持</li>
+      <li>🏆 多年经验积累，值得信赖的合作伙伴</li>
+    </ul>
+  </div>
+
+  <div class="cta-section">
+    <h3 class="cta-title">寻找优秀的海外人才？</h3>
+    <p class="cta-text">
+      让我们帮助您找到最适合的技能实习生和特定技能工作者，<br>
+      专业团队为您提供全方位的派遣服务支持。
+    </p>
+    <a href="contact.html" class="cta-button">立即咨询</a>
+  </div>
 </section>
-<footer><p>&copy; 2025 広昌会協同組合</p></footer>
-</body></html>
+
+<footer>
+  <p>&copy; 2025 广昌会协同组合 - 国际人材育成合作伙伴</p>
+</footer>
+
+<script>
+  // 页面加载动画
+  window.addEventListener('load', () => {
+    const heroSection = document.querySelector('.hero-section');
+    const countryCards = document.querySelectorAll('.country-card');
+    const serviceItems = document.querySelectorAll('.service-item');
+    
+    heroSection.style.opacity = '0';
+    heroSection.style.transform = 'translateY(30px)';
+    
+    countryCards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(50px)';
+    });
+
+    serviceItems.forEach((item, index) => {
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(30px)';
+    });
+    
+    setTimeout(() => {
+      heroSection.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+      heroSection.style.opacity = '1';
+      heroSection.style.transform = 'translateY(0)';
+      
+      countryCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 200 + index * 150);
+      });
+
+      serviceItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        }, 800 + index * 100);
+      });
+    }, 100);
+  });
+
+  // 滚动时的视差效果
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    document.body.style.setProperty('--scroll', scrolled + 'px');
+  });
+</script>
+</body>
+</html>
