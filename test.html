@@ -14,229 +14,250 @@
       overflow-x: hidden;
     }
     
-    /* 世界和平背景 */
-    body::before {
-      content: '';
+    /* 百叶窗背景容器 */
+    .blinds-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100vh;
-      background: 
-        url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center center / cover no-repeat,
-        linear-gradient(180deg, rgba(135,206,235,0.3) 0%, rgba(152,216,232,0.3) 30%, rgba(176,224,230,0.3) 60%, rgba(79,172,254,0.3) 100%);
       z-index: -10;
-      animation: unityBreathing 20s ease-in-out infinite;
+      overflow: hidden;
     }
     
-    /* 备用团结背景图片 */
-    body::after {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
+    /* 百叶窗片 */
+    .blind-slat {
+      position: absolute;
       width: 100%;
-      height: 100vh;
-      background: 
-        url('https://pic.616pic.com/bg_w1180/00/06/10/npxpWFGc1v.jpg!/fw/1120') center center / cover no-repeat;
-      z-index: -9;
-      opacity: 0;
-      animation: peaceTransition 25s ease-in-out infinite;
+      height: calc(100vh / 15); /* 15条百叶窗片 */
+      background-size: cover;
+      background-position: center;
+      transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+      transform-origin: center center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     
-    @keyframes unityBreathing {
+    /* 世界和平主题图片 */
+    .peace-image-1 {
+      background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+    }
+    
+    .peace-image-2 {
+      background-image: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+    }
+    
+    .peace-image-3 {
+      background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+    }
+    
+    /* 百叶窗翻转动画 */
+    .blind-slat.flip-out {
+      transform: rotateX(90deg);
+    }
+    
+    .blind-slat.flip-in {
+      transform: rotateX(0deg);
+    }
+    
+    /* 百叶窗控制器 */
+    .blinds-controller {
+      position: fixed;
+      bottom: 80px;
+      right: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 20;
+    }
+    
+    .blind-control {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 2px solid rgba(79,172,254,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      backdrop-filter: blur(10px);
+    }
+    
+    .blind-control:hover {
+      background: rgba(79,172,254,0.9);
+      color: white;
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(79,172,254,0.4);
+    }
+    
+    .blind-control.active {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      box-shadow: 0 6px 20px rgba(79,172,254,0.5);
+    }
+    
+    /* 和平主题装饰 */
+    .peace-symbol {
+      position: fixed;
+      top: 20%;
+      left: 5%;
+      width: 80px;
+      height: 80px;
+      opacity: 0.3;
+      z-index: -5;
+      animation: peacePulse 4s ease-in-out infinite;
+    }
+    
+    .peace-symbol::before {
+      content: '☮';
+      font-size: 60px;
+      color: rgba(255,255,255,0.8);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    @keyframes peacePulse {
       0%, 100% { 
-        filter: brightness(1) contrast(1) saturate(1.1);
+        opacity: 0.3;
         transform: scale(1);
       }
       50% { 
-        filter: brightness(1.15) contrast(1.1) saturate(1.3);
-        transform: scale(1.02);
+        opacity: 0.6;
+        transform: scale(1.1);
       }
     }
     
-    @keyframes peaceTransition {
-      0%, 60% { opacity: 0; }
-      70% { opacity: 0.4; }
-      80%, 100% { opacity: 0; }
-    }
-    
-    /* 飘动的和平元素 */
-    .floating-peace {
+    /* 地球图标装饰 */
+    .earth-icon {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: -8;
-      pointer-events: none;
-    }
-    
-    .peace-element {
-      position: absolute;
-      opacity: 0.7;
-      animation: peaceFloat linear infinite;
-    }
-    
-    .hands-unity1 {
-      width: 180px;
-      height: 120px;
-      background: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80') center / contain no-repeat;
-      top: 12%;
-      left: -180px;
-      animation-duration: 35s;
-      animation-delay: 0s;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    .diversity-group {
-      width: 200px;
-      height: 130px;
-      background: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80') center / contain no-repeat;
-      top: 8%;
-      left: -200px;
-      animation-duration: 40s;
-      animation-delay: -12s;
-      opacity: 0.6;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    .global-unity {
-      width: 160px;
-      height: 100px;
-      background: url('https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=350&q=80') center / contain no-repeat;
-      top: 18%;
-      left: -160px;
-      animation-duration: 30s;
-      animation-delay: -8s;
-      opacity: 0.5;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    .world-connection {
-      width: 140px;
-      height: 90px;
-      background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80') center / contain no-repeat;
-      top: 15%;
-      left: -140px;
-      animation-duration: 45s;
-      animation-delay: -20s;
+      top: 25%;
+      right: 8%;
+      width: 60px;
+      height: 60px;
       opacity: 0.4;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      z-index: -5;
+      animation: earthRotate 20s linear infinite;
     }
     
-    @keyframes peaceFloat {
-      0% { 
-        transform: translateX(-200px) rotate(0deg);
-        opacity: 0;
-      }
-      10% { opacity: 0.7; }
-      90% { opacity: 0.7; }
-      100% { 
-        transform: translateX(calc(100vw + 200px)) rotate(5deg);
-        opacity: 0;
-      }
+    .earth-icon::before {
+      content: '🌍';
+      font-size: 50px;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
     }
     
-    /* 世界地图轮廓效果 */
-    .world-silhouette {
+    @keyframes earthRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* 团结之手装饰 */
+    .unity-hands {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 800px;
-      height: 400px;
-      background: url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center / contain no-repeat;
-      opacity: 0.1;
-      z-index: -7;
-      animation: worldPulse 15s ease-in-out infinite;
+      bottom: 20%;
+      left: 8%;
+      width: 70px;
+      height: 70px;
+      opacity: 0.4;
+      z-index: -5;
+      animation: unityPulse 6s ease-in-out infinite;
     }
     
-    @keyframes worldPulse {
+    .unity-hands::before {
+      content: '🤝';
+      font-size: 55px;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    @keyframes unityPulse {
       0%, 100% { 
-        opacity: 0.05;
-        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.4;
+        transform: scale(1);
       }
       50% { 
-        opacity: 0.15;
-        transform: translate(-50%, -50%) scale(1.05);
+        opacity: 0.7;
+        transform: scale(1.15);
       }
     }
     
-    /* 和平鸽效果 */
-    .peace-doves {
+    /* 和平鸽装饰 */
+    .peace-dove {
       position: fixed;
-      top: 20%;
-      right: 10%;
-      width: 150px;
-      height: 100px;
-      background: url('https://images.unsplash.com/photo-1518717758536-85ae29035b6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80') center / contain no-repeat;
-      opacity: 0.3;
-      z-index: -6;
-      animation: doveFly 12s ease-in-out infinite;
+      top: 15%;
+      right: 15%;
+      width: 50px;
+      height: 50px;
+      opacity: 0.5;
+      z-index: -5;
+      animation: doveFloat 8s ease-in-out infinite;
     }
     
-    @keyframes doveFly {
+    .peace-dove::before {
+      content: '🕊';
+      font-size: 40px;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    @keyframes doveFloat {
       0%, 100% { 
         transform: translateY(0px) rotate(0deg);
-        opacity: 0.2;
+        opacity: 0.5;
       }
       25% { 
-        transform: translateY(-10px) rotate(2deg);
-        opacity: 0.4;
+        transform: translateY(-8px) rotate(2deg);
+        opacity: 0.7;
       }
       50% { 
         transform: translateY(-5px) rotate(-1deg);
-        opacity: 0.6;
+        opacity: 0.8;
       }
       75% { 
-        transform: translateY(-8px) rotate(1deg);
-        opacity: 0.3;
+        transform: translateY(-10px) rotate(1deg);
+        opacity: 0.6;
       }
     }
     
-    /* 光芒效果 - 象征希望 */
-    .hope-rays {
+    /* 温暖光晕效果 */
+    .warm-glow {
       position: fixed;
       top: 10%;
       left: 10%;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, rgba(255,165,0,0.1) 50%, transparent 70%);
-      z-index: -5;
-      animation: hopeShine 8s ease-in-out infinite;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, rgba(255,165,0,0.05) 50%, transparent 70%);
+      z-index: -6;
+      animation: glowPulse 12s ease-in-out infinite;
+      border-radius: 50%;
     }
     
-    @keyframes hopeShine {
+    @keyframes glowPulse {
       0%, 100% { 
         opacity: 0.3;
-        transform: scale(1) rotate(0deg);
+        transform: scale(1);
       }
       50% { 
         opacity: 0.6;
-        transform: scale(1.2) rotate(180deg);
+        transform: scale(1.3);
       }
     }
     
-    /* 温馨覆盖层 */
-    .warmth-overlay {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 50%;
-      background: linear-gradient(to top, rgba(255,248,220,0.1) 0%, transparent 100%);
-      z-index: -4;
-      animation: warmthPulse 10s ease-in-out infinite;
-    }
-    
-    @keyframes warmthPulse {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 0.4; }
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .blinds-controller {
+        bottom: 60px;
+        right: 20px;
+        gap: 10px;
+      }
+      
+      .blind-control {
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+      }
+      
+      .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
+        display: none; /* 在移动设备上隐藏装饰元素 */
+      }
     }
     
     header {
@@ -660,17 +681,24 @@
   </style>
 </head>
 <body>
-<!-- 世界和平元素 -->
-<div class="floating-peace">
-  <div class="peace-element hands-unity1"></div>
-  <div class="peace-element diversity-group"></div>
-  <div class="peace-element global-unity"></div>
-  <div class="peace-element world-connection"></div>
+<!-- 百叶窗背景切换系统 -->
+<div class="blinds-container" id="blindsContainer">
+  <!-- 百叶窗片将通过JavaScript动态生成 -->
 </div>
-<div class="world-silhouette"></div>
-<div class="peace-doves"></div>
-<div class="hope-rays"></div>
-<div class="warmth-overlay"></div>
+
+<!-- 百叶窗控制器 -->
+<div class="blinds-controller">
+  <div class="blind-control active" data-image="1">1</div>
+  <div class="blind-control" data-image="2">2</div>
+  <div class="blind-control" data-image="3">3</div>
+</div>
+
+<!-- 和平主题装饰 -->
+<div class="peace-symbol"></div>
+<div class="earth-icon"></div>
+<div class="unity-hands"></div>
+<div class="peace-dove"></div>
+<div class="warm-glow"></div>
 
 <header>
   <h1>広昌会協同組合</h1>
@@ -909,6 +937,92 @@ photoUrls.forEach((url, i) => {
     camera.updateProjectionMatrix();
     renderer.setSize(newWidth, newHeight);
   });
+
+  // 百叶窗背景切换功能
+  const blindsContainer = document.getElementById('blindsContainer');
+  const blindControls = document.querySelectorAll('.blind-control');
+  const numberOfSlats = 15; // 百叶窗片数量
+  let currentImage = 1;
+  let isAnimating = false;
+  
+  // 世界和平主题图片
+  const peaceImages = {
+    1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80', // 多元团结
+    2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80', // 手牵手
+    3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'  // 世界连接
+  };
+  
+  // 创建百叶窗片
+  function createBlindSlats() {
+    blindsContainer.innerHTML = '';
+    for (let i = 0; i < numberOfSlats; i++) {
+      const slat = document.createElement('div');
+      slat.className = 'blind-slat peace-image-1';
+      slat.style.top = `${(i / numberOfSlats) * 100}%`;
+      slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
+      slat.style.backgroundPosition = `center ${(i / (numberOfSlats - 1)) * 100}%`;
+      blindsContainer.appendChild(slat);
+    }
+  }
+  
+  // 百叶窗翻转切换效果
+  function switchBlindsImage(newImageIndex) {
+    if (isAnimating || newImageIndex === currentImage) return;
+    
+    isAnimating = true;
+    const slats = document.querySelectorAll('.blind-slat');
+    
+    // 第一阶段：翻转出去
+    slats.forEach((slat, index) => {
+      setTimeout(() => {
+        slat.classList.add('flip-out');
+      }, index * 50); // 逐片翻转
+    });
+    
+    // 第二阶段：更换图片并翻转进来
+    setTimeout(() => {
+      slats.forEach((slat, index) => {
+        slat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
+        slat.className = `blind-slat peace-image-${newImageIndex}`;
+        
+        setTimeout(() => {
+          slat.classList.remove('flip-out');
+          slat.classList.add('flip-in');
+        }, index * 50);
+      });
+      
+      currentImage = newImageIndex;
+      
+      // 更新控制器状态
+      blindControls.forEach(control => control.classList.remove('active'));
+      document.querySelector(`[data-image="${newImageIndex}"]`).classList.add('active');
+      
+      // 动画完成
+      setTimeout(() => {
+        isAnimating = false;
+      }, numberOfSlats * 50 + 1200);
+    }, numberOfSlats * 50 + 600);
+  }
+  
+  // 自动切换
+  function autoSwitchBlinds() {
+    const nextImage = (currentImage % 3) + 1;
+    switchBlindsImage(nextImage);
+  }
+  
+  // 初始化百叶窗
+  createBlindSlats();
+  
+  // 控制器点击事件
+  blindControls.forEach(control => {
+    control.addEventListener('click', () => {
+      const imageIndex = parseInt(control.dataset.image);
+      switchBlindsImage(imageIndex);
+    });
+  });
+  
+  // 每8秒自动切换
+  setInterval(autoSwitchBlinds, 8000);
 </script>
 </body>
 </html>
