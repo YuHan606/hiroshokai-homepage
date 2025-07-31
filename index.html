@@ -29,7 +29,7 @@
     .blind-slat {
       position: absolute;
       width: 100%;
-      height: calc(100vh / 15); /* 15条百叶窗片 */
+      height: calc(100vh / 30); /* 30条百叶窗片 */
       background-size: cover;
       background-position: center;
       transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
@@ -362,7 +362,6 @@
       padding: 0;
       line-height: 1.6;
       color: #333;
-      background: linear-gradient(180deg, #87CEEB 0%, #98D8E8 30%, #B0E0E6 60%, #4facfe 100%);
       position: relative;
       overflow-x: hidden;
     }
@@ -509,12 +508,8 @@
       margin: 30px auto;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 
-        0 0 50px rgba(102, 126, 234, 0.4),
-        0 0 100px rgba(102, 126, 234, 0.2),
-        inset 0 0 50px rgba(0,0,0,0.1);
-      background: radial-gradient(circle at 30% 30%, #cce7ff 0%, #99caff 70%, #66adff 100%);
       position: relative;
+      background: transparent;
     }
     
     h2 {
@@ -789,7 +784,8 @@
   const specularMap = loader.load("https://threejsfundamentals.org/threejs/resources/images/earth-specular.gif");
   const nightTexture = loader.load("https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57730/earth_lights_lrg.jpg");
   const cloudTexture = loader.load("https://threejs.org/examples/textures/planets/earth_clouds.png");
-  const starTexture = loader.load("https://threejs.org/examples/textures/galaxy_starfield.png");
+  // 注意：移除了星空纹理的加载
+  // const starTexture = loader.load("https://threejs.org/examples/textures/galaxy_starfield.png");
 
   // 国家数据 (经纬度转换为3D坐标)
   const countries = [
@@ -813,9 +809,12 @@
     );
   }
 
-  // 创建国家标签组
+  // 创建国家标签组 - 让它随地球一起旋转
   const countryLabelsGroup = new THREE.Group();
   scene.add(countryLabelsGroup);
+
+  // 存储所有标签的HTML元素
+  const countryLabelElements = [];
 
   // 为每个国家创建标签
   countries.forEach((country, index) => {
@@ -855,49 +854,79 @@
       box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
       pointer-events: none;
       white-space: nowrap;
-      z-index: 1000;
+      z-index: 500;
       transform: translate(-50%, -50%);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.2);
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-      opacity: 0.9;
+      opacity: 0;
+      transition: opacity 0.5s ease;
     `;
     
     container.appendChild(labelDiv);
     
     // 存储标签信息
-    line.userData = {
+    const labelData = {
       labelDiv: labelDiv,
-      labelPos: labelPos,
+      originalLabelPos: labelPos.clone(), // 保存原始位置
       country: country,
-      index: index
+      index: index,
+      line: line
     };
     
+    line.userData = labelData;
+    countryLabelElements.push(labelData);
     countryLabelsGroup.add(line);
   });
 
-  // 更新标签位置的函数
+  // 更新标签位置的函数 - 现在会随地球旋转
   function updateCountryLabels() {
-    countryLabelsGroup.children.forEach(line => {
-      const { labelDiv, labelPos } = line.userData;
+    countryLabelElements.forEach(labelData => {
+      const { labelDiv, originalLabelPos, line } = labelData;
       
-      // 将3D位置转换为屏幕坐标
-      const vector = labelPos.clone().project(camera);
+      // 应用地球的旋转到标签位置
+      const rotatedPos = originalLabelPos.clone();
+      rotatedPos.applyMatrix4(earth.matrixWorld);
+      
+      // 将旋转后的3D位置转换为屏幕坐标
+      const vector = rotatedPos.clone().project(camera);
       const x = (vector.x * 0.5 + 0.5) * width;
       const y = (vector.y * -0.5 + 0.5) * height;
       
-      // 检查标签是否在地球前面
-      const distance = camera.position.distanceTo(labelPos);
-      const earthDistance = camera.position.distanceTo(new THREE.Vector3(0, 0, 0));
-      const isVisible = distance < earthDistance + 2;
+      // 检查标签是否在地球前面（考虑旋转）
+      const rotatedCountryPos = latLngToVector3(labelData.country.lat, labelData.country.lng, 1.8);
+      rotatedCountryPos.applyMatrix4(earth.matrixWorld);
+      
+      // 计算该点是否面向相机
+      const normalVector = rotatedCountryPos.clone().normalize();
+      const cameraDirection = camera.position.clone().normalize();
+      const dotProduct = normalVector.dot(cameraDirection);
+      
+      const isVisible = dotProduct > 0.2; // 调整这个值来控制何时显示标签
       
       // 更新标签位置和可见性
       labelDiv.style.left = x + 'px';
       labelDiv.style.top = y + 'px';
-      labelDiv.style.opacity = isVisible ? '0.9' : '0.3';
+      labelDiv.style.opacity = isVisible ? '0.9' : '0';
+      
+      // 更新连接线的位置和透明度
+      const rotatedCountryPosForLine = latLngToVector3(labelData.country.lat, labelData.country.lng, 1.8);
+      rotatedCountryPosForLine.applyMatrix4(earth.matrixWorld);
+      
+      const rotatedLabelPosForLine = originalLabelPos.clone();
+      rotatedLabelPosForLine.applyMatrix4(earth.matrixWorld);
+      
+      const positions = line.geometry.attributes.position.array;
+      positions[0] = rotatedCountryPosForLine.x;
+      positions[1] = rotatedCountryPosForLine.y;
+      positions[2] = rotatedCountryPosForLine.z;
+      positions[3] = rotatedLabelPosForLine.x;
+      positions[4] = rotatedLabelPosForLine.y;
+      positions[5] = rotatedLabelPosForLine.z;
+      line.geometry.attributes.position.needsUpdate = true;
       
       // 更新连接线透明度
-      line.material.opacity = isVisible ? 0.8 : 0.2;
+      line.material.opacity = isVisible ? 0.8 : 0;
     });
   }
 
@@ -991,14 +1020,14 @@ photoUrls.forEach((url, i) => {
   const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
   scene.add(atmosphere);
 
-  // 星空背景
-  const starGeo = new THREE.SphereGeometry(90, 64, 64);
-  const starMat = new THREE.MeshBasicMaterial({
-    map: starTexture,
-    side: THREE.BackSide
-  });
-  const starField = new THREE.Mesh(starGeo, starMat);
-  scene.add(starField);
+  // 注意：完全移除了星空背景
+  // const starGeo = new THREE.SphereGeometry(90, 64, 64);
+  // const starMat = new THREE.MeshBasicMaterial({
+  //   map: starTexture,
+  //   side: THREE.BackSide
+  // });
+  // const starField = new THREE.Mesh(starGeo, starMat);
+  // scene.add(starField);
 
   // 光照
   const ambientLight = new THREE.AmbientLight(0x404040, 4.0);
