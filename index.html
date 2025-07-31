@@ -10,7 +10,254 @@
       padding: 0;
       line-height: 1.6;
       color: #333;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* 百叶窗背景容器 */
+    .blinds-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: -10;
+      overflow: hidden;
+    }
+    
+    /* 百叶窗片 */
+    .blind-slat {
+      position: absolute;
+      width: 100%;
+      height: calc(100vh / 15); /* 15条百叶窗片 */
+      background-size: cover;
+      background-position: center;
+      transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+      transform-origin: center center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    /* 世界和平主题图片 */
+    .peace-image-1 {
+      background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+    }
+    
+    .peace-image-2 {
+      background-image: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+    }
+    
+    .peace-image-3 {
+      background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+    }
+    
+    /* 百叶窗翻转动画 */
+    .blind-slat.flip-out {
+      transform: rotateX(90deg);
+    }
+    
+    .blind-slat.flip-in {
+      transform: rotateX(0deg);
+    }
+    
+    /* 百叶窗控制器 */
+    .blinds-controller {
+      position: fixed;
+      bottom: 80px;
+      right: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 20;
+    }
+    
+    .blind-control {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 2px solid rgba(79,172,254,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      backdrop-filter: blur(10px);
+    }
+    
+    .blind-control:hover {
+      background: rgba(79,172,254,0.9);
+      color: white;
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(79,172,254,0.4);
+    }
+    
+    .blind-control.active {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      box-shadow: 0 6px 20px rgba(79,172,254,0.5);
+    }
+    
+    /* 和平主题装饰 */
+    .peace-symbol {
+      position: fixed;
+      top: 20%;
+      left: 5%;
+      width: 80px;
+      height: 80px;
+      opacity: 0.3;
+      z-index: -5;
+      animation: peacePulse 4s ease-in-out infinite;
+    }
+    
+    .peace-symbol::before {
+      content: '☮';
+      font-size: 60px;
+      color: rgba(255,255,255,0.8);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    @keyframes peacePulse {
+      0%, 100% { 
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% { 
+        opacity: 0.6;
+        transform: scale(1.1);
+      }
+    }
+    
+    /* 地球图标装饰 */
+    .earth-icon {
+      position: fixed;
+      top: 25%;
+      right: 8%;
+      width: 60px;
+      height: 60px;
+      opacity: 0.4;
+      z-index: -5;
+      animation: earthRotate 20s linear infinite;
+    }
+    
+    .earth-icon::before {
+      content: '🌍';
+      font-size: 50px;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    @keyframes earthRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* 团结之手装饰 */
+    .unity-hands {
+      position: fixed;
+      bottom: 20%;
+      left: 8%;
+      width: 70px;
+      height: 70px;
+      opacity: 0.4;
+      z-index: -5;
+      animation: unityPulse 6s ease-in-out infinite;
+    }
+    
+    .unity-hands::before {
+      content: '🤝';
+      font-size: 55px;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    @keyframes unityPulse {
+      0%, 100% { 
+        opacity: 0.4;
+        transform: scale(1);
+      }
+      50% { 
+        opacity: 0.7;
+        transform: scale(1.15);
+      }
+    }
+    
+    /* 和平鸽装饰 */
+    .peace-dove {
+      position: fixed;
+      top: 15%;
+      right: 15%;
+      width: 50px;
+      height: 50px;
+      opacity: 0.5;
+      z-index: -5;
+      animation: doveFloat 8s ease-in-out infinite;
+    }
+    
+    .peace-dove::before {
+      content: '🕊';
+      font-size: 40px;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    @keyframes doveFloat {
+      0%, 100% { 
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.5;
+      }
+      25% { 
+        transform: translateY(-8px) rotate(2deg);
+        opacity: 0.7;
+      }
+      50% { 
+        transform: translateY(-5px) rotate(-1deg);
+        opacity: 0.8;
+      }
+      75% { 
+        transform: translateY(-10px) rotate(1deg);
+        opacity: 0.6;
+      }
+    }
+    
+    /* 温暖光晕效果 */
+    .warm-glow {
+      position: fixed;
+      top: 10%;
+      left: 10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, rgba(255,165,0,0.05) 50%, transparent 70%);
+      z-index: -6;
+      animation: glowPulse 12s ease-in-out infinite;
+      border-radius: 50%;
+    }
+    
+    @keyframes glowPulse {
+      0%, 100% { 
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% { 
+        opacity: 0.6;
+        transform: scale(1.3);
+      }
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .blinds-controller {
+        bottom: 60px;
+        right: 20px;
+        gap: 10px;
+      }
+      
+      .blind-control {
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+      }
+      
+      .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
+        display: none; /* 在移动设备上隐藏装饰元素 */
+      }
     }
     
     header {
@@ -44,84 +291,120 @@
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
     }
     
-    .nav-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    /* 主导航 */
-    .main-nav {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 70px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .main-nav ul {
+    nav ul {
       list-style: none;
       padding: 0;
       margin: 0;
       display: flex;
-      gap: 0;
+      justify-content: center;
+      align-items: stretch;
+      min-height: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
     
-    .main-nav li {
+    nav li {
+      flex: 1;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.2);
       position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: center;
     }
     
-    .main-nav a {
+    nav li:last-child {
+      border-right: none;
+    }
+    
+    nav li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+    
+    nav li:hover::before {
+      left: 100%;
+    }
+    
+    nav a {
       display: block;
       text-decoration: none;
       color: white;
       font-weight: 600;
-      padding: 20px 25px;
+      padding: 18px 20px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      font-size: 1rem;
+      position: relative;
+      z-index: 2;
+      font-size: 0.95rem;
       letter-spacing: 0.5px;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-      border-right: 1px solid rgba(255,255,255,0.2);
+      width: 100%;
+      box-sizing: border-box;
     }
     
-    .main-nav li:last-child a {
-      border-right: none;
-    }
-    
-    .main-nav a:hover {
+    nav a:hover {
       color: #4facfe;
       background: rgba(255,255,255,0.95);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     
-    /* 二级导航 */
-    .sub-nav {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0;
-      min-height: 50px;
-    }
-    
-    .sub-nav a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: rgba(255,255,255,0.9);
-      font-weight: 500;
-      padding: 12px 15px;
-      transition: all 0.3s ease;
-      font-size: 0.9rem;
-      letter-spacing: 0.3px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-      border-right: 1px solid rgba(255,255,255,0.1);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(180deg, #87CEEB 0%, #98D8E8 30%, #B0E0E6 60%, #4facfe 100%);
       position: relative;
+      overflow-x: hidden;
+    }
+    /* 边缘标签样式 */
+    .edge-tabs {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
     
-    .sub-nav a::before {
+    .left-tabs {
+      left: 0;
+    }
+    
+    .right-tabs {
+      right: 0;
+    }
+    
+    .edge-tab {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      text-decoration: none;
+      padding: 15px 25px 15px 15px;
+      border-radius: 0 25px 25px 0;
+      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .right-tabs .edge-tab {
+      border-radius: 25px 0 0 25px;
+      padding: 15px 15px 15px 25px;
+      text-align: right;
+    }
+    
+    .edge-tab::before {
       content: '';
       position: absolute;
       top: 0;
@@ -129,94 +412,95 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s ease;
+      transition: left 0.6s ease;
     }
     
-    .sub-nav a:hover::before {
+    .edge-tab:hover::before {
       left: 100%;
     }
     
-    .sub-nav a:hover {
-      color: #4facfe;
-      background: rgba(255,255,255,0.9);
-      transform: scale(1.02);
-      z-index: 10;
+    .edge-tab:hover {
+      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      transform: scale(1.05);
+    }
+    
+    .tab-text {
+      font-weight: 600;
+      font-size: 0.9rem;
+      line-height: 1.3;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      display: block;
+    }
+    
+    /* 主要内容区域调整 */
+    section {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 40px 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
     }
     
     /* 响应式设计 */
-    @media (max-width: 1200px) {
-      .main-nav {
-        flex-wrap: wrap;
-        min-height: auto;
-      }
-      
-      .main-nav a {
-        padding: 15px 20px;
-        font-size: 0.9rem;
-      }
-      
-      .sub-nav {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      }
-      
-      .sub-nav a {
+    @media (max-width: 1024px) {
+      .edge-tab {
+        min-width: 180px;
         font-size: 0.85rem;
-        padding: 10px 12px;
+        padding: 12px 20px 12px 12px;
+      }
+      
+      .right-tabs .edge-tab {
+        padding: 12px 12px 12px 20px;
       }
     }
     
     @media (max-width: 768px) {
-      .nav-container {
-        padding: 0 10px;
+      .edge-tabs {
+        position: relative;
+        top: auto;
+        transform: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 20px 0;
+        gap: 10px;
       }
       
-      .main-nav {
-        flex-direction: column;
-        gap: 0;
+      .left-tabs, .right-tabs {
+        left: auto;
+        right: auto;
       }
       
-      .main-nav ul {
-        width: 100%;
-        flex-direction: column;
-      }
-      
-      .main-nav a {
-        border-right: none;
-        border-bottom: 1px solid rgba(255,255,255,0.2);
+      .edge-tab, .right-tabs .edge-tab {
+        border-radius: 15px;
+        min-width: 160px;
+        padding: 12px 15px;
         text-align: center;
+        margin: 5px;
       }
       
-      .sub-nav {
-        grid-template-columns: 1fr 1fr;
-        gap: 0;
+      .edge-tab:hover, .right-tabs .edge-tab:hover {
+        transform: scale(1.05);
       }
       
-      .sub-nav a {
-        border-right: 1px solid rgba(255,255,255,0.1);
+      .tab-text {
         font-size: 0.8rem;
-        padding: 12px 8px;
       }
     }
     
     @media (max-width: 480px) {
-      .sub-nav {
-        grid-template-columns: 1fr;
+      .edge-tab {
+        min-width: 140px;
+        font-size: 0.75rem;
+        padding: 10px 12px;
       }
       
-      .sub-nav a {
-        border-right: none;
+      .tab-text {
+        font-size: 0.75rem;
       }
-    }
-    
-    section {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      background: rgba(255, 255, 255, 0.95);
-      margin-top: 20px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      backdrop-filter: blur(10px);
     }
     
     #globe-container {
@@ -274,16 +558,112 @@
       }
     }
     
+    /* 优化的底部文字效果 */
     section p {
       text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #e74c3c;
-      margin: 40px 0;
-      padding: 20px;
-      background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-      border-radius: 15px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      font-size: 2rem;
+      font-weight: 900;
+      margin: 50px 0;
+      padding: 30px 20px;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      
+      /* 炫彩渐变背景 */
+      background: linear-gradient(135deg, 
+        #ff6b6b 0%, 
+        #ffa500 25%, 
+        #32cd32 50%, 
+        #1e90ff 75%, 
+        #9370db 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 3s ease-in-out infinite;
+      
+      /* 霓虹发光文字 */
+      color: #ffffff;
+      text-shadow: 
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 20px rgba(255,105,180,0.6),
+        0 0 30px rgba(255,105,180,0.4),
+        0 0 40px rgba(255,105,180,0.2);
+      
+      /* 3D立体效果 */
+      transform: perspective(500px) rotateX(10deg);
+      box-shadow: 
+        0 15px 30px rgba(0,0,0,0.3),
+        0 0 50px rgba(255,105,180,0.2),
+        inset 0 2px 10px rgba(255,255,255,0.2);
+      
+      /* 动画过渡 */
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* 悬停效果 */
+    section p:hover {
+      transform: perspective(500px) rotateX(0deg) scale(1.05);
+      box-shadow: 
+        0 25px 50px rgba(0,0,0,0.4),
+        0 0 100px rgba(255,105,180,0.4),
+        inset 0 2px 15px rgba(255,255,255,0.3);
+      
+      text-shadow: 
+        0 0 15px rgba(255,255,255,1),
+        0 0 30px rgba(255,20,147,0.8),
+        0 0 45px rgba(255,20,147,0.6),
+        0 0 60px rgba(255,20,147,0.4);
+    }
+    
+    /* 背景渐变动画 */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* 闪烁边框效果 */
+    section p::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ff6b6b, #ffa500, #32cd32, #1e90ff, #9370db);
+      border-radius: 22px;
+      z-index: -1;
+      animation: borderGlow 2s linear infinite;
+      opacity: 0.8;
+    }
+    
+    @keyframes borderGlow {
+      0% { filter: hue-rotate(0deg) brightness(1); }
+      50% { filter: hue-rotate(180deg) brightness(1.2); }
+      100% { filter: hue-rotate(360deg) brightness(1); }
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      section p {
+        font-size: 1.6rem;
+        padding: 25px 15px;
+        transform: perspective(300px) rotateX(5deg);
+      }
+      
+      section p:hover {
+        transform: perspective(300px) rotateX(0deg) scale(1.03);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      section p {
+        font-size: 1.3rem;
+        padding: 20px 10px;
+        transform: none;
+      }
+      
+      section p:hover {
+        transform: scale(1.02);
+      }
     }
     
     footer {
@@ -301,41 +681,78 @@
   </style>
 </head>
 <body>
+<!-- 百叶窗背景切换系统 -->
+<div class="blinds-container" id="blindsContainer">
+  <!-- 百叶窗片将通过JavaScript动态生成 -->
+</div>
+
+<!-- 百叶窗控制器 -->
+<div class="blinds-controller">
+  <div class="blind-control active" data-image="1">1</div>
+  <div class="blind-control" data-image="2">2</div>
+  <div class="blind-control" data-image="3">3</div>
+</div>
+
+<!-- 和平主题装饰 -->
+<div class="peace-symbol"></div>
+<div class="earth-icon"></div>
+<div class="unity-hands"></div>
+<div class="peace-dove"></div>
+<div class="warm-glow"></div>
+
 <header>
   <h1>広昌会協同組合</h1>
   <nav>
-    <div class="nav-container">
-      <!-- 主导航 -->
-      <div class="main-nav">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="overview.html">組合概要</a></li>
-          <li><a href="ginou.html">技能実習</a></li>
-          <li><a href="tokutei.html">特定技能</a></li>
-          <li><a href="training.html">研修センター</a></li>
-          <li><a href="contact.html">お問い合わせ</a></li>
-        </ul>
-      </div>
-      
-      <!-- 二级导航 -->
-      <div class="sub-nav">
-        <a href="interview.html">専門家にインタビュー</a>
-        <a href="jinzai.html">人材情報一覧</a>
-        <a href="kyujin.html">求人掲載のお申し込み</a>
-        <a href="qa.html">外国人雇用Q＆A一覧</a>
-        <a href="sending.html">送り出し機関を探す</a>
-        <a href="denryoku.html">企業様に電力及び社員寮提供</a>
-        <a href="solar.html">太陽光発電及び蓄電提供</a>
-        <a href="denki.html">企業様に電気及び寮提供</a>
-      </div>
-    </div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="overview.html">組合概要</a></li>
+      <li><a href="ginou.html">技能実習</a></li>
+      <li><a href="tokutei.html">特定技能</a></li>
+      <li><a href="sending.html">送り出し紹介</a></li>
+      <li><a href="training.html">研修センター紹介</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+    </ul>
   </nav>
 </header>
 
-<section>
+<!-- 左侧边缘标签 -->
+<div class="edge-tabs left-tabs">
+  <a href="interview.html" class="edge-tab">
+    <span class="tab-text">専門家にインタビュー</span>
+  </a>
+  <a href="jinzai.html" class="edge-tab">
+    <span class="tab-text">人材情報一覧</span>
+  </a>
+  <a href="kyujin.html" class="edge-tab">
+    <span class="tab-text">求人掲載のお申し込み</span>
+  </a>
+  <a href="qa.html" class="edge-tab">
+    <span class="tab-text">外国人雇用Q＆A一覧</span>
+  </a>
+</div>
+
+<!-- 右侧边缘标签 -->
+<div class="edge-tabs right-tabs">
+  <a href="denryoku.html" class="edge-tab">
+    <span class="tab-text">企業様に電力及び社員寮提供</span>
+  </a>
+  <a href="solar.html" class="edge-tab">
+    <span class="tab-text">太陽光発電及び蓄電提供</span>
+  </a>
+  <a href="denki.html" class="edge-tab">
+    <span class="tab-text">企業様に電気及び寮提供</span>
+  </a>
+  <a href="sending.html" class="edge-tab">
+    <span class="tab-text">送り出し機関を探す</span>
+  </a>
+</div>
+
+<!-- 主要内容区域 -->
+<div class="main-content">
   <!-- 3D地球 -->
   <div id="globe-container"></div>
   
+  <section>
   <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
   <ul>
     <li>外国人スタッフを雇用したいけど、どうしたらいいかわからない</li>
@@ -348,6 +765,7 @@
   </ul>
   <p>このお悩み広昌会協同組合が解決します!</p>
 </section>
+</div>
 
 <footer>
   <p>&copy; 2025 広昌会協同組合</p>
@@ -519,6 +937,92 @@ photoUrls.forEach((url, i) => {
     camera.updateProjectionMatrix();
     renderer.setSize(newWidth, newHeight);
   });
+
+  // 百叶窗背景切换功能
+  const blindsContainer = document.getElementById('blindsContainer');
+  const blindControls = document.querySelectorAll('.blind-control');
+  const numberOfSlats = 15; // 百叶窗片数量
+  let currentImage = 1;
+  let isAnimating = false;
+  
+  // 世界和平主题图片
+  const peaceImages = {
+    1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80', // 多元团结
+    2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80', // 手牵手
+    3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'  // 世界连接
+  };
+  
+  // 创建百叶窗片
+  function createBlindSlats() {
+    blindsContainer.innerHTML = '';
+    for (let i = 0; i < numberOfSlats; i++) {
+      const slat = document.createElement('div');
+      slat.className = 'blind-slat peace-image-1';
+      slat.style.top = `${(i / numberOfSlats) * 100}%`;
+      slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
+      slat.style.backgroundPosition = `center ${(i / (numberOfSlats - 1)) * 100}%`;
+      blindsContainer.appendChild(slat);
+    }
+  }
+  
+  // 百叶窗翻转切换效果
+  function switchBlindsImage(newImageIndex) {
+    if (isAnimating || newImageIndex === currentImage) return;
+    
+    isAnimating = true;
+    const slats = document.querySelectorAll('.blind-slat');
+    
+    // 第一阶段：翻转出去
+    slats.forEach((slat, index) => {
+      setTimeout(() => {
+        slat.classList.add('flip-out');
+      }, index * 50); // 逐片翻转
+    });
+    
+    // 第二阶段：更换图片并翻转进来
+    setTimeout(() => {
+      slats.forEach((slat, index) => {
+        slat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
+        slat.className = `blind-slat peace-image-${newImageIndex}`;
+        
+        setTimeout(() => {
+          slat.classList.remove('flip-out');
+          slat.classList.add('flip-in');
+        }, index * 50);
+      });
+      
+      currentImage = newImageIndex;
+      
+      // 更新控制器状态
+      blindControls.forEach(control => control.classList.remove('active'));
+      document.querySelector(`[data-image="${newImageIndex}"]`).classList.add('active');
+      
+      // 动画完成
+      setTimeout(() => {
+        isAnimating = false;
+      }, numberOfSlats * 50 + 1200);
+    }, numberOfSlats * 50 + 600);
+  }
+  
+  // 自动切换
+  function autoSwitchBlinds() {
+    const nextImage = (currentImage % 3) + 1;
+    switchBlindsImage(nextImage);
+  }
+  
+  // 初始化百叶窗
+  createBlindSlats();
+  
+  // 控制器点击事件
+  blindControls.forEach(control => {
+    control.addEventListener('click', () => {
+      const imageIndex = parseInt(control.dataset.image);
+      switchBlindsImage(imageIndex);
+    });
+  });
+  
+  // 每8秒自动切换
+  setInterval(autoSwitchBlinds, 8000);
 </script>
 </body>
 </html>
