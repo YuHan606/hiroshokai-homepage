@@ -784,7 +784,8 @@
   const specularMap = loader.load("https://threejsfundamentals.org/threejs/resources/images/earth-specular.gif");
   const nightTexture = loader.load("https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57730/earth_lights_lrg.jpg");
   const cloudTexture = loader.load("https://threejs.org/examples/textures/planets/earth_clouds.png");
-  const starTexture = loader.load("https://threejs.org/examples/textures/galaxy_starfield.png");
+  // 注意：移除了星空纹理的加载
+  // const starTexture = loader.load("https://threejs.org/examples/textures/galaxy_starfield.png");
 
   // 国家数据 (经纬度转换为3D坐标)
   const countries = [
@@ -1019,14 +1020,14 @@ photoUrls.forEach((url, i) => {
   const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
   scene.add(atmosphere);
 
-  // 星空背景
-  const starGeo = new THREE.SphereGeometry(90, 64, 64);
-  const starMat = new THREE.MeshBasicMaterial({
-    map: starTexture,
-    side: THREE.BackSide
-  });
-  const starField = new THREE.Mesh(starGeo, starMat);
-  scene.add(starField);
+  // 注意：完全移除了星空背景
+  // const starGeo = new THREE.SphereGeometry(90, 64, 64);
+  // const starMat = new THREE.MeshBasicMaterial({
+  //   map: starTexture,
+  //   side: THREE.BackSide
+  // });
+  // const starField = new THREE.Mesh(starGeo, starMat);
+  // scene.add(starField);
 
   // 光照
   const ambientLight = new THREE.AmbientLight(0x404040, 4.0);
