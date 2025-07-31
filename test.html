@@ -824,14 +824,30 @@
     // 创建标签外延位置
     const labelPos = latLngToVector3(country.lat, country.lng, 3.5);
     
+    // 工具函数：根据最大长度调整 labelPos
+    function getAdjustedLabelPos(countryPos, labelPos, maxLength) {
+      const direction = new THREE.Vector3().subVectors(labelPos, countryPos);
+      const distance = direction.length();
+
+      if (distance <= maxLength) {
+        return labelPos.clone();
+      }
+
+      direction.normalize().multiplyScalar(maxLength);
+      return new THREE.Vector3().addVectors(countryPos, direction);
+    }
+
+    // 在循环中使用
+    const adjustedLabelPos = getAdjustedLabelPos(countryPos, labelPos, 120); // 120是最大线长
+
     // 创建连接线
     const lineGeometry = new THREE.BufferGeometry();
     const linePositions = new Float32Array([
-      countryPos.x, countryPos.y, countryPos.z,
-      labelPos.x, labelPos.y, labelPos.z
+       countryPos.x, countryPos.y, countryPos.z,
+       adjustedLabelPos.x, adjustedLabelPos.y, adjustedLabelPos.z
     ]);
     lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-    
+
     const lineMaterial = new THREE.LineBasicMaterial({ 
       color: 0x4facfe,
       linewidth: 2,
@@ -839,8 +855,8 @@
       opacity: 0.8
     });
     const line = new THREE.Line(lineGeometry, lineMaterial);
-    
-    // 创建文字标签 (使用HTML元素)
+
+    // 创建文字标签
     const labelDiv = document.createElement('div');
     labelDiv.textContent = country.name;
     labelDiv.style.cssText = `
@@ -862,21 +878,22 @@
       opacity: 0;
       transition: opacity 0.5s ease;
     `;
-    
+
     container.appendChild(labelDiv);
-    
+
     // 存储标签信息
     const labelData = {
       labelDiv: labelDiv,
-      originalLabelPos: labelPos.clone(), // 保存原始位置
+      originalLabelPos: adjustedLabelPos.clone(), // 使用调整后的位置
       country: country,
       index: index,
       line: line
     };
-    
+
     line.userData = labelData;
     countryLabelElements.push(labelData);
     countryLabelsGroup.add(line);
+
   });
 
   // 更新标签位置的函数 - 现在会随地球旋转
