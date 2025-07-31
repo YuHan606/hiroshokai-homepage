@@ -14,7 +14,7 @@
       overflow-x: hidden;
     }
     
-    /* 真实天空背景 */
+    /* 世界和平背景 */
     body::before {
       content: '';
       position: fixed;
@@ -23,13 +23,13 @@
       width: 100%;
       height: 100vh;
       background: 
-        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center top / cover no-repeat,
-        linear-gradient(180deg, #87CEEB 0%, #98D8E8 30%, #B0E0E6 60%, #4facfe 100%);
+        url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center center / cover no-repeat,
+        linear-gradient(180deg, rgba(135,206,235,0.3) 0%, rgba(152,216,232,0.3) 30%, rgba(176,224,230,0.3) 60%, rgba(79,172,254,0.3) 100%);
       z-index: -10;
-      animation: skyBreathing 15s ease-in-out infinite;
+      animation: unityBreathing 20s ease-in-out infinite;
     }
     
-    /* 备用天空背景图片 */
+    /* 备用团结背景图片 */
     body::after {
       content: '';
       position: fixed;
@@ -38,31 +38,31 @@
       width: 100%;
       height: 100vh;
       background: 
-        url('https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center top / cover no-repeat;
+        url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center center / cover no-repeat;
       z-index: -9;
       opacity: 0;
-      animation: skyTransition 20s ease-in-out infinite;
+      animation: peaceTransition 25s ease-in-out infinite;
     }
     
-    @keyframes skyBreathing {
+    @keyframes unityBreathing {
       0%, 100% { 
-        filter: brightness(1) contrast(1) saturate(1);
+        filter: brightness(1) contrast(1) saturate(1.1);
         transform: scale(1);
       }
       50% { 
-        filter: brightness(1.1) contrast(1.05) saturate(1.1);
+        filter: brightness(1.15) contrast(1.1) saturate(1.3);
         transform: scale(1.02);
       }
     }
     
-    @keyframes skyTransition {
-      0%, 40% { opacity: 0; }
-      50% { opacity: 0.3; }
-      60%, 100% { opacity: 0; }
+    @keyframes peaceTransition {
+      0%, 60% { opacity: 0; }
+      70% { opacity: 0.4; }
+      80%, 100% { opacity: 0; }
     }
     
-    /* 飘动的云朵图片 */
-    .floating-clouds {
+    /* 飘动的和平元素 */
+    .floating-peace {
       position: fixed;
       top: 0;
       left: 0;
@@ -72,98 +72,171 @@
       pointer-events: none;
     }
     
-    .cloud-img {
+    .peace-element {
       position: absolute;
-      opacity: 0.6;
-      animation: cloudFloat linear infinite;
+      opacity: 0.7;
+      animation: peaceFloat linear infinite;
     }
     
-    .cloud-img1 {
-      width: 200px;
-      height: 120px;
-      background: url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80') center / contain no-repeat;
-      top: 10%;
-      left: -200px;
-      animation-duration: 30s;
-      animation-delay: 0s;
-    }
-    
-    .cloud-img2 {
-      width: 150px;
-      height: 90px;
-      background: url('https://images.unsplash.com/photo-1500740516770-92bd004b996e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80') center / contain no-repeat;
-      top: 15%;
-      left: -150px;
-      animation-duration: 35s;
-      animation-delay: -10s;
-      opacity: 0.4;
-    }
-    
-    .cloud-img3 {
+    .hands-unity1 {
       width: 180px;
-      height: 100px;
-      background: url('https://images.unsplash.com/photo-1536431311719-398b6704d4cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=350&q=80') center / contain no-repeat;
-      top: 8%;
+      height: 120px;
+      background: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80') center / contain no-repeat;
+      top: 12%;
       left: -180px;
-      animation-duration: 28s;
-      animation-delay: -15s;
-      opacity: 0.5;
+      animation-duration: 35s;
+      animation-delay: 0s;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
-    .cloud-img4 {
-      width: 120px;
-      height: 80px;
-      background: url('https://images.unsplash.com/photo-1462275646964-a0e3386b89e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80') center / contain no-repeat;
-      top: 20%;
-      left: -120px;
+    .diversity-group {
+      width: 200px;
+      height: 130px;
+      background: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80') center / contain no-repeat;
+      top: 8%;
+      left: -200px;
       animation-duration: 40s;
+      animation-delay: -12s;
+      opacity: 0.6;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .global-unity {
+      width: 160px;
+      height: 100px;
+      background: url('https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=350&q=80') center / contain no-repeat;
+      top: 18%;
+      left: -160px;
+      animation-duration: 30s;
+      animation-delay: -8s;
+      opacity: 0.5;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .world-connection {
+      width: 140px;
+      height: 90px;
+      background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80') center / contain no-repeat;
+      top: 15%;
+      left: -140px;
+      animation-duration: 45s;
       animation-delay: -20s;
-      opacity: 0.3;
+      opacity: 0.4;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
-    @keyframes cloudFloat {
-      0% { transform: translateX(-200px); }
-      100% { transform: translateX(calc(100vw + 200px)); }
+    @keyframes peaceFloat {
+      0% { 
+        transform: translateX(-200px) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.7; }
+      100% { 
+        transform: translateX(calc(100vw + 200px)) rotate(5deg);
+        opacity: 0;
+      }
     }
     
-    /* 阳光效果 */
-    .sunlight {
+    /* 世界地图轮廓效果 */
+    .world-silhouette {
       position: fixed;
-      top: 0;
-      right: 0;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, rgba(255,215,0,0.1) 30%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 400px;
+      background: url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center / contain no-repeat;
+      opacity: 0.1;
       z-index: -7;
-      animation: sunlightPulse 8s ease-in-out infinite;
+      animation: worldPulse 15s ease-in-out infinite;
     }
     
-    @keyframes sunlightPulse {
+    @keyframes worldPulse {
       0%, 100% { 
+        opacity: 0.05;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% { 
+        opacity: 0.15;
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+    }
+    
+    /* 和平鸽效果 */
+    .peace-doves {
+      position: fixed;
+      top: 20%;
+      right: 10%;
+      width: 150px;
+      height: 100px;
+      background: url('https://images.unsplash.com/photo-1518717758536-85ae29035b6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80') center / contain no-repeat;
+      opacity: 0.3;
+      z-index: -6;
+      animation: doveFly 12s ease-in-out infinite;
+    }
+    
+    @keyframes doveFly {
+      0%, 100% { 
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.2;
+      }
+      25% { 
+        transform: translateY(-10px) rotate(2deg);
+        opacity: 0.4;
+      }
+      50% { 
+        transform: translateY(-5px) rotate(-1deg);
         opacity: 0.6;
+      }
+      75% { 
+        transform: translateY(-8px) rotate(1deg);
+        opacity: 0.3;
+      }
+    }
+    
+    /* 光芒效果 - 象征希望 */
+    .hope-rays {
+      position: fixed;
+      top: 10%;
+      left: 10%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, rgba(255,165,0,0.1) 50%, transparent 70%);
+      z-index: -5;
+      animation: hopeShine 8s ease-in-out infinite;
+    }
+    
+    @keyframes hopeShine {
+      0%, 100% { 
+        opacity: 0.3;
         transform: scale(1) rotate(0deg);
       }
       50% { 
-        opacity: 0.8;
-        transform: scale(1.1) rotate(10deg);
+        opacity: 0.6;
+        transform: scale(1.2) rotate(180deg);
       }
     }
     
-    /* 景深雾气效果 */
-    .atmospheric-haze {
+    /* 温馨覆盖层 */
+    .warmth-overlay {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 40%;
-      background: linear-gradient(to top, rgba(255,255,255,0.1) 0%, transparent 100%);
-      z-index: -6;
-      animation: hazeShift 12s ease-in-out infinite;
+      height: 50%;
+      background: linear-gradient(to top, rgba(255,248,220,0.1) 0%, transparent 100%);
+      z-index: -4;
+      animation: warmthPulse 10s ease-in-out infinite;
     }
     
-    @keyframes hazeShift {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.6; }
+    @keyframes warmthPulse {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.4; }
     }
     
     header {
@@ -587,15 +660,17 @@
   </style>
 </head>
 <body>
-<!-- 真实天空场景 -->
-<div class="floating-clouds">
-  <div class="cloud-img cloud-img1"></div>
-  <div class="cloud-img cloud-img2"></div>
-  <div class="cloud-img cloud-img3"></div>
-  <div class="cloud-img cloud-img4"></div>
+<!-- 世界和平元素 -->
+<div class="floating-peace">
+  <div class="peace-element hands-unity1"></div>
+  <div class="peace-element diversity-group"></div>
+  <div class="peace-element global-unity"></div>
+  <div class="peace-element world-connection"></div>
 </div>
-<div class="sunlight"></div>
-<div class="atmospheric-haze"></div>
+<div class="world-silhouette"></div>
+<div class="peace-doves"></div>
+<div class="hope-rays"></div>
+<div class="warmth-overlay"></div>
 
 <header>
   <h1>広昌会協同組合</h1>
