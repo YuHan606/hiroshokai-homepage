@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>企業様に電力提供 - 広昌会協同組合</title>
+  <style>
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      margin: 0;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 800;
+      padding: 25px 0;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    nav li {
+      margin: 0 10px;
+    }
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      padding: 12px 18px;
+      border-radius: 12px;
+      transition: background 0.3s ease;
+    }
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .denryoku-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 25px;
+      padding: 50px 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .main-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .highlight-text {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+
+    .price-comparison {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .price-card {
+      flex: 1;
+      min-width: 260px;
+      background: linear-gradient(135deg, rgba(79,172,254,0.08), rgba(0,242,254,0.08));
+      border: 1px solid rgba(79,172,254,0.3);
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .price-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(79,172,254,0.25);
+    }
+
+    .price-card h3 {
+      margin: 0 0 15px 0;
+      font-size: 1.4rem;
+      color: #2c3e50;
+    }
+    .price-card .price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0077b6;
+    }
+    .price-card p {
+      margin-top: 12px;
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    .benefits {
+      margin-top: 30px;
+    }
+    .benefits li {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      margin: 15px 0;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      list-style: none;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      color: white;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>広昌会協同組合</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="overview.html">組合概要</a></li>
+      <li><a href="ginou.html">技能実習</a></li>
+      <li><a href="tokutei.html">特定技能</a></li>
+      <li><a href="sending.html">送り出し紹介</a></li>
+      <li><a href="training.html">研修センター紹介</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section>
+  <div class="denryoku-container">
+    <h2 class="main-title">企業様に電力提供</h2>
+    <p class="highlight-text">広昌会協同組合の電力サービスは、他社よりも<span style="color:#0077b6;">安く</span>、安心してご利用いただけます。</p>
+
+    <div class="price-comparison">
+      <div class="price-card">
+        <h3>広昌会協同組合</h3>
+        <div class="price">¥18 / kWh</div>
+        <p>契約企業様の光熱費削減を実現します。</p>
+      </div>
+      <div class="price-card">
+        <h3>一般的な電力会社</h3>
+        <div class="price">¥23 / kWh</div>
+        <p>全国平均的な料金水準です。</p>
+      </div>
+    </div>
+
+    <h3 class="main-title">選ばれる理由</h3>
+    <ul class="benefits">
+      <li>✅ 月々の電気代を大幅削減</li>
+      <li>✅ 契約から導入までスムーズに対応</li>
+      <li>✅ 24時間365日サポート体制</li>
+      <li>✅ 環境に優しい再生可能エネルギーの活用</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 広昌会協同組合 - 信頼できる国際人材サービス</p>
+</footer>
+</body>
+</html>
