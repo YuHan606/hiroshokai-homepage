@@ -356,6 +356,15 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      color: #333;
+      position: relative;
+      overflow-x: hidden;
+    }
     /* 边缘标签样式 */
     .edge-tabs {
       position: fixed;
@@ -783,4 +792,367 @@
     { name: '🇨🇳 中国', lat: 39.9, lng: 116.4 },        // 北京
     { name: '🇰🇭 カンボジア', lat: 11.6, lng: 104.9 },   // 金边
     { name: '🇻🇳 ベトナム', lat: 21.0, lng: 105.8 },     // 河内
-    { name: '🇳🇵 ネパール', lat: 27.7, lng: 85.3 }       // 加德满
+    { name: '🇳🇵 ネパール', lat: 27.7, lng: 85.3 }       // 加德满都
+  ];
+
+  // 经纬度转3D坐标函数
+  function latLngToVector3(lat, lng, radius) {
+    const phi = (90 - lat) * (Math.PI / 180);
+    const theta = (lng + 180) * (Math.PI / 180);
+    
+    return new THREE.Vector3(
+      -radius * Math.sin(phi) * Math.cos(theta),
+      radius * Math.cos(phi),
+      radius * Math.sin(phi) * Math.sin(theta)
+    );
+  }
+
+  // 创建国家标签组 - 让它随地球一起旋转
+  const countryLabelsGroup = new THREE.Group();
+  scene.add(countryLabelsGroup);
+
+  // 存储所有标签的HTML元素
+  const countryLabelElements = [];
+
+  // 为每个国家创建标签
+  countries.forEach((country, index) => {
+    // 计算国家在地球上的3D位置
+    const countryPos = latLngToVector3(country.lat, country.lng, 1.8);
+    
+    // 创建标签外延位置
+    const labelPos = latLngToVector3(country.lat, country.lng, 3.5);
+    
+    // 工具函数：根据最大长度调整 labelPos
+    function getAdjustedLabelPos(countryPos, labelPos, maxLength) {
+      const direction = new THREE.Vector3().subVectors(labelPos, countryPos);
+      const distance = direction.length();
+
+      if (distance <= maxLength) {
+        return labelPos.clone();
+      }
+
+      direction.normalize().multiplyScalar(maxLength);
+      return new THREE.Vector3().addVectors(countryPos, direction);
+    }
+
+    // 在循环中使用
+    const adjustedLabelPos = getAdjustedLabelPos(countryPos, labelPos, 0.5);
+
+    // 创建连接线
+    const lineGeometry = new THREE.BufferGeometry();
+    const linePositions = new Float32Array([
+       countryPos.x, countryPos.y, countryPos.z,
+       adjustedLabelPos.x, adjustedLabelPos.y, adjustedLabelPos.z
+    ]);
+    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+
+    const lineMaterial = new THREE.LineBasicMaterial({ 
+      color: 0x4facfe,
+      linewidth: 2,
+      transparent: true,
+      opacity: 0.8
+    });
+    const line = new THREE.Line(lineGeometry, lineMaterial);
+
+    // 创建文字标签
+    const labelDiv = document.createElement('div');
+    labelDiv.textContent = country.name;
+    labelDiv.style.cssText = `
+      position: absolute;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 500;
+      transform: translate(-50%, -50%);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    `;
+
+    container.appendChild(labelDiv);
+
+    // 存储标签信息
+    const labelData = {
+      labelDiv: labelDiv,
+      originalLabelPos: adjustedLabelPos.clone(),
+      country: country,
+      index: index,
+      line: line
+    };
+
+    line.userData = labelData;
+    countryLabelElements.push(labelData);
+    countryLabelsGroup.add(line);
+  });
+
+  // 更新标签位置的函数 - 现在会随地球旋转
+  function updateCountryLabels() {
+    countryLabelElements.forEach(labelData => {
+      const { labelDiv, originalLabelPos, line } = labelData;
+      
+      // 应用地球的旋转到标签位置
+      const rotatedPos = originalLabelPos.clone();
+      rotatedPos.applyMatrix4(earth.matrixWorld);
+      
+      // 将旋转后的3D位置转换为屏幕坐标
+      const vector = rotatedPos.clone().project(camera);
+      const x = (vector.x * 0.5 + 0.5) * width;
+      const y = (vector.y * -0.5 + 0.5) * height;
+      
+      // 检查标签是否在地球前面（考虑旋转）
+      const rotatedCountryPos = latLngToVector3(labelData.country.lat, labelData.country.lng, 1.8);
+      rotatedCountryPos.applyMatrix4(earth.matrixWorld);
+      
+      // 计算该点是否面向相机
+      const normalVector = rotatedCountryPos.clone().normalize();
+      const cameraDirection = camera.position.clone().normalize();
+      const dotProduct = normalVector.dot(cameraDirection);
+      
+      const isVisible = dotProduct > 0.2;
+      
+      // 更新标签位置和可见性
+      labelDiv.style.left = x + 'px';
+      labelDiv.style.top = y + 'px';
+      labelDiv.style.opacity = isVisible ? '0.9' : '0';
+      
+      // 更新连接线的位置和透明度
+      const rotatedCountryPosForLine = latLngToVector3(labelData.country.lat, labelData.country.lng, 1.8);
+      rotatedCountryPosForLine.applyMatrix4(earth.matrixWorld);
+      
+      const rotatedLabelPosForLine = originalLabelPos.clone();
+      rotatedLabelPosForLine.applyMatrix4(earth.matrixWorld);
+      
+      const positions = line.geometry.attributes.position.array;
+      positions[0] = rotatedCountryPosForLine.x;
+      positions[1] = rotatedCountryPosForLine.y;
+      positions[2] = rotatedCountryPosForLine.z;
+      positions[3] = rotatedLabelPosForLine.x;
+      positions[4] = rotatedLabelPosForLine.y;
+      positions[5] = rotatedLabelPosForLine.z;
+      line.geometry.attributes.position.needsUpdate = true;
+      
+      // 更新连接线透明度
+      line.material.opacity = isVisible ? 0.8 : 0;
+    });
+  }
+
+  // 卫星图片组
+  const photoUrls = [
+    //'./photos/photo1.png',
+    //'./photos/photo2.jpg',
+    //'./photos/photo3.jpg',
+    //'./photos/photo4.jpg'
+  ];
+
+  const satelliteGroup = new THREE.Group(); 
+  scene.add(satelliteGroup);
+
+  const planeGeometry = new THREE.PlaneGeometry(0.8, 0.6); 
+  const radius = 4; // 距离地球的半径
+
+  photoUrls.forEach((url, i) => {
+    const texture = loader.load(url);
+    const material = new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      side: THREE.DoubleSide
+    });
+
+    const plane = new THREE.Mesh(planeGeometry, material);
+    const angle = (i / photoUrls.length) * Math.PI * 2;
+
+    plane.position.set(
+      Math.cos(angle) * radius,
+      0,
+      Math.sin(angle) * radius
+    );
+
+    plane.lookAt(camera.position);
+    satelliteGroup.add(plane);
+  });
+
+  // 地球主体
+  const geometry = new THREE.SphereGeometry(1.8, 64, 64);
+  const material = new THREE.MeshPhongMaterial({
+    map: earthTexture,
+    normalMap: normalMap,
+    specularMap: specularMap,
+    shininess: 2500
+  });
+  const earth = new THREE.Mesh(geometry, material);
+  scene.add(earth);
+
+  // 夜间灯光
+  const nightMaterial = new THREE.MeshBasicMaterial({
+    map: nightTexture,
+    blending: THREE.AdditiveBlending,
+    transparent: true,
+    opacity: 0.5
+  });
+  const earthNight = new THREE.Mesh(geometry, nightMaterial);
+  scene.add(earthNight);
+
+  // 云层
+  const cloudGeometry = new THREE.SphereGeometry(1.83, 64, 64);
+  const cloudMaterial = new THREE.MeshLambertMaterial({
+    map: cloudTexture,
+    transparent: true,
+    opacity: 0.4
+  });
+  const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+  scene.add(clouds);
+
+  // *** 移除了大气层 - 这是造成透明圆形空间的原因 ***
+  // const atmosphereGeometry = new THREE.SphereGeometry(1.9, 64, 64);
+  // const atmosphereMaterial = new THREE.ShaderMaterial({ ... });
+  // const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+  // scene.add(atmosphere);
+
+  // 光照
+  const ambientLight = new THREE.AmbientLight(0x404040, 4.0);
+  scene.add(ambientLight);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 4.0);
+  directionalLight.position.set(5, 3, 5);
+  scene.add(directionalLight);
+
+  camera.position.z = 4;
+
+  // 鼠标交互
+  let mouseX = 0, mouseY = 0;
+  container.addEventListener('mousemove', (event) => {
+    const rect = container.getBoundingClientRect();
+    mouseX = (event.clientX - rect.left) / width - 0.5;
+    mouseY = (event.clientY - rect.top) / height - 0.5;
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    // 地球自转
+    earth.rotation.y += 0.0015;
+    earthNight.rotation.y = earth.rotation.y;
+    clouds.rotation.y += 0.001;
+       
+    // 卫星组公转
+    satelliteGroup.rotation.y += 0.002;
+
+    // 鼠标交互
+    camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+    camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+    camera.lookAt(scene.position);
+
+    // 更新国家标签位置
+    updateCountryLabels();
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    const newWidth = container.offsetWidth;
+    const newHeight = container.offsetHeight;
+    camera.aspect = newWidth / newHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newWidth, newHeight);
+    
+    // 更新宽高变量用于标签位置计算
+    width = newWidth;
+    height = newHeight;
+  });
+
+  // 百叶窗背景切换功能
+  const blindsContainer = document.getElementById('blindsContainer');
+  const blindControls = document.querySelectorAll('.blind-control');
+  const numberOfSlats = 15;
+  let currentImage = 1;
+  let isAnimating = false;
+  
+  // 世界和平主题图片
+  const peaceImages = {
+    1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
+  };
+  
+  // 创建百叶窗片
+  function createBlindSlats() {
+    blindsContainer.innerHTML = '';
+    for (let i = 0; i < numberOfSlats; i++) {
+      const slat = document.createElement('div');
+      slat.className = 'blind-slat peace-image-1';
+      slat.style.top = `${(i / numberOfSlats) * 100}%`;
+      slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
+      slat.style.backgroundPosition = `center ${(i / (numberOfSlats - 1)) * 100}%`;
+      blindsContainer.appendChild(slat);
+    }
+  }
+  
+  // 百叶窗翻转切换效果
+  function switchBlindsImage(newImageIndex) {
+    if (isAnimating || newImageIndex === currentImage) return;
+    
+    isAnimating = true;
+    const slats = document.querySelectorAll('.blind-slat');
+    
+    // 第一阶段：翻转出去
+    slats.forEach((slat, index) => {
+      setTimeout(() => {
+        slat.classList.add('flip-out');
+      }, index * 50);
+    });
+    
+    // 第二阶段：更换图片并翻转进来
+    setTimeout(() => {
+      slats.forEach((slat, index) => {
+        slat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
+        slat.className = `blind-slat peace-image-${newImageIndex}`;
+        
+        setTimeout(() => {
+          slat.classList.remove('flip-out');
+          slat.classList.add('flip-in');
+        }, index * 50);
+      });
+      
+      currentImage = newImageIndex;
+      
+      // 更新控制器状态
+      blindControls.forEach(control => control.classList.remove('active'));
+      document.querySelector(`[data-image="${newImageIndex}"]`).classList.add('active');
+      
+      // 动画完成
+      setTimeout(() => {
+        isAnimating = false;
+      }, numberOfSlats * 50 + 1200);
+    }, numberOfSlats * 50 + 600);
+  }
+  
+  // 自动切换
+  function autoSwitchBlinds() {
+    const nextImage = (currentImage % 3) + 1;
+    switchBlindsImage(nextImage);
+  }
+  
+  // 初始化百叶窗
+  createBlindSlats();
+  
+  // 控制器点击事件
+  blindControls.forEach(control => {
+    control.addEventListener('click', () => {
+      const imageIndex = parseInt(control.dataset.image);
+      switchBlindsImage(imageIndex);
+    });
+  });
+  
+  // 每8秒自动切换
+  setInterval(autoSwitchBlinds, 8000);
+</script>
+</body>
+</html>
