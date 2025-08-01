@@ -26,33 +26,18 @@
       background: #000;
     }
     
-    /* 优化的百叶窗片 - 消除间隙 */
+    /* 完全无缝的百叶窗片 */
     .blind-slat {
       position: absolute;
       width: 100%;
-      height: calc(100vh / 12 + 2px); /* 增加2px重叠以消除间隙 */
-      background-size: cover;
-      background-position: center;
+      height: calc(100vh / 15); /* 恢复15片获得更好效果 */
+      background-size: 100% 100vh; /* 关键：背景尺寸固定为屏幕高度 */
       background-repeat: no-repeat;
       transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       transform-origin: center center;
-      /* 移除边框，使用重叠来消除间隙 */
-      margin-top: -1px; /* 轻微重叠 */
+      border: none;
+      outline: none;
     }
-    
-    /* 为每个百叶窗片设置正确的背景位置 */
-    .blind-slat:nth-child(1) { top: calc(0 * (100vh / 12)); }
-    .blind-slat:nth-child(2) { top: calc(1 * (100vh / 12)); }
-    .blind-slat:nth-child(3) { top: calc(2 * (100vh / 12)); }
-    .blind-slat:nth-child(4) { top: calc(3 * (100vh / 12)); }
-    .blind-slat:nth-child(5) { top: calc(4 * (100vh / 12)); }
-    .blind-slat:nth-child(6) { top: calc(5 * (100vh / 12)); }
-    .blind-slat:nth-child(7) { top: calc(6 * (100vh / 12)); }
-    .blind-slat:nth-child(8) { top: calc(7 * (100vh / 12)); }
-    .blind-slat:nth-child(9) { top: calc(8 * (100vh / 12)); }
-    .blind-slat:nth-child(10) { top: calc(9 * (100vh / 12)); }
-    .blind-slat:nth-child(11) { top: calc(10 * (100vh / 12)); }
-    .blind-slat:nth-child(12) { top: calc(11 * (100vh / 12)); }
     
     /* 百叶窗翻转动画 - 更平滑 */
     .blind-slat.flip-out {
@@ -997,10 +982,10 @@
     height = newHeight;
   });
 
-  // 优化的百叶窗背景切换功能
+  // 完全无缝的百叶窗背景切换功能
   const blindsContainer = document.getElementById('blindsContainer');
   const blindControls = document.querySelectorAll('.blind-control');
-  const numberOfSlats = 12; // 减少到12片，更好的重叠效果
+  const numberOfSlats = 15; // 使用15片获得更精细效果
   let currentImage = 1;
   let isAnimating = false;
   
@@ -1011,69 +996,58 @@
     3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
   };
   
-  // 创建优化的百叶窗片
+  // 创建完全无缝的百叶窗片
   function createBlindSlats() {
     blindsContainer.innerHTML = '';
+    const viewportHeight = window.innerHeight;
+    const slatHeight = viewportHeight / numberOfSlats;
+    
     for (let i = 0; i < numberOfSlats; i++) {
       const slat = document.createElement('div');
       slat.className = 'blind-slat';
       
-      // 计算每片的精确位置和背景位置
-      const slatHeight = window.innerHeight / numberOfSlats;
-      const topPosition = i * slatHeight;
+      // 精确定位每片
+      slat.style.top = `${i * slatHeight}px`;
+      slat.style.height = `${slatHeight}px`;
       
-      slat.style.top = `${topPosition}px`;
-      slat.style.height = `${slatHeight + 2}px`; // 添加2px重叠
+      // 关键：每片都显示完整图片，但只显示对应的部分
       slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
-      
-      // 关键：精确计算背景位置，确保图片连续
-      const backgroundPositionY = -(topPosition * (2000 - window.innerHeight) / (window.innerHeight - slatHeight));
-      slat.style.backgroundPosition = `center ${backgroundPositionY}px`;
-      slat.style.backgroundSize = `cover`;
+      slat.style.backgroundSize = `100% ${viewportHeight}px`; // 背景大小为整个视口
+      slat.style.backgroundPosition = `0 ${-i * slatHeight}px`; // 向上偏移显示对应部分
+      slat.style.backgroundRepeat = 'no-repeat';
       
       blindsContainer.appendChild(slat);
     }
   }
   
-  // 优化的百叶窗翻转切换效果
+  // 无缝百叶窗翻转切换效果
   function switchBlindsImage(newImageIndex) {
     if (isAnimating || newImageIndex === currentImage) return;
     
     isAnimating = true;
     const slats = document.querySelectorAll('.blind-slat');
+    const viewportHeight = window.innerHeight;
+    const slatHeight = viewportHeight / numberOfSlats;
     
-    // 第一阶段：从中心向两端翻转出去
-    const centerIndex = Math.floor(numberOfSlats / 2);
-    
+    // 第一阶段：翻转出去（从上到下）
     slats.forEach((slat, index) => {
-      const distanceFromCenter = Math.abs(index - centerIndex);
-      const delay = distanceFromCenter * 30; // 更快的动画延迟
-      
       setTimeout(() => {
         slat.classList.add('flip-out');
-      }, delay);
+      }, index * 40);
     });
     
     // 第二阶段：更换图片并翻转进来
     setTimeout(() => {
       slats.forEach((slat, index) => {
-        const slatHeight = window.innerHeight / numberOfSlats;
-        const topPosition = index * slatHeight;
-        
-        // 更新背景图片
+        // 更新背景图片，保持完美对齐
         slat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
-        
-        // 重新计算背景位置确保连续性
-        const backgroundPositionY = -(topPosition * (2000 - window.innerHeight) / (window.innerHeight - slatHeight));
-        slat.style.backgroundPosition = `center ${backgroundPositionY}px`;
-        
-        const distanceFromCenter = Math.abs(index - centerIndex);
-        const delay = distanceFromCenter * 30;
+        slat.style.backgroundSize = `100% ${viewportHeight}px`;
+        slat.style.backgroundPosition = `0 ${-index * slatHeight}px`;
         
         setTimeout(() => {
           slat.classList.remove('flip-out');
           slat.classList.add('flip-in');
-        }, delay);
+        }, index * 40);
       });
       
       currentImage = newImageIndex;
@@ -1089,8 +1063,8 @@
         slats.forEach(slat => {
           slat.classList.remove('flip-in');
         });
-      }, (numberOfSlats / 2) * 30 + 800);
-    }, (numberOfSlats / 2) * 30 + 400);
+      }, numberOfSlats * 40 + 800);
+    }, numberOfSlats * 40 + 400);
   }
   
   // 自动切换
