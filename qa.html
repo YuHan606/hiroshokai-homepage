@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>外国人雇用Q＆A一覧 - 広昌会協同組合</title>
+  <style>
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      min-height: 100vh;
+      margin: 0;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 800;
+      padding: 25px 0;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    nav li {
+      margin: 0 10px;
+    }
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      padding: 12px 18px;
+      border-radius: 12px;
+      transition: background 0.3s ease;
+    }
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    section {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .qa-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 25px;
+      padding: 50px 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .main-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .qa-item {
+      margin-bottom: 25px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(79,172,254,0.3);
+      background: linear-gradient(135deg, rgba(79,172,254,0.08), rgba(0,242,254,0.08));
+      transition: all 0.3s ease;
+    }
+    .qa-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(79,172,254,0.2);
+    }
+
+    .qa-question {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      font-weight: 700;
+      padding: 18px 22px;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .qa-answer {
+      display: none;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #555;
+      line-height: 1.7;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      color: white;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>広昌会協同組合</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="overview.html">組合概要</a></li>
+      <li><a href="ginou.html">技能実習</a></li>
+      <li><a href="tokutei.html">特定技能</a></li>
+      <li><a href="sending.html">送り出し紹介</a></li>
+      <li><a href="training.html">研修センター紹介</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section>
+  <div class="qa-container">
+    <h2 class="main-title">外国人雇用Q＆A一覧</h2>
+
+    <div class="qa-item">
+      <div class="qa-question">Q1. 外国人スタッフの日本語レベルが心配ですが大丈夫ですか？</div>
+      <div class="qa-answer">A. 当組合では、日本語研修を事前に実施し、現場で円滑に業務を行えるよう徹底したサポートをしています。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question">Q2. ビザの手続きはどのように行われますか？</div>
+      <div class="qa-answer">A. ビザの取得や更新に関しては、経験豊富な専門スタッフがサポートいたしますので、企業様に大きな負担はかかりません。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question">Q3. 技能実習生と特定技能の違いは何ですか？</div>
+      <div class="qa-answer">A. 技能実習生は技能習得を目的とした制度で、最長5年の在留が可能です。一方、特定技能は一定の技能と日本語能力を有する外国人が即戦力として働ける制度です。</div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 広昌会協同組合 - 信頼できる国際人材サービス</p>
+</footer>
+
+<script>
+  // Q&A 折り畳み功能
+  document.querySelectorAll('.qa-question').forEach(q => {
+    q.addEventListener('click', () => {
+      const answer = q.nextElementSibling;
+      const isVisible = answer.style.display === 'block';
+      document.querySelectorAll('.qa-answer').forEach(a => a.style.display = 'none');
+      answer.style.display = isVisible ? 'none' : 'block';
+    });
+  });
+</script>
+</body>
+</html>
