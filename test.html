@@ -14,7 +14,7 @@
       overflow-x: hidden;
     }
     
-    /* 百叶窗背景容器 */
+    /* 优化的百叶窗背景容器 */
     .blinds-container {
       position: fixed;
       top: 0;
@@ -23,40 +23,46 @@
       height: 100vh;
       z-index: -10;
       overflow: hidden;
+      background: #000;
     }
     
-    /* 百叶窗片 */
+    /* 优化的百叶窗片 - 消除间隙 */
     .blind-slat {
       position: absolute;
       width: 100%;
-      height: calc(100vh / 15); /* 15条百叶窗片 */
+      height: calc(100vh / 12 + 2px); /* 增加2px重叠以消除间隙 */
       background-size: cover;
       background-position: center;
-      transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+      background-repeat: no-repeat;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       transform-origin: center center;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      /* 移除边框，使用重叠来消除间隙 */
+      margin-top: -1px; /* 轻微重叠 */
     }
     
-    /* 世界和平主题图片 */
-    .peace-image-1 {
-      background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
-    }
+    /* 为每个百叶窗片设置正确的背景位置 */
+    .blind-slat:nth-child(1) { top: calc(0 * (100vh / 12)); }
+    .blind-slat:nth-child(2) { top: calc(1 * (100vh / 12)); }
+    .blind-slat:nth-child(3) { top: calc(2 * (100vh / 12)); }
+    .blind-slat:nth-child(4) { top: calc(3 * (100vh / 12)); }
+    .blind-slat:nth-child(5) { top: calc(4 * (100vh / 12)); }
+    .blind-slat:nth-child(6) { top: calc(5 * (100vh / 12)); }
+    .blind-slat:nth-child(7) { top: calc(6 * (100vh / 12)); }
+    .blind-slat:nth-child(8) { top: calc(7 * (100vh / 12)); }
+    .blind-slat:nth-child(9) { top: calc(8 * (100vh / 12)); }
+    .blind-slat:nth-child(10) { top: calc(9 * (100vh / 12)); }
+    .blind-slat:nth-child(11) { top: calc(10 * (100vh / 12)); }
+    .blind-slat:nth-child(12) { top: calc(11 * (100vh / 12)); }
     
-    .peace-image-2 {
-      background-image: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
-    }
-    
-    .peace-image-3 {
-      background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
-    }
-    
-    /* 百叶窗翻转动画 */
+    /* 百叶窗翻转动画 - 更平滑 */
     .blind-slat.flip-out {
-      transform: rotateX(90deg);
+      transform: rotateX(90deg) scale(1.1);
+      opacity: 0.8;
     }
     
     .blind-slat.flip-in {
-      transform: rotateX(0deg);
+      transform: rotateX(0deg) scale(1);
+      opacity: 1;
     }
     
     /* 百叶窗控制器 */
@@ -83,6 +89,8 @@
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       backdrop-filter: blur(10px);
+      font-weight: bold;
+      font-size: 16px;
     }
     
     .blind-control:hover {
@@ -256,7 +264,7 @@
       }
       
       .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
-        display: none; /* 在移动设备上隐藏装饰元素 */
+        display: none;
       }
     }
     
@@ -356,15 +364,6 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-      color: #333;
-      position: relative;
-      overflow-x: hidden;
-    }
     /* 边缘标签样式 */
     .edge-tabs {
       position: fixed;
@@ -564,7 +563,6 @@
       position: relative;
       overflow: hidden;
       
-      /* 炫彩渐变背景 */
       background: linear-gradient(135deg, 
         #ff6b6b 0%, 
         #ffa500 25%, 
@@ -574,7 +572,6 @@
       background-size: 400% 400%;
       animation: gradientShift 3s ease-in-out infinite;
       
-      /* 霓虹发光文字 */
       color: #ffffff;
       text-shadow: 
         0 0 10px rgba(255,255,255,0.8),
@@ -582,18 +579,15 @@
         0 0 30px rgba(255,105,180,0.4),
         0 0 40px rgba(255,105,180,0.2);
       
-      /* 3D立体效果 */
       transform: perspective(500px) rotateX(10deg);
       box-shadow: 
         0 15px 30px rgba(0,0,0,0.3),
         0 0 50px rgba(255,105,180,0.2),
         inset 0 2px 10px rgba(255,255,255,0.2);
       
-      /* 动画过渡 */
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    /* 悬停效果 */
     section p:hover {
       transform: perspective(500px) rotateX(0deg) scale(1.05);
       box-shadow: 
@@ -608,14 +602,12 @@
         0 0 60px rgba(255,20,147,0.4);
     }
     
-    /* 背景渐变动画 */
     @keyframes gradientShift {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
     
-    /* 闪烁边框效果 */
     section p::before {
       content: '';
       position: absolute;
@@ -636,7 +628,6 @@
       100% { filter: hue-rotate(360deg) brightness(1); }
     }
     
-    /* 响应式调整 */
     @media (max-width: 768px) {
       section p {
         font-size: 1.6rem;
@@ -672,7 +663,7 @@
   </style>
 </head>
 <body>
-<!-- 百叶窗背景切换系统 -->
+<!-- 优化的百叶窗背景切换系统 -->
 <div class="blinds-container" id="blindsContainer">
   <!-- 百叶窗片将通过JavaScript动态生成 -->
 </div>
@@ -785,14 +776,14 @@
   const nightTexture = loader.load("https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57730/earth_lights_lrg.jpg");
   const cloudTexture = loader.load("https://threejs.org/examples/textures/planets/earth_clouds.png");
 
-  // 国家数据 (经纬度转换为3D坐标)
+  // 国家数据
   const countries = [
-    { name: '🇮🇩 インドネシア', lat: -6.2, lng: 106.8 }, // 雅加达
-    { name: '🇲🇲 ミャンマー', lat: 21.9, lng: 96.0 },   // 仰光
-    { name: '🇨🇳 中国', lat: 39.9, lng: 116.4 },        // 北京
-    { name: '🇰🇭 カンボジア', lat: 11.6, lng: 104.9 },   // 金边
-    { name: '🇻🇳 ベトナム', lat: 21.0, lng: 105.8 },     // 河内
-    { name: '🇳🇵 ネパール', lat: 27.7, lng: 85.3 }       // 加德满都
+    { name: '🇮🇩 インドネシア', lat: -6.2, lng: 106.8 },
+    { name: '🇲🇲 ミャンマー', lat: 21.9, lng: 96.0 },
+    { name: '🇨🇳 中国', lat: 39.9, lng: 116.4 },
+    { name: '🇰🇭 カンボジア', lat: 11.6, lng: 104.9 },
+    { name: '🇻🇳 ベトナム', lat: 21.0, lng: 105.8 },
+    { name: '🇳🇵 ネパール', lat: 27.7, lng: 85.3 }
   ];
 
   // 经纬度转3D坐标函数
@@ -807,22 +798,17 @@
     );
   }
 
-  // 创建国家标签组 - 让它随地球一起旋转
+  // 创建国家标签组
   const countryLabelsGroup = new THREE.Group();
   scene.add(countryLabelsGroup);
 
-  // 存储所有标签的HTML元素
   const countryLabelElements = [];
 
   // 为每个国家创建标签
   countries.forEach((country, index) => {
-    // 计算国家在地球上的3D位置
     const countryPos = latLngToVector3(country.lat, country.lng, 1.8);
-    
-    // 创建标签外延位置
     const labelPos = latLngToVector3(country.lat, country.lng, 3.5);
     
-    // 工具函数：根据最大长度调整 labelPos
     function getAdjustedLabelPos(countryPos, labelPos, maxLength) {
       const direction = new THREE.Vector3().subVectors(labelPos, countryPos);
       const distance = direction.length();
@@ -835,7 +821,6 @@
       return new THREE.Vector3().addVectors(countryPos, direction);
     }
 
-    // 在循环中使用
     const adjustedLabelPos = getAdjustedLabelPos(countryPos, labelPos, 0.5);
 
     // 创建连接线
@@ -879,7 +864,6 @@
 
     container.appendChild(labelDiv);
 
-    // 存储标签信息
     const labelData = {
       labelDiv: labelDiv,
       originalLabelPos: adjustedLabelPos.clone(),
@@ -893,37 +877,31 @@
     countryLabelsGroup.add(line);
   });
 
-  // 更新标签位置的函数 - 现在会随地球旋转
+  // 更新标签位置的函数
   function updateCountryLabels() {
     countryLabelElements.forEach(labelData => {
       const { labelDiv, originalLabelPos, line } = labelData;
       
-      // 应用地球的旋转到标签位置
       const rotatedPos = originalLabelPos.clone();
       rotatedPos.applyMatrix4(earth.matrixWorld);
       
-      // 将旋转后的3D位置转换为屏幕坐标
       const vector = rotatedPos.clone().project(camera);
       const x = (vector.x * 0.5 + 0.5) * width;
       const y = (vector.y * -0.5 + 0.5) * height;
       
-      // 检查标签是否在地球前面（考虑旋转）
       const rotatedCountryPos = latLngToVector3(labelData.country.lat, labelData.country.lng, 1.8);
       rotatedCountryPos.applyMatrix4(earth.matrixWorld);
       
-      // 计算该点是否面向相机
       const normalVector = rotatedCountryPos.clone().normalize();
       const cameraDirection = camera.position.clone().normalize();
       const dotProduct = normalVector.dot(cameraDirection);
       
       const isVisible = dotProduct > 0.2;
       
-      // 更新标签位置和可见性
       labelDiv.style.left = x + 'px';
       labelDiv.style.top = y + 'px';
       labelDiv.style.opacity = isVisible ? '0.9' : '0';
       
-      // 更新连接线的位置和透明度
       const rotatedCountryPosForLine = latLngToVector3(labelData.country.lat, labelData.country.lng, 1.8);
       rotatedCountryPosForLine.applyMatrix4(earth.matrixWorld);
       
@@ -939,45 +917,9 @@
       positions[5] = rotatedLabelPosForLine.z;
       line.geometry.attributes.position.needsUpdate = true;
       
-      // 更新连接线透明度
       line.material.opacity = isVisible ? 0.8 : 0;
     });
   }
-
-  // 卫星图片组
-  const photoUrls = [
-    //'./photos/photo1.png',
-    //'./photos/photo2.jpg',
-    //'./photos/photo3.jpg',
-    //'./photos/photo4.jpg'
-  ];
-
-  const satelliteGroup = new THREE.Group(); 
-  scene.add(satelliteGroup);
-
-  const planeGeometry = new THREE.PlaneGeometry(0.8, 0.6); 
-  const radius = 4; // 距离地球的半径
-
-  photoUrls.forEach((url, i) => {
-    const texture = loader.load(url);
-    const material = new THREE.MeshBasicMaterial({
-      map: texture,
-      transparent: true,
-      side: THREE.DoubleSide
-    });
-
-    const plane = new THREE.Mesh(planeGeometry, material);
-    const angle = (i / photoUrls.length) * Math.PI * 2;
-
-    plane.position.set(
-      Math.cos(angle) * radius,
-      0,
-      Math.sin(angle) * radius
-    );
-
-    plane.lookAt(camera.position);
-    satelliteGroup.add(plane);
-  });
 
   // 地球主体
   const geometry = new THREE.SphereGeometry(1.8, 64, 64);
@@ -1010,12 +952,6 @@
   const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
   scene.add(clouds);
 
-  // *** 移除了大气层 - 这是造成透明圆形空间的原因 ***
-  // const atmosphereGeometry = new THREE.SphereGeometry(1.9, 64, 64);
-  // const atmosphereMaterial = new THREE.ShaderMaterial({ ... });
-  // const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-  // scene.add(atmosphere);
-
   // 光照
   const ambientLight = new THREE.AmbientLight(0x404040, 4.0);
   scene.add(ambientLight);
@@ -1036,20 +972,14 @@
   function animate() {
     requestAnimationFrame(animate);
     
-    // 地球自转
     earth.rotation.y += 0.0015;
     earthNight.rotation.y = earth.rotation.y;
     clouds.rotation.y += 0.001;
-       
-    // 卫星组公转
-    satelliteGroup.rotation.y += 0.002;
 
-    // 鼠标交互
     camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
     camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
     camera.lookAt(scene.position);
 
-    // 更新国家标签位置
     updateCountryLabels();
 
     renderer.render(scene, camera);
@@ -1063,15 +993,14 @@
     camera.updateProjectionMatrix();
     renderer.setSize(newWidth, newHeight);
     
-    // 更新宽高变量用于标签位置计算
     width = newWidth;
     height = newHeight;
   });
 
-  // 百叶窗背景切换功能
+  // 优化的百叶窗背景切换功能
   const blindsContainer = document.getElementById('blindsContainer');
   const blindControls = document.querySelectorAll('.blind-control');
-  const numberOfSlats = 15;
+  const numberOfSlats = 12; // 减少到12片，更好的重叠效果
   let currentImage = 1;
   let isAnimating = false;
   
@@ -1082,43 +1011,69 @@
     3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
   };
   
-  // 创建百叶窗片
+  // 创建优化的百叶窗片
   function createBlindSlats() {
     blindsContainer.innerHTML = '';
     for (let i = 0; i < numberOfSlats; i++) {
       const slat = document.createElement('div');
-      slat.className = 'blind-slat peace-image-1';
-      slat.style.top = `${(i / numberOfSlats) * 100}%`;
+      slat.className = 'blind-slat';
+      
+      // 计算每片的精确位置和背景位置
+      const slatHeight = window.innerHeight / numberOfSlats;
+      const topPosition = i * slatHeight;
+      
+      slat.style.top = `${topPosition}px`;
+      slat.style.height = `${slatHeight + 2}px`; // 添加2px重叠
       slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
-      slat.style.backgroundPosition = `center ${(i / (numberOfSlats - 1)) * 100}%`;
+      
+      // 关键：精确计算背景位置，确保图片连续
+      const backgroundPositionY = -(topPosition * (2000 - window.innerHeight) / (window.innerHeight - slatHeight));
+      slat.style.backgroundPosition = `center ${backgroundPositionY}px`;
+      slat.style.backgroundSize = `cover`;
+      
       blindsContainer.appendChild(slat);
     }
   }
   
-  // 百叶窗翻转切换效果
+  // 优化的百叶窗翻转切换效果
   function switchBlindsImage(newImageIndex) {
     if (isAnimating || newImageIndex === currentImage) return;
     
     isAnimating = true;
     const slats = document.querySelectorAll('.blind-slat');
     
-    // 第一阶段：翻转出去
+    // 第一阶段：从中心向两端翻转出去
+    const centerIndex = Math.floor(numberOfSlats / 2);
+    
     slats.forEach((slat, index) => {
+      const distanceFromCenter = Math.abs(index - centerIndex);
+      const delay = distanceFromCenter * 30; // 更快的动画延迟
+      
       setTimeout(() => {
         slat.classList.add('flip-out');
-      }, index * 50);
+      }, delay);
     });
     
     // 第二阶段：更换图片并翻转进来
     setTimeout(() => {
       slats.forEach((slat, index) => {
+        const slatHeight = window.innerHeight / numberOfSlats;
+        const topPosition = index * slatHeight;
+        
+        // 更新背景图片
         slat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
-        slat.className = `blind-slat peace-image-${newImageIndex}`;
+        
+        // 重新计算背景位置确保连续性
+        const backgroundPositionY = -(topPosition * (2000 - window.innerHeight) / (window.innerHeight - slatHeight));
+        slat.style.backgroundPosition = `center ${backgroundPositionY}px`;
+        
+        const distanceFromCenter = Math.abs(index - centerIndex);
+        const delay = distanceFromCenter * 30;
         
         setTimeout(() => {
           slat.classList.remove('flip-out');
           slat.classList.add('flip-in');
-        }, index * 50);
+        }, delay);
       });
       
       currentImage = newImageIndex;
@@ -1130,8 +1085,12 @@
       // 动画完成
       setTimeout(() => {
         isAnimating = false;
-      }, numberOfSlats * 50 + 1200);
-    }, numberOfSlats * 50 + 600);
+        // 清除动画类
+        slats.forEach(slat => {
+          slat.classList.remove('flip-in');
+        });
+      }, (numberOfSlats / 2) * 30 + 800);
+    }, (numberOfSlats / 2) * 30 + 400);
   }
   
   // 自动切换
@@ -1149,6 +1108,13 @@
       const imageIndex = parseInt(control.dataset.image);
       switchBlindsImage(imageIndex);
     });
+  });
+  
+  // 窗口大小变化时重新创建百叶窗片
+  window.addEventListener('resize', () => {
+    if (!isAnimating) {
+      createBlindSlats();
+    }
   });
   
   // 每8秒自动切换
