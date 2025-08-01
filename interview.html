@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>専門家にインタビュー - 広昌会協同組合</title>
+  <style>
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      min-height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 800;
+      padding: 25px 0;
+    }
+    section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .interview-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 25px;
+      padding: 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    }
+    .main-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .interview-card {
+      display: flex;
+      align-items: flex-start;
+      background: linear-gradient(135deg, rgba(79,172,254,0.1), rgba(0,242,254,0.1));
+      border: 1px solid rgba(79,172,254,0.3);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 25px;
+      transition: all 0.3s ease;
+    }
+    .interview-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(79,172,254,0.2);
+    }
+    .interview-card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+      border: 3px solid #4facfe;
+    }
+    .interview-content h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #2c3e50;
+    }
+    .interview-content p {
+      margin-top: 10px;
+      line-height: 1.7;
+      color: #555;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      color: white;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>広昌会協同組合</h1>
+</header>
+
+<section>
+  <div class="interview-container">
+    <h2 class="main-title">専門家にインタビュー</h2>
+
+    <div class="interview-card">
+      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="専門家A">
+      <div class="interview-content">
+        <h3>田中 一郎 氏（介護分野専門家）</h3>
+        <p>
+          外国人介護人材の受け入れに関する最新の動向と、介護現場での文化的な理解の重要性についてお話いただきました。
+        </p>
+      </div>
+    </div>
+
+    <div class="interview-card">
+      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="専門家B">
+      <div class="interview-content">
+        <h3>佐藤 花子 氏（人材育成コンサルタント）</h3>
+        <p>
+          技能実習生の教育プログラムと、日本企業における多文化共生の実践方法について語っていただきました。
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 広昌会協同組合 - 信頼できる国際人材サービス</p>
+</footer>
+</body>
+</html>
