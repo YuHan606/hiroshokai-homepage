@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>人材情報一覧 - 広昌会協同組合</title>
+  <style>
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      margin: 0;
+      color: #333;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 800;
+      padding: 25px 0;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    nav li {
+      margin: 0 10px;
+    }
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      padding: 12px 18px;
+      border-radius: 12px;
+      transition: background 0.3s ease;
+    }
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .jinzai-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 25px;
+      padding: 50px 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .main-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .jinzai-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .jinzai-card {
+      background: linear-gradient(135deg, rgba(79,172,254,0.08), rgba(0,242,254,0.08));
+      border: 1px solid rgba(79,172,254,0.3);
+      border-radius: 20px;
+      padding: 25px;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    .jinzai-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(79,172,254,0.25);
+    }
+
+    .jinzai-card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 3px solid #4facfe;
+    }
+
+    .jinzai-card h3 {
+      margin: 10px 0;
+      font-size: 1.3rem;
+      color: #2c3e50;
+    }
+    .jinzai-card p {
+      margin: 6px 0;
+      color: #555;
+      font-size: 0.95rem;
+    }
+    .jinzai-card .highlight {
+      font-weight: 700;
+      color: #0077b6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      color: white;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>広昌会協同組合</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="overview.html">組合概要</a></li>
+      <li><a href="ginou.html">技能実習</a></li>
+      <li><a href="tokutei.html">特定技能</a></li>
+      <li><a href="sending.html">送り出し紹介</a></li>
+      <li><a href="training.html">研修センター紹介</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section>
+  <div class="jinzai-container">
+    <h2 class="main-title">人材情報一覧</h2>
+    <div class="jinzai-grid">
+      
+      <div class="jinzai-card">
+        <img src="https://randomuser.me/api/portraits/men/21.jpg" alt="候補者A">
+        <h3>グエン・バン・ア</h3>
+        <p><span class="highlight">国籍:</span> ベトナム</p>
+        <p><span class="highlight">希望職種:</span> 介護</p>
+        <p><span class="highlight">日本語レベル:</span> N3</p>
+        <p><span class="highlight">年齢:</span> 24歳</p>
+      </div>
+
+      <div class="jinzai-card">
+        <img src="https://randomuser.me/api/portraits/women/34.jpg" alt="候補者B">
+        <h3>スリ・ラトナ</h3>
+        <p><span class="highlight">国籍:</span> インドネシア</p>
+        <p><span class="highlight">希望職種:</span> 食品製造</p>
+        <p><span class="highlight">日本語レベル:</span> N4</p>
+        <p><span class="highlight">年齢:</span> 22歳</p>
+      </div>
+
+      <div class="jinzai-card">
+        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="候補者C">
+        <h3>ミン・トゥ</h3>
+        <p><span class="highlight">国籍:</span> ミャンマー</p>
+        <p><span class="highlight">希望職種:</span> 建設</p>
+        <p><span class="highlight">日本語レベル:</span> N2</p>
+        <p><span class="highlight">年齢:</span> 26歳</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 広昌会協同組合 - 信頼できる国際人材サービス</p>
+</footer>
+</body>
+</html>
