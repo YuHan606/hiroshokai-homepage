@@ -31,7 +31,7 @@
       position: absolute;
       width: 100%;
       height: calc(100vh / 15); /* 恢复15片获得更好效果 */
-      background-size: 100% 100vh; /* 关键：背景尺寸固定为屏幕高度 */
+      background-size: cover; /* 使用cover确保图片完全填充 */
       background-repeat: no-repeat;
       transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       transform-origin: center center;
@@ -1000,6 +1000,7 @@
   function createBlindSlats() {
     blindsContainer.innerHTML = '';
     const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
     const slatHeight = viewportHeight / numberOfSlats;
     
     for (let i = 0; i < numberOfSlats; i++) {
@@ -1010,10 +1011,10 @@
       slat.style.top = `${i * slatHeight}px`;
       slat.style.height = `${slatHeight}px`;
       
-      // 关键：每片都显示完整图片，但只显示对应的部分
+      // 关键：让背景图片完全覆盖整个视口区域
       slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
-      slat.style.backgroundSize = `100% ${viewportHeight}px`; // 背景大小为整个视口
-      slat.style.backgroundPosition = `0 ${-i * slatHeight}px`; // 向上偏移显示对应部分
+      slat.style.backgroundSize = 'cover'; // 使用cover确保图片完全覆盖
+      slat.style.backgroundPosition = `center ${-i * slatHeight}px`; // 向上偏移显示对应部分
       slat.style.backgroundRepeat = 'no-repeat';
       
       blindsContainer.appendChild(slat);
@@ -1041,8 +1042,8 @@
       slats.forEach((slat, index) => {
         // 更新背景图片，保持完美对齐
         slat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
-        slat.style.backgroundSize = `100% ${viewportHeight}px`;
-        slat.style.backgroundPosition = `0 ${-index * slatHeight}px`;
+        slat.style.backgroundSize = 'cover';
+        slat.style.backgroundPosition = `center ${-index * slatHeight}px`;
         
         setTimeout(() => {
           slat.classList.remove('flip-out');
