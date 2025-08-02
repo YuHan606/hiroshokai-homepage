@@ -1120,7 +1120,11 @@ photoUrls.forEach((url, i) => {
       slat.className = 'blind-slat peace-image-1';
       slat.style.top = `${(i / numberOfSlats) * 100}%`;
       slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
-      slat.style.backgroundPosition = `center ${(i / (numberOfSlats - 1)) * 100}%`;
+      //slat.style.backgroundPosition = `center ${(i / (numberOfSlats - 1)) * 100}%`;
+      slat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
+      slat.style.backgroundRepeat = 'no-repeat';
+      slat.style.backgroundSize = `100% ${numberOfSlats * 100}%`;
+      slat.style.backgroundPosition = `center ${-i * 100}%`;
       blindsContainer.appendChild(slat);
     }
   }
