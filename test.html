@@ -27,7 +27,6 @@
     
     /* 百叶窗片 */
     .blind-slat {
-      backface-visibility: hidden; /* 防止翻转时透明缝隙 */
       position: absolute;
       width: 100%;
       height: calc(100vh / 15); /* 15条百叶窗片 */
@@ -36,6 +35,7 @@
       transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
       transform-origin: center center;
       border-bottom: 1px solid rgba(255,255,255,0.1);
+      backface-visibility: hidden; /* 防止翻转时透底 */
     }
     
     /* 世界和平主题图片 */
@@ -1128,7 +1128,6 @@ photoUrls.forEach((url, i) => {
   // 百叶窗翻转切换效果
   function switchBlindsImage(newImageIndex) {
     if (isAnimating || newImageIndex === currentImage) return;
-    
     isAnimating = true;
     const slats = document.querySelectorAll('.blind-slat');
     const newSlats = [];
@@ -1145,18 +1144,21 @@ photoUrls.forEach((url, i) => {
       newSlats.push(slat);
     }
 
+    // 旧片翻出
     oldSlats.forEach((slat, index) => {
       setTimeout(() => {
         slat.style.transform = 'rotateX(90deg)';
       }, index * 50);
     });
 
+    // 新片翻入
     newSlats.forEach((slat, index) => {
       setTimeout(() => {
         slat.style.transform = 'rotateX(0deg)';
       }, index * 50);
     });
 
+    // 动画完成后移除旧片
     setTimeout(() => {
       oldSlats.forEach(slat => slat.remove());
       currentImage = newImageIndex;
