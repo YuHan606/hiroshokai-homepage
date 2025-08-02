@@ -25,34 +25,29 @@
       overflow: hidden;
     }
     
-    /* 百叶窗片 */
+    /* 百叶窗片 - 修复裂缝问题 */
     .blind-slat {
       position: absolute;
       width: 100%;
-      height: calc(100vh / 15); /* 15条百叶窗片 */
-      background-size: cover;
-      background-position: center;
+      height: calc(100vh / 15 + 2px); /* 增加2px重叠以避免裂缝 */
+      background-size: 100% 100vh; /* 确保背景图覆盖整个容器高度 */
+      background-repeat: no-repeat;
       transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
       transform-origin: center center;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border: none; /* 移除边框避免视觉干扰 */
+      backface-visibility: hidden;
+      /* 添加微小的重叠以确保无缝连接 */
+      margin-top: -1px;
     }
     
-    /* 世界和平主题图片 */
-    .peace-image-1 {
-      background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
-    }
-    
-    .peace-image-2 {
-      background-image: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
-    }
-    
-    .peace-image-3 {
-      background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+    /* 第一个片段不需要margin-top */
+    .blind-slat:first-child {
+      margin-top: 0;
     }
     
     /* 百叶窗翻转动画 */
     .blind-slat.flip-out {
-      transform: rotateX(90deg);
+      transform: rotateX(-90deg);
     }
     
     .blind-slat.flip-in {
@@ -183,8 +178,8 @@
     /* 和平鸽装饰 */
     .peace-dove {
       position: fixed;
-      top: 15%;
-      right: 15%;
+      top: 25%;
+      right: 25%;
       width: 50px;
       height: 50px;
       opacity: 0.5;
@@ -356,15 +351,6 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-      color: #333;
-      position: relative;
-      overflow-x: hidden;
-    }
     /* 边缘标签样式 */
     .edge-tabs {
       position: fixed;
@@ -784,8 +770,6 @@
   const specularMap = loader.load("https://threejsfundamentals.org/threejs/resources/images/earth-specular.gif");
   const nightTexture = loader.load("https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57730/earth_lights_lrg.jpg");
   const cloudTexture = loader.load("https://threejs.org/examples/textures/planets/earth_clouds.png");
-  // 注意：移除了星空纹理的加载
-  // const starTexture = loader.load("https://threejs.org/examples/textures/galaxy_starfield.png");
 
   // 国家数据 (经纬度转换为3D坐标)
   const countries = [
@@ -1037,15 +1021,6 @@ photoUrls.forEach((url, i) => {
   const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
   scene.add(atmosphere);
 
-  // 注意：完全移除了星空背景
-  // const starGeo = new THREE.SphereGeometry(90, 64, 64);
-  // const starMat = new THREE.MeshBasicMaterial({
-  //   map: starTexture,
-  //   side: THREE.BackSide
-  // });
-  // const starField = new THREE.Mesh(starGeo, starMat);
-  // scene.add(starField);
-
   // 光照
   const ambientLight = new THREE.AmbientLight(0x404040, 4.0);
   scene.add(ambientLight);
@@ -1097,7 +1072,7 @@ photoUrls.forEach((url, i) => {
     height = newHeight;
   });
 
-  // 百叶窗背景切换功能
+  // 百叶窗背景切换功能 - 修复裂缝问题
   const blindsContainer = document.getElementById('blindsContainer');
   const blindControls = document.querySelectorAll('.blind-control');
   const numberOfSlats = 15; // 百叶窗片数量
@@ -1111,56 +1086,83 @@ photoUrls.forEach((url, i) => {
     3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'  // 世界连接
   };
   
-  // 创建百叶窗片
+  // 创建百叶窗片 - 修复裂缝问题
   function createBlindSlats() {
     blindsContainer.innerHTML = '';
+    const slatHeight = 100 / numberOfSlats;
+    
     for (let i = 0; i < numberOfSlats; i++) {
       const slat = document.createElement('div');
-      slat.className = 'blind-slat peace-image-1';
-      slat.style.top = `${(i / numberOfSlats) * 100}%`;
+      slat.className = 'blind-slat';
+      
+      // 精确定位，避免裂缝
+      slat.style.top = `${i * slatHeight}%`;
+      slat.style.height = `${slatHeight + 0.1}%`; // 微小重叠避免裂缝
+      
+      // 设置背景图片，确保完整覆盖
       slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
-      slat.style.backgroundPosition = `center ${(i / (numberOfSlats - 1)) * 100}%`;
+      slat.style.backgroundSize = '100% 100vh'; // 覆盖整个视口高度
+      slat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
+      slat.style.backgroundRepeat = 'no-repeat';
+      
       blindsContainer.appendChild(slat);
     }
   }
   
-  // 百叶窗翻转切换效果
+  // 百叶窗翻转切换效果 - 优化动画
   function switchBlindsImage(newImageIndex) {
     if (isAnimating || newImageIndex === currentImage) return;
     
     isAnimating = true;
-    const slats = document.querySelectorAll('.blind-slat');
-    
-    // 第一阶段：翻转出去
-    slats.forEach((slat, index) => {
+    const oldSlats = document.querySelectorAll('.blind-slat');
+    const slatHeight = 100 / numberOfSlats;
+
+    // 创建新的百叶窗片，初始状态为翻转
+    for (let i = 0; i < numberOfSlats; i++) {
+      const newSlat = document.createElement('div');
+      newSlat.className = 'blind-slat';
+      
+      // 精确定位
+      newSlat.style.top = `${i * slatHeight}%`;
+      newSlat.style.height = `${slatHeight + 0.1}%`;
+      
+      // 设置新图片
+      newSlat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
+      newSlat.style.backgroundSize = '100% 100vh';
+      newSlat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
+      newSlat.style.backgroundRepeat = 'no-repeat';
+      
+      // 初始翻转状态
+      newSlat.style.transform = 'rotateX(90deg)';
+      newSlat.style.backfaceVisibility = 'hidden';
+      
+      blindsContainer.appendChild(newSlat);
+    }
+
+    const newSlats = Array.from(document.querySelectorAll('.blind-slat')).slice(numberOfSlats);
+
+    // 旧片段翻出动画
+    oldSlats.forEach((slat, index) => {
       setTimeout(() => {
-        slat.classList.add('flip-out');
-      }, index * 50); // 逐片翻转
+        slat.style.transform = 'rotateX(-90deg)';
+      }, index * 40);
     });
-    
-    // 第二阶段：更换图片并翻转进来
+
+    // 新片段翻入动画
+    newSlats.forEach((slat, index) => {
+      setTimeout(() => {
+        slat.style.transform = 'rotateX(0deg)';
+      }, index * 40 + 200); // 稍微延迟以确保流畅过渡
+    });
+
+    // 清理和更新状态
     setTimeout(() => {
-      slats.forEach((slat, index) => {
-        slat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
-        slat.className = `blind-slat peace-image-${newImageIndex}`;
-        
-        setTimeout(() => {
-          slat.classList.remove('flip-out');
-          slat.classList.add('flip-in');
-        }, index * 50);
-      });
-      
+      oldSlats.forEach(slat => slat.remove());
       currentImage = newImageIndex;
-      
-      // 更新控制器状态
       blindControls.forEach(control => control.classList.remove('active'));
       document.querySelector(`[data-image="${newImageIndex}"]`).classList.add('active');
-      
-      // 动画完成
-      setTimeout(() => {
-        isAnimating = false;
-      }, numberOfSlats * 50 + 1200);
-    }, numberOfSlats * 50 + 600);
+      isAnimating = false;
+    }, numberOfSlats * 40 + 1400);
   }
   
   // 自动切换
