@@ -35,7 +35,7 @@
       transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
       transform-origin: center center;
       border-bottom: 1px solid rgba(255,255,255,0.1);
-      backface-visibility: hidden; /* 防止翻转时透底 */
+      backface-visibility: hidden; /* ⭐ 新增：防止翻转时透底 */
     }
     
     /* 世界和平主题图片 */
@@ -1128,37 +1128,38 @@ photoUrls.forEach((url, i) => {
   // 百叶窗翻转切换效果
   function switchBlindsImage(newImageIndex) {
     if (isAnimating || newImageIndex === currentImage) return;
+    
     isAnimating = true;
-    const slats = document.querySelectorAll('.blind-slat');
+    const oldSlats = document.querySelectorAll('.blind-slat');
     const newSlats = [];
 
+    // ⭐ 修改：新建的片初始旋转角度从90度开始
     for (let i = 0; i < numberOfSlats; i++) {
       const slat = document.createElement('div');
       slat.className = `blind-slat peace-image-${newImageIndex}`;
       slat.style.top = `${(i / numberOfSlats) * 100}%`;
       slat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
       slat.style.backgroundPosition = `center ${(i / (numberOfSlats - 1)) * 100}%`;
-      slat.style.transform = 'rotateX(-90deg)';
-      slat.style.backfaceVisibility = 'hidden';
+      slat.style.transform = 'rotateX(90deg)'; // ⭐ 修改：从下翻上来
+      slat.style.backfaceVisibility = 'hidden'; // ⭐ 新增
       blindsContainer.appendChild(slat);
       newSlats.push(slat);
     }
 
-    // 旧片翻出
+    // ⭐ 修改：旧片翻下去
     oldSlats.forEach((slat, index) => {
       setTimeout(() => {
-        slat.style.transform = 'rotateX(90deg)';
+        slat.style.transform = 'rotateX(-90deg)';
       }, index * 50);
     });
 
-    // 新片翻入
+    // ⭐ 修改：新片翻上来
     newSlats.forEach((slat, index) => {
       setTimeout(() => {
         slat.style.transform = 'rotateX(0deg)';
       }, index * 50);
     });
 
-    // 动画完成后移除旧片
     setTimeout(() => {
       oldSlats.forEach(slat => slat.remove());
       currentImage = newImageIndex;
@@ -1166,6 +1167,12 @@ photoUrls.forEach((url, i) => {
       document.querySelector(`[data-image="${newImageIndex}"]`).classList.add('active');
       isAnimating = false;
     }, numberOfSlats * 50 + 1200);
+  }
+  
+  // 自动切换
+  function autoSwitchBlinds() {
+    const nextImage = (currentImage % 3) + 1;
+    switchBlindsImage(nextImage);
   }
   
   // 初始化百叶窗
