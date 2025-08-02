@@ -29,13 +29,12 @@
     .blind-slat {
       position: absolute;
       width: 100%;
-      height: calc(100vh / 15); /* 15条百叶窗片 */
-      background-size: cover;
-      background-position: center;
+      //height: calc(100vh / 15); /* 15条百叶窗片 */
+      //background-size: cover;
+      //background-position: center;
       transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
       transform-origin: center center;
-      //border-bottom: 1px solid rgba(255,255,255,0.1);
-      border-bottom: none;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
       backface-visibility: hidden; /* ⭐ 新增：防止翻转时透底 */
     }
     
@@ -1120,11 +1119,19 @@ photoUrls.forEach((url, i) => {
       const slat = document.createElement('div');
       slat.className = 'blind-slat peace-image-1';
       slat.style.top = `${(i / numberOfSlats) * 100}%`;
+      slat.style.height = `${100 / numberOfSlats}%`;
+      slat.style.overflow = 'hidden';
+
+      // 在每个 slat 内放一张完整的背景图
+      const img = document.createElement('div');
       slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
-      //slat.style.backgroundPosition = `center ${(i / (numberOfSlats - 1)) * 100}%`;
-      slat.style.backgroundRepeat = 'no-repeat';
-      slat.style.backgroundSize = `100% ${numberOfSlats * 100}%`;
-      slat.style.backgroundPosition = `center ${-i * 100}%`;
+      img.style.width = '100%';
+      img.style.height = `${numberOfSlats * 100}%`; 
+      img.style.backgroundImage = `url(${peaceImages[currentImage]})`;
+      img.style.backgroundSize = '100% 100%';
+      img.style.backgroundPosition = 'center top';
+      img.style.transform = `translateY(${-i * (100 / numberOfSlats)}%)`;
+      slat.appendChild(img);
       blindsContainer.appendChild(slat);
     }
   }
