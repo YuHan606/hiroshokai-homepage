@@ -33,8 +33,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.5); /* 70% 白色透明遮罩 */
-      z-index: 1;
+      background: rgba(255, 255, 255, 0.7); /* 70% 白色透明遮罩 */
+      z-index: -9; /* 调整z-index，确保在背景图片之上，但在所有内容之下 */
       pointer-events: none;
     }
     
