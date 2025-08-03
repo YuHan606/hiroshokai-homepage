@@ -1128,7 +1128,7 @@
   });
 
   // 地球主体
-  const geometry = new THREE.SphereGeometry(1.8, 64, 64);
+  const geometry = new THREE.SphereGeometry(2.8, 64, 64);
   const material = new THREE.MeshPhongMaterial({
     map: earthTexture,
     normalMap: normalMap,
@@ -1149,7 +1149,7 @@
   scene.add(earthNight);
 
   // 云层
-  const cloudGeometry = new THREE.SphereGeometry(1.83, 64, 64);
+  const cloudGeometry = new THREE.SphereGeometry(2.83, 64, 64);
   const cloudMaterial = new THREE.MeshLambertMaterial({
     map: cloudTexture,
     transparent: true,
@@ -1159,7 +1159,7 @@
   scene.add(clouds);
 
   // 大气层
-  const atmosphereGeometry = new THREE.SphereGeometry(1.9, 64, 64);
+  const atmosphereGeometry = new THREE.SphereGeometry(2.9, 64, 64);
   const atmosphereMaterial = new THREE.ShaderMaterial({
     transparent: true,
     side: THREE.BackSide,
