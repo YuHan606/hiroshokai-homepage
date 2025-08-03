@@ -246,14 +246,16 @@
       position: relative;
     }
 
-    /* 地球展示区域 - 置于顶部中央 */
+    /* 地球展示区域 - 重新布局包含服务项目 */
     .globe-showcase {
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 40px 0;
       position: relative;
-      min-height: 500px;
+      min-height: 600px;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     /* 地球容器优化 */
@@ -268,15 +270,102 @@
       box-shadow: 
         0 30px 60px rgba(0,0,0,0.2),
         0 0 100px rgba(79, 172, 254, 0.3);
+      flex-shrink: 0;
     }
 
-    /* ✅ 在这里加 */
-    #globe-container canvas {
+    /* 服务项目左右布局 */
+    .services-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 280px;
+      padding: 0 20px;
+    }
+
+    .services-left {
+      margin-right: 40px;
+    }
+
+    .services-right {
+      margin-left: 40px;
+    }
+
+    .service-item-sidebar {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateX(-30px);
+      animation: slideInService 0.8s ease forwards;
+    }
+
+    .services-right .service-item-sidebar {
+      transform: translateX(30px);
+    }
+
+    .service-item-sidebar:nth-child(1) { animation-delay: 0.2s; }
+    .service-item-sidebar:nth-child(2) { animation-delay: 0.4s; }
+    .service-item-sidebar:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes slideInService {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .service-item-sidebar::before {
+      content: '';
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: block;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(79, 172, 254, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .service-item-sidebar:hover::before {
+      left: 100%;
+    }
+
+    .service-item-sidebar:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 1);
+    }
+
+    .service-item-sidebar .service-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: white;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 15px rgba(79, 172, 254, 0.3);
+    }
+
+    .service-item-sidebar .service-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 8px;
+    }
+
+    .service-item-sidebar .service-description {
+      color: #666;
+      line-height: 1.5;
+      font-size: 0.9rem;
     }
 
     /* 地球信息卡片 - 环绕地球布局，优化下方卡片位置 */
@@ -560,103 +649,9 @@
       font-weight: 600;
     }
 
+    /* 隐藏原来的服务区域，因为已经集成到地球展示区域 */
     .services-section {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 30px;
-      padding: 40px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .services-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: linear-gradient(90deg, #4facfe, #00f2fe, #4ecdc4, #ff6b6b);
-      background-size: 300% 100%;
-      animation: gradientShift 8s ease infinite;
-    }
-
-    .services-title {
-      color: #2c3e50;
-      font-size: 2.2rem;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 30px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .service-item {
-      text-align: center;
-      padding: 25px 20px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.8);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid rgba(102, 126, 234, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .service-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.05), transparent);
-      transition: left 0.6s ease;
-    }
-
-    .service-item:hover::before {
-      left: 100%;
-    }
-
-    .service-item:hover {
-      background: rgba(255, 255, 255, 0.95);
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.15);
-    }
-
-    .service-icon {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      color: white;
-      margin: 0 auto 15px;
-      box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
-    }
-
-    .service-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #2c3e50;
-      margin-bottom: 10px;
-    }
-
-    .service-description {
-      color: #666;
-      line-height: 1.6;
-      font-size: 0.95rem;
+      display: none;
     }
 
     .benefits-section {
@@ -804,6 +799,30 @@
 
     /* 响应式设计 */
     @media (max-width: 1200px) {
+      .globe-showcase {
+        flex-direction: column;
+        min-height: auto;
+        gap: 30px;
+      }
+
+      .services-sidebar {
+        flex-direction: row;
+        width: 100%;
+        max-width: 800px;
+        margin: 0;
+        padding: 0 10px;
+        gap: 15px;
+      }
+
+      .services-left, .services-right {
+        margin: 0;
+        flex: 1;
+      }
+
+      .service-item-sidebar {
+        padding: 15px;
+      }
+
       #globe-container {
         width: 350px;
         height: 350px;
@@ -812,111 +831,6 @@
       .globe-info-cards {
         width: 650px;
         height: 650px;
-      }
-
-      .info-card {
-        max-width: 180px;
-        padding: 12px 16px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2rem;
-      }
-
-      nav ul {
-        flex-wrap: wrap;
-        height: auto;
-        padding: 10px;
-      }
-
-      nav li {
-        flex: none;
-        margin: 5px;
-      }
-
-      .main-container {
-        padding: 0 15px;
-      }
-
-      .globe-showcase {
-        padding: 20px 0;
-        min-height: 400px;
-      }
-
-      #globe-container {
-        width: 280px;
-        height: 280px;
-      }
-
-      .globe-info-cards {
-        width: 500px;
-        height: 500px;
-      }
-
-      .info-card {
-        max-width: 150px;
-        padding: 10px 12px;
-        font-size: 0.8rem;
-      }
-
-      .info-card h4 {
-        font-size: 0.9rem;
-        margin-bottom: 5px;
-      }
-
-      .info-card p {
-        font-size: 0.75rem;
-      }
-
-      .hero-section,
-      .services-section,
-      .benefits-section {
-        padding: 30px 20px;
-      }
-
-      .main-title {
-        font-size: 2.2rem;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-
-      .countries-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .country-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-      }
-
-      .country-info {
-        text-align: center;
-      }
-
-      .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
-        display: none;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .globe-showcase {
-        min-height: 350px;
-      }
-
-      #globe-container {
-        width: 240px;
-        height: 240px;
-      }
-
-      .globe-info-cards {
-        width: 400px;
-        height: 400px;
       }
 
       .info-card {
@@ -958,7 +872,46 @@
 <div class="main-container">
   <!-- 地球展示区域 -->
   <div class="globe-showcase">
+    <!-- 左侧服务项目 -->
+    <div class="services-sidebar services-left">
+      <div class="service-item-sidebar">
+        <div class="service-icon">👥</div>
+        <div class="service-title">候補者選定</div>
+        <p class="service-description">優秀な候補者を厳格に選別し、技能レベルと日本語能力が要求を満たすことを確保</p>
+      </div>
+      <div class="service-item-sidebar">
+        <div class="service-icon">📚</div>
+        <div class="service-title">事前研修</div>
+        <p class="service-description">日本語研修、技能研修、日本文化適応訓練を提供</p>
+      </div>
+      <div class="service-item-sidebar">
+        <div class="service-icon">📋</div>
+        <div class="service-title">書類手続き</div>
+        <p class="service-description">各種ビザ申請及び関連法的書類の手続きを支援</p>
+      </div>
+    </div>
+
+    <!-- 中央地球容器 -->
     <div id="globe-container"></div>
+    
+    <!-- 右侧服务项目 -->
+    <div class="services-sidebar services-right">
+      <div class="service-item-sidebar">
+        <div class="service-icon">✈️</div>
+        <div class="service-title">出国手配</div>
+        <p class="service-description">航空券予約、出迎えサービス、初期生活手配を行う</p>
+      </div>
+      <div class="service-item-sidebar">
+        <div class="service-icon">🤝</div>
+        <div class="service-title">継続サポート</div>
+        <p class="service-description">在日期間中の生活・就労面での継続的サポートサービス提供</p>
+      </div>
+      <div class="service-item-sidebar">
+        <div class="service-icon">📞</div>
+        <div class="service-title">24時間サポート</div>
+        <p class="service-description">24時間緊急連絡・問題解決サポートサービス提供</p>
+      </div>
+    </div>
     
     <!-- 环绕地球的信息卡片 -->
     <div class="globe-info-cards">
@@ -1072,42 +1025,6 @@
       </div>
     </div>
 
-    <div class="services-section">
-      <h3 class="services-title">サービス内容</h3>
-      <div class="services-grid">
-        <div class="service-item">
-          <div class="service-icon">👥</div>
-          <div class="service-title">候補者選定</div>
-          <p class="service-description">優秀な候補者を厳格に選別し、技能レベルと日本語能力が要求を満たすことを確保</p>
-        </div>
-        <div class="service-item">
-          <div class="service-icon">📚</div>
-          <div class="service-title">事前研修</div>
-          <p class="service-description">日本語研修、技能研修、日本文化適応訓練を提供</p>
-        </div>
-        <div class="service-item">
-          <div class="service-icon">📋</div>
-          <div class="service-title">書類手続き</div>
-          <p class="service-description">各種ビザ申請及び関連法的書類の手続きを支援</p>
-        </div>
-        <div class="service-item">
-          <div class="service-icon">✈️</div>
-          <div class="service-title">出国手配</div>
-          <p class="service-description">航空券予約、出迎えサービス、初期生活手配を行う</p>
-        </div>
-        <div class="service-item">
-          <div class="service-icon">🤝</div>
-          <div class="service-title">継続サポート</div>
-          <p class="service-description">在日期間中の生活・就労面での継続的サポートサービス提供</p>
-        </div>
-        <div class="service-item">
-          <div class="service-icon">📞</div>
-          <div class="service-title">24時間サポート</div>
-          <p class="service-description">24時間緊急連絡・問題解決サポートサービス提供</p>
-        </div>
-      </div>
-    </div>
-
     <div class="benefits-section">
       <h3 class="benefits-title">送り出しサービスの優位性</h3>
       <ul class="benefits-list">
@@ -1211,7 +1128,7 @@
   });
 
   // 地球主体
-  const geometry = new THREE.SphereGeometry(2.8, 64, 64);
+  const geometry = new THREE.SphereGeometry(1.8, 64, 64);
   const material = new THREE.MeshPhongMaterial({
     map: earthTexture,
     normalMap: normalMap,
@@ -1232,7 +1149,7 @@
   scene.add(earthNight);
 
   // 云层
-  const cloudGeometry = new THREE.SphereGeometry(2.83, 64, 64);
+  const cloudGeometry = new THREE.SphereGeometry(1.83, 64, 64);
   const cloudMaterial = new THREE.MeshLambertMaterial({
     map: cloudTexture,
     transparent: true,
@@ -1242,7 +1159,7 @@
   scene.add(clouds);
 
   // 大气层
-  const atmosphereGeometry = new THREE.SphereGeometry(2.9, 64, 64);
+  const atmosphereGeometry = new THREE.SphereGeometry(1.9, 64, 64);
   const atmosphereMaterial = new THREE.ShaderMaterial({
     transparent: true,
     side: THREE.BackSide,
@@ -1286,7 +1203,7 @@
   scene.add(stars);
 
   // 光照
-  const ambientLight = new THREE.AmbientLight(0x404040, 4.5);
+  const ambientLight = new THREE.AmbientLight(0x404040, 6.5);
   scene.add(ambientLight);
   const directionalLight = new THREE.DirectionalLight(0xffffff, 3.0);
   directionalLight.position.set(5, 3, 5);
@@ -1369,7 +1286,7 @@
   window.addEventListener('load', () => {
     const heroSection = document.querySelector('.hero-section');
     const countryCards = document.querySelectorAll('.country-card');
-    const serviceItems = document.querySelectorAll('.service-item');
+    const serviceItems = document.querySelectorAll('.service-item-sidebar');
     const globeContainer = document.getElementById('globe-container');
     const infoCards = document.querySelectorAll('.info-card');
     
@@ -1392,7 +1309,11 @@
 
     serviceItems.forEach((item, index) => {
       item.style.opacity = '0';
-      item.style.transform = 'translateY(30px)';
+      if (item.closest('.services-left')) {
+        item.style.transform = 'translateX(-30px)';
+      } else {
+        item.style.transform = 'translateX(30px)';
+      }
     });
     
     // 动画序列
@@ -1402,13 +1323,22 @@
       globeContainer.style.opacity = '1';
       globeContainer.style.transform = 'scale(1)';
       
+      // 服务项目动画
+      serviceItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+          item.style.opacity = '1';
+          item.style.transform = 'translateX(0)';
+        }, 200 + index * 100);
+      });
+      
       // 信息卡片动画
       infoCards.forEach((card, index) => {
         setTimeout(() => {
           card.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
           card.style.opacity = '1';
           card.style.transform = 'scale(1) translateY(0)';
-        }, 300 + index * 100);
+        }, 800 + index * 100);
       });
       
       // 主标题动画
@@ -1416,7 +1346,7 @@
         heroSection.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
         heroSection.style.opacity = '1';
         heroSection.style.transform = 'translateY(0)';
-      }, 800);
+      }, 1200);
       
       // 国家卡片动画
       countryCards.forEach((card, index) => {
@@ -1424,17 +1354,9 @@
           card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
           card.style.opacity = '1';
           card.style.transform = 'translateX(0)';
-        }, 1200 + index * 150);
+        }, 1600 + index * 150);
       });
 
-      // 服务项目动画
-      serviceItems.forEach((item, index) => {
-        setTimeout(() => {
-          item.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-          item.style.opacity = '1';
-          item.style.transform = 'translateY(0)';
-        }, 1800 + index * 100);
-      });
     }, 200);
   });
 
@@ -1457,4 +1379,124 @@
   });
 </script>
 </body>
-</html>
+</html>-card {
+        max-width: 180px;
+        padding: 12px 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px;
+      }
+
+      nav li {
+        flex: none;
+        margin: 5px;
+      }
+
+      .main-container {
+        padding: 0 15px;
+      }
+
+      .globe-showcase {
+        padding: 20px 0;
+        min-height: auto;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .services-sidebar {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .service-item-sidebar {
+        padding: 15px;
+      }
+
+      #globe-container {
+        width: 280px;
+        height: 280px;
+      }
+
+      .globe-info-cards {
+        width: 500px;
+        height: 500px;
+      }
+
+      .info-card {
+        max-width: 150px;
+        padding: 10px 12px;
+        font-size: 0.8rem;
+      }
+
+      .info-card h4 {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+      }
+
+      .info-card p {
+        font-size: 0.75rem;
+      }
+
+      .hero-section,
+      .benefits-section {
+        padding: 30px 20px;
+      }
+
+      .main-title {
+        font-size: 2.2rem;
+      }
+
+      .countries-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .country-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+
+      .country-info {
+        text-align: center;
+      }
+
+      .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .globe-showcase {
+        min-height: auto;
+        padding: 15px 0;
+      }
+
+      .services-sidebar {
+        padding: 0 5px;
+        gap: 10px;
+      }
+
+      .service-item-sidebar {
+        padding: 12px;
+      }
+
+      #globe-container {
+        width: 240px;
+        height: 240px;
+      }
+
+      .globe-info-cards {
+        width: 400px;
+        height: 400px;
+      }
+
+      .info
