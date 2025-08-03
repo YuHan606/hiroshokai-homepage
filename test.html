@@ -273,6 +273,15 @@
       flex-shrink: 0;
     }
 
+    /* ✅ 在这里加 */
+    #globe-container canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: block;
+    }
+
     /* 服务项目左右布局 */
     .services-sidebar {
       display: flex;
