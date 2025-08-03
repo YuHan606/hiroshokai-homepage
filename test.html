@@ -270,6 +270,15 @@
         0 0 100px rgba(79, 172, 254, 0.3);
     }
 
+    /* ✅ 在这里加 */
+    #globe-container canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: block;
+    }
+
     /* 地球信息卡片 - 环绕地球布局，优化下方卡片位置 */
     .globe-info-cards {
       position: absolute;
@@ -1202,7 +1211,7 @@
   });
 
   // 地球主体
-  const geometry = new THREE.SphereGeometry(1.8, 64, 64);
+  const geometry = new THREE.SphereGeometry(2.8, 64, 64);
   const material = new THREE.MeshPhongMaterial({
     map: earthTexture,
     normalMap: normalMap,
@@ -1223,7 +1232,7 @@
   scene.add(earthNight);
 
   // 云层
-  const cloudGeometry = new THREE.SphereGeometry(1.83, 64, 64);
+  const cloudGeometry = new THREE.SphereGeometry(2.83, 64, 64);
   const cloudMaterial = new THREE.MeshLambertMaterial({
     map: cloudTexture,
     transparent: true,
@@ -1233,7 +1242,7 @@
   scene.add(clouds);
 
   // 大气层
-  const atmosphereGeometry = new THREE.SphereGeometry(1.9, 64, 64);
+  const atmosphereGeometry = new THREE.SphereGeometry(2.9, 64, 64);
   const atmosphereMaterial = new THREE.ShaderMaterial({
     transparent: true,
     side: THREE.BackSide,
