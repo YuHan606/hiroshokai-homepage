@@ -525,6 +525,7 @@
       opacity: 0;
       animation: cardSlideIn 0.6s ease forwards;
       animation-delay: calc(var(--i) * 0.1s);
+      border: 2px solid transparent;
     }
     
     .question-card:nth-child(1) { --i: 1; }
@@ -561,11 +562,14 @@
       transform: translateY(-8px) scale(1.02);
       box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4);
       background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+      border-color: rgba(255,255,255,0.3);
     }
     
     .question-card.active {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
       transform: translateY(-5px) scale(1.01);
+      border-color: rgba(255,255,255,0.5);
+      box-shadow: 0 20px 50px rgba(79, 172, 254, 0.5);
     }
     
     .question-text {
@@ -588,17 +592,44 @@
       font-weight: 400;
       line-height: 1.5;
       margin-top: 15px;
-      padding-top: 15px;
+      padding: 0 15px;
       border-top: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1);
+      border-radius: 0 0 10px 10px;
       opacity: 0;
       max-height: 0;
       overflow: hidden;
-      transition: all 0.4s ease;
+      transform: translateY(-10px);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(5px);
     }
     
     .question-card.active .answer-text {
       opacity: 1;
       max-height: 200px;
+      padding: 15px;
+      transform: translateY(0);
+    }
+    
+    /* 下拉箭头指示器 */
+    .dropdown-arrow {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .question-card.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+    
+    /* 改进卡片点击区域 */
+    .question-content {
+      position: relative;
+      cursor: pointer;
+      padding: 5px 0;
     }
     
     .click-hint {
@@ -834,64 +865,85 @@
   <section>
   <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
   <div class="question-grid">
-    <div class="question-card" onclick="toggleAnswer(this)">
-      <span class="question-icon">🤔</span>
-      <div class="question-text">外国人スタッフを雇用したいけど、どうしたらいいかわからない</div>
-      <div class="click-hint">クリックして回答を見る</div>
+    <div class="question-card" data-card="1">
+      <div class="question-content">
+        <span class="question-icon">🤔</span>
+        <div class="question-text">外国人スタッフを雇用したいけど、どうしたらいいかわからない</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
       <div class="answer-text">
         広昌会協同組合が、雇用手続きから入国サポートまで、すべての段階でお手伝いします。まずは無料相談からお気軽にお問い合わせください。
       </div>
     </div>
     
-    <div class="question-card" onclick="toggleAnswer(this)">
-      <span class="question-icon">💬</span>
-      <div class="question-text">言葉は、通じるの・・・</div>
-      <div class="click-hint">クリックして回答を見る</div>
+    <div class="question-card" data-card="2">
+      <div class="question-content">
+        <span class="question-icon">💬</span>
+        <div class="question-text">言葉は、通じるの・・・</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
       <div class="answer-text">
         当組合では日本語研修を徹底的に行います。基本的な日常会話から専門用語まで、職場で必要なコミュニケーション能力を身につけてもらいます。
       </div>
     </div>
     
-    <div class="question-card" onclick="toggleAnswer(this)">
-      <span class="question-icon">🔧</span>
-      <div class="question-text">仕事の内容は伝わるの</div>
-      <div class="click-hint">クリックして回答を見る</div>
+    <div class="question-card" data-card="3">
+      <div class="question-content">
+        <span class="question-icon">🔧</span>
+        <div class="question-text">仕事の内容は伝わるの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
       <div class="answer-text">
         実習生には事前に職種別の専門研修を実施。図解やデモンストレーションを交えた分かりやすい指導で、確実に業務内容を理解してもらいます。
       </div>
     </div>
     
-    <div class="question-card" onclick="toggleAnswer(this)">
-      <span class="question-icon">🌍</span>
-      <div class="question-text">習慣や文化は大丈夫なの</div>
-      <div class="click-hint">クリックして回答を見る</div>
+    <div class="question-card" data-card="4">
+      <div class="question-content">
+        <span class="question-icon">🌍</span>
+        <div class="question-text">習慣や文化は大丈夫なの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
       <div class="answer-text">
         来日前に日本の生活習慣や文化、職場のマナーについて丁寧に指導します。また、来日後も継続的にサポートを行います。
       </div>
     </div>
     
-    <div class="question-card" onclick="toggleAnswer(this)">
-      <span class="question-icon">📋</span>
-      <div class="question-text">ビザの更新とか手続きが面倒じゃないの</div>
-      <div class="click-hint">クリックして回答を見る</div>
+    <div class="question-card" data-card="5">
+      <div class="question-content">
+        <span class="question-icon">📋</span>
+        <div class="question-text">ビザの更新とか手続きが面倒じゃないの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
       <div class="answer-text">
         ビザ申請・更新等の複雑な手続きはすべて当組合が代行いたします。企業様には面倒な手続きの負担をかけません。
       </div>
     </div>
     
-    <div class="question-card" onclick="toggleAnswer(this)">
-      <span class="question-icon">⚡</span>
-      <div class="question-text">外国人はいい加減なんじゃないの</div>
-      <div class="click-hint">クリックして回答を見る</div>
+    <div class="question-card" data-card="6">
+      <div class="question-content">
+        <span class="question-icon">⚡</span>
+        <div class="question-text">外国人はいい加減なんじゃないの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
       <div class="answer-text">
         当組合では厳格な選考基準で人材を選抜。真面目で責任感の強い実習生のみを紹介いたします。来日後も定期的にフォローアップを行います。
       </div>
     </div>
     
-    <div class="question-card" onclick="toggleAnswer(this)">
-      <span class="question-icon">❌</span>
-      <div class="question-text">過去に失敗した経験がある</div>
-      <div class="click-hint">クリックして回答を見る</div>
+    <div class="question-card" data-card="7">
+      <div class="question-content">
+        <span class="question-icon">❌</span>
+        <div class="question-text">過去に失敗した経験がある</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
       <div class="answer-text">
         失敗の原因を詳しく分析し、同じ問題が起こらないよう万全の対策を講じます。豊富な経験とノウハウで、必ず成功に導きます。
       </div>
@@ -906,21 +958,24 @@
 </footer>
 
 <script>
-  // 百叶窗背景切换功能 - 修复裂缝问题
+// 页面加载完成后执行
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // 百叶窗背景切换功能
   const blindsContainer = document.getElementById('blindsContainer');
   const blindControls = document.querySelectorAll('.blind-control');
-  const numberOfSlats = 15; // 百叶窗片数量
+  const numberOfSlats = 15;
   let currentImage = 1;
   let isAnimating = false;
   
   // 世界和平主题图片
   const peaceImages = {
-    1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80', // 多元团结
-    2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80', // 手牵手
-    3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'  // 世界连接
+    1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
   };
   
-  // 创建百叶窗片 - 修复裂缝问题
+  // 创建百叶窗片
   function createBlindSlats() {
     blindsContainer.innerHTML = '';
     const slatHeight = 100 / numberOfSlats;
@@ -929,13 +984,11 @@
       const slat = document.createElement('div');
       slat.className = 'blind-slat';
       
-      // 精确定位，避免裂缝
       slat.style.top = `${i * slatHeight}%`;
-      slat.style.height = `${slatHeight + 0.1}%`; // 微小重叠避免裂缝
+      slat.style.height = `${slatHeight + 0.1}%`;
       
-      // 设置背景图片，确保完整覆盖
       slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
-      slat.style.backgroundSize = '100% 100vh'; // 覆盖整个视口高度
+      slat.style.backgroundSize = '100% 100vh';
       slat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
       slat.style.backgroundRepeat = 'no-repeat';
       
@@ -943,7 +996,7 @@
     }
   }
   
-  // 百叶窗翻转切换效果 - 优化动画
+  // 百叶窗翻转切换效果
   function switchBlindsImage(newImageIndex) {
     if (isAnimating || newImageIndex === currentImage) return;
     
@@ -951,22 +1004,19 @@
     const oldSlats = document.querySelectorAll('.blind-slat');
     const slatHeight = 100 / numberOfSlats;
 
-    // 创建新的百叶窗片，初始状态为翻转
+    // 创建新的百叶窗片
     for (let i = 0; i < numberOfSlats; i++) {
       const newSlat = document.createElement('div');
       newSlat.className = 'blind-slat';
       
-      // 精确定位
       newSlat.style.top = `${i * slatHeight}%`;
       newSlat.style.height = `${slatHeight + 0.1}%`;
       
-      // 设置新图片
       newSlat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
       newSlat.style.backgroundSize = '100% 100vh';
       newSlat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
       newSlat.style.backgroundRepeat = 'no-repeat';
       
-      // 初始翻转状态
       newSlat.style.transform = 'rotateX(90deg)';
       newSlat.style.backfaceVisibility = 'hidden';
       
@@ -975,21 +1025,19 @@
 
     const newSlats = Array.from(document.querySelectorAll('.blind-slat')).slice(numberOfSlats);
 
-    // 旧片段翻出动画
+    // 动画序列
     oldSlats.forEach((slat, index) => {
       setTimeout(() => {
         slat.style.transform = 'rotateX(-90deg)';
       }, index * 40);
     });
 
-    // 新片段翻入动画
     newSlats.forEach((slat, index) => {
       setTimeout(() => {
         slat.style.transform = 'rotateX(0deg)';
-      }, index * 40 + 200); // 稍微延迟以确保流畅过渡
+      }, index * 40 + 200);
     });
 
-    // 清理和更新状态
     setTimeout(() => {
       oldSlats.forEach(slat => slat.remove());
       currentImage = newImageIndex;
@@ -1001,8 +1049,30 @@
   
   // 自动切换
   function autoSwitchBlinds() {
-    const nextImage = (currentImage % 3) + 1;
-    switchBlindsImage(nextImage);
+    if (!isAnimating) {
+      const nextImage = (currentImage % 3) + 1;
+      switchBlindsImage(nextImage);
+    }
+  }
+  
+  // 问题卡片交互功能
+  const questionGrid = document.querySelector('.question-grid');
+  
+  if (questionGrid) {
+    questionGrid.addEventListener('click', function(e) {
+      const questionCard = e.target.closest('.question-card');
+      if (questionCard) {
+        // 移除其他卡片的active状态
+        document.querySelectorAll('.question-card').forEach(otherCard => {
+          if (otherCard !== questionCard) {
+            otherCard.classList.remove('active');
+          }
+        });
+        
+        // 切换当前卡片的active状态
+        questionCard.classList.toggle('active');
+      }
+    });
   }
   
   // 初始化百叶窗
@@ -1019,15 +1089,8 @@
   // 每8秒自动切换
   setInterval(autoSwitchBlinds, 8000);
   
-  // 问题卡片交互功能
-  function toggleAnswer(card) {
-    // 移除其他卡片的active状态
-    document.querySelectorAll('.question-card').forEach(otherCard => {
-      if (otherCard !== card) {
-        otherCard.classList.remove('active');
-      }
-    });
-    
-    // 切换当前卡片的active状态
-    card.classList.toggle('active');
-  }
+});
+</script>
+
+</body>
+</html>
