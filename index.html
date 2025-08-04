@@ -421,8 +421,8 @@
     /* 主要内容区域调整 */
     section {
       max-width: 1200px;
-      margin: 20px auto;
-      padding: 40px 20px;
+      margin: 40px auto;
+      padding: 60px 20px;
       background: rgba(255, 255, 255, 0.95);
       border-radius: 20px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.1);
@@ -488,16 +488,6 @@
       }
     }
     
-    #globe-container {
-      width: 500px;
-      height: 500px;
-      margin: 30px auto;
-      border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-      background: transparent;
-    }
-    
     h2 {
       text-align: center;
       color: #2c3e50;
@@ -511,31 +501,146 @@
       padding: 0;
     }
     
-    section li {
+    /* 问题卡片网格布局 */
+    .question-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    
+    .question-card {
       background: linear-gradient(135deg, #4facfe 0%, #00f2fe 80%);
       color: white;
-      margin: 15px 0;
-      padding: 15px 20px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      transform: translateX(-10px);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      transform: translateY(20px);
       opacity: 0;
-      animation: slideIn 0.6s ease forwards;
+      animation: cardSlideIn 0.6s ease forwards;
       animation-delay: calc(var(--i) * 0.1s);
     }
     
-    section li:nth-child(1) { --i: 1; }
-    section li:nth-child(2) { --i: 2; }
-    section li:nth-child(3) { --i: 3; }
-    section li:nth-child(4) { --i: 4; }
-    section li:nth-child(5) { --i: 5; }
-    section li:nth-child(6) { --i: 6; }
-    section li:nth-child(7) { --i: 7; }
+    .question-card:nth-child(1) { --i: 1; }
+    .question-card:nth-child(2) { --i: 2; }
+    .question-card:nth-child(3) { --i: 3; }
+    .question-card:nth-child(4) { --i: 4; }
+    .question-card:nth-child(5) { --i: 5; }
+    .question-card:nth-child(6) { --i: 6; }
+    .question-card:nth-child(7) { --i: 7; }
     
-    @keyframes slideIn {
+    @keyframes cardSlideIn {
       to {
-        transform: translateX(0);
+        transform: translateY(0);
         opacity: 1;
+      }
+    }
+    
+    .question-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .question-card:hover::before {
+      left: 100%;
+    }
+    
+    .question-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+    }
+    
+    .question-card.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+      transform: translateY(-5px) scale(1.01);
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    .question-icon {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      display: block;
+      text-align: center;
+    }
+    
+    .answer-text {
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.5;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    
+    .question-card.active .answer-text {
+      opacity: 1;
+      max-height: 200px;
+    }
+    
+    .click-hint {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .question-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 10px;
+      }
+      
+      .question-card {
+        padding: 18px;
+      }
+      
+      .question-text {
+        font-size: 0.95rem;
+      }
+      
+      .question-icon {
+        font-size: 1.3rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .question-card {
+        padding: 15px;
+      }
+      
+      .question-text {
+        font-size: 0.9rem;
+      }
+      
+      .question-icon {
+        font-size: 1.2rem;
       }
     }
     
@@ -726,20 +831,72 @@
 
 <!-- 主要内容区域 -->
 <div class="main-content">
-  <!-- 3D地球 -->
-  <div id="globe-container"></div>
-  
   <section>
   <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
-  <ul>
-    <li>外国人スタッフを雇用したいけど、どうしたらいいかわからない</li>
-    <li>言葉は、通じるの・・・</li>
-    <li>仕事の内容は伝わるの</li>
-    <li>習慣や文化は大丈夫なの</li>
-    <li>ビザの更新とか手続きが面倒じゃないの</li>
-    <li>外国人はいい加減なんじゃないの</li>
-    <li>過去に失敗した経験がある</li>
-  </ul>
+  <div class="question-grid">
+    <div class="question-card" onclick="toggleAnswer(this)">
+      <span class="question-icon">🤔</span>
+      <div class="question-text">外国人スタッフを雇用したいけど、どうしたらいいかわからない</div>
+      <div class="click-hint">クリックして回答を見る</div>
+      <div class="answer-text">
+        広昌会協同組合が、雇用手続きから入国サポートまで、すべての段階でお手伝いします。まずは無料相談からお気軽にお問い合わせください。
+      </div>
+    </div>
+    
+    <div class="question-card" onclick="toggleAnswer(this)">
+      <span class="question-icon">💬</span>
+      <div class="question-text">言葉は、通じるの・・・</div>
+      <div class="click-hint">クリックして回答を見る</div>
+      <div class="answer-text">
+        当組合では日本語研修を徹底的に行います。基本的な日常会話から専門用語まで、職場で必要なコミュニケーション能力を身につけてもらいます。
+      </div>
+    </div>
+    
+    <div class="question-card" onclick="toggleAnswer(this)">
+      <span class="question-icon">🔧</span>
+      <div class="question-text">仕事の内容は伝わるの</div>
+      <div class="click-hint">クリックして回答を見る</div>
+      <div class="answer-text">
+        実習生には事前に職種別の専門研修を実施。図解やデモンストレーションを交えた分かりやすい指導で、確実に業務内容を理解してもらいます。
+      </div>
+    </div>
+    
+    <div class="question-card" onclick="toggleAnswer(this)">
+      <span class="question-icon">🌍</span>
+      <div class="question-text">習慣や文化は大丈夫なの</div>
+      <div class="click-hint">クリックして回答を見る</div>
+      <div class="answer-text">
+        来日前に日本の生活習慣や文化、職場のマナーについて丁寧に指導します。また、来日後も継続的にサポートを行います。
+      </div>
+    </div>
+    
+    <div class="question-card" onclick="toggleAnswer(this)">
+      <span class="question-icon">📋</span>
+      <div class="question-text">ビザの更新とか手続きが面倒じゃないの</div>
+      <div class="click-hint">クリックして回答を見る</div>
+      <div class="answer-text">
+        ビザ申請・更新等の複雑な手続きはすべて当組合が代行いたします。企業様には面倒な手続きの負担をかけません。
+      </div>
+    </div>
+    
+    <div class="question-card" onclick="toggleAnswer(this)">
+      <span class="question-icon">⚡</span>
+      <div class="question-text">外国人はいい加減なんじゃないの</div>
+      <div class="click-hint">クリックして回答を見る</div>
+      <div class="answer-text">
+        当組合では厳格な選考基準で人材を選抜。真面目で責任感の強い実習生のみを紹介いたします。来日後も定期的にフォローアップを行います。
+      </div>
+    </div>
+    
+    <div class="question-card" onclick="toggleAnswer(this)">
+      <span class="question-icon">❌</span>
+      <div class="question-text">過去に失敗した経験がある</div>
+      <div class="click-hint">クリックして回答を見る</div>
+      <div class="answer-text">
+        失敗の原因を詳しく分析し、同じ問題が起こらないよう万全の対策を講じます。豊富な経験とノウハウで、必ず成功に導きます。
+      </div>
+    </div>
+  </div>
   <p>このお悩み広昌会協同組合が解決します!</p>
 </section>
 </div>
@@ -748,330 +905,7 @@
   <p>&copy; 2025 広昌会協同組合</p>
 </footer>
 
-<!-- Three.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-  const container = document.getElementById("globe-container");
-  let width = container.offsetWidth;
-  let height = container.offsetHeight;
-  
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  
-  renderer.setSize(width, height);
-  renderer.setClearColor(0x000000, 0);
-  container.appendChild(renderer.domElement);
-  
-  // 真实地球纹理
-  const loader = new THREE.TextureLoader();
-  const earthTexture = loader.load("https://threejs.org/examples/textures/land_ocean_ice_cloud_2048.jpg");
-  const normalMap = loader.load("https://threejsfundamentals.org/threejs/resources/images/earth-normal.jpg");
-  const specularMap = loader.load("https://threejsfundamentals.org/threejs/resources/images/earth-specular.gif");
-  const nightTexture = loader.load("https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57730/earth_lights_lrg.jpg");
-  const cloudTexture = loader.load("https://threejs.org/examples/textures/planets/earth_clouds.png");
-
-  // 国家数据 (经纬度转换为3D坐标)
-  const countries = [
-    { name: '🇮🇩 インドネシア', lat: -6.2, lng: 106.8 }, // 雅加达
-    { name: '🇲🇲 ミャンマー', lat: 21.9, lng: 96.0 },   // 仰光
-    { name: '🇨🇳 中国', lat: 39.9, lng: 116.4 },        // 北京
-    { name: '🇰🇭 カンボジア', lat: 11.6, lng: 104.9 },   // 金边
-    { name: '🇻🇳 ベトナム', lat: 21.0, lng: 105.8 },     // 河内
-    { name: '🇳🇵 ネパール', lat: 27.7, lng: 85.3 }       // 加德满都
-  ];
-
-  // 经纬度转3D坐标函数
-  function latLngToVector3(lat, lng, radius) {
-    const phi = (90 - lat) * (Math.PI / 180);
-    const theta = (lng + 180) * (Math.PI / 180);
-    
-    return new THREE.Vector3(
-      -radius * Math.sin(phi) * Math.cos(theta),
-      radius * Math.cos(phi),
-      radius * Math.sin(phi) * Math.sin(theta)
-    );
-  }
-
-  // 创建国家标签组 - 让它随地球一起旋转
-  const countryLabelsGroup = new THREE.Group();
-  scene.add(countryLabelsGroup);
-
-  // 存储所有标签的HTML元素
-  const countryLabelElements = [];
-
-  // 为每个国家创建标签
-  countries.forEach((country, index) => {
-    // 计算国家在地球上的3D位置
-    const countryPos = latLngToVector3(country.lat, country.lng, 1.8);
-    
-    // 创建标签外延位置
-    const labelPos = latLngToVector3(country.lat, country.lng, 3.5);
-    
-    // 工具函数：根据最大长度调整 labelPos
-    function getAdjustedLabelPos(countryPos, labelPos, maxLength) {
-      const direction = new THREE.Vector3().subVectors(labelPos, countryPos);
-      const distance = direction.length();
-
-      if (distance <= maxLength) {
-        return labelPos.clone();
-      }
-
-      direction.normalize().multiplyScalar(maxLength);
-      return new THREE.Vector3().addVectors(countryPos, direction);
-    }
-
-    // 在循环中使用
-    const adjustedLabelPos = getAdjustedLabelPos(countryPos, labelPos, 0.5); // 20是最大线长
-
-    // 创建连接线
-    const lineGeometry = new THREE.BufferGeometry();
-    const linePositions = new Float32Array([
-       countryPos.x, countryPos.y, countryPos.z,
-       adjustedLabelPos.x, adjustedLabelPos.y, adjustedLabelPos.z
-    ]);
-    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-
-    const lineMaterial = new THREE.LineBasicMaterial({ 
-      color: 0x4facfe,
-      linewidth: 2,
-      transparent: true,
-      opacity: 0.8
-    });
-    const line = new THREE.Line(lineGeometry, lineMaterial);
-
-    // 创建文字标签
-    const labelDiv = document.createElement('div');
-    labelDiv.textContent = country.name;
-    labelDiv.style.cssText = `
-      position: absolute;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-      pointer-events: none;
-      white-space: nowrap;
-      z-index: 500;
-      transform: translate(-50%, -50%);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.2);
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    `;
-
-    container.appendChild(labelDiv);
-
-    // 存储标签信息
-    const labelData = {
-      labelDiv: labelDiv,
-      originalLabelPos: adjustedLabelPos.clone(), // 使用调整后的位置
-      country: country,
-      index: index,
-      line: line
-    };
-
-    line.userData = labelData;
-    countryLabelElements.push(labelData);
-    countryLabelsGroup.add(line);
-
-  });
-
-  // 更新标签位置的函数 - 现在会随地球旋转
-  function updateCountryLabels() {
-    countryLabelElements.forEach(labelData => {
-      const { labelDiv, originalLabelPos, line } = labelData;
-      
-      // 应用地球的旋转到标签位置
-      const rotatedPos = originalLabelPos.clone();
-      rotatedPos.applyMatrix4(earth.matrixWorld);
-      
-      // 将旋转后的3D位置转换为屏幕坐标
-      const vector = rotatedPos.clone().project(camera);
-      const x = (vector.x * 0.5 + 0.5) * width;
-      const y = (vector.y * -0.5 + 0.5) * height;
-      
-      // 检查标签是否在地球前面（考虑旋转）
-      const rotatedCountryPos = latLngToVector3(labelData.country.lat, labelData.country.lng, 1.8);
-      rotatedCountryPos.applyMatrix4(earth.matrixWorld);
-      
-      // 计算该点是否面向相机
-      const normalVector = rotatedCountryPos.clone().normalize();
-      const cameraDirection = camera.position.clone().normalize();
-      const dotProduct = normalVector.dot(cameraDirection);
-      
-      const isVisible = dotProduct > 0.2; // 调整这个值来控制何时显示标签
-      
-      // 更新标签位置和可见性
-      labelDiv.style.left = x + 'px';
-      labelDiv.style.top = y + 'px';
-      labelDiv.style.opacity = isVisible ? '0.9' : '0';
-      
-      // 更新连接线的位置和透明度
-      const rotatedCountryPosForLine = latLngToVector3(labelData.country.lat, labelData.country.lng, 1.8);
-      rotatedCountryPosForLine.applyMatrix4(earth.matrixWorld);
-      
-      const rotatedLabelPosForLine = originalLabelPos.clone();
-      rotatedLabelPosForLine.applyMatrix4(earth.matrixWorld);
-      
-      const positions = line.geometry.attributes.position.array;
-      positions[0] = rotatedCountryPosForLine.x;
-      positions[1] = rotatedCountryPosForLine.y;
-      positions[2] = rotatedCountryPosForLine.z;
-      positions[3] = rotatedLabelPosForLine.x;
-      positions[4] = rotatedLabelPosForLine.y;
-      positions[5] = rotatedLabelPosForLine.z;
-      line.geometry.attributes.position.needsUpdate = true;
-      
-      // 更新连接线透明度
-      line.material.opacity = isVisible ? 0.8 : 0;
-    });
-  }
-
-// 卫星图片组
-const photoUrls = [
-  //'./photos/photo1.png',
-  //'./photos/photo2.jpg',
-  //'./photos/photo3.jpg',
-  //'./photos/photo4.jpg'
-];
-
-const satelliteGroup = new THREE.Group(); 
-scene.add(satelliteGroup);
-
-const planeGeometry = new THREE.PlaneGeometry(0.8, 0.6); 
-const radius = 4; // 距离地球的半径
-
-photoUrls.forEach((url, i) => {
-  const texture = loader.load(url);
-  const material = new THREE.MeshBasicMaterial({
-    map: texture,
-    transparent: true,
-    side: THREE.DoubleSide
-  });
-
-  const plane = new THREE.Mesh(planeGeometry, material);
-  const angle = (i / photoUrls.length) * Math.PI * 2;
-
-  plane.position.set(
-    Math.cos(angle) * radius,
-    0,
-    Math.sin(angle) * radius
-  );
-
-  plane.lookAt(camera.position);
-  satelliteGroup.add(plane);
-});
-
-
-  // 地球主体
-  const geometry = new THREE.SphereGeometry(1.8, 64, 64);
-  const material = new THREE.MeshPhongMaterial({
-    map: earthTexture,
-    normalMap: normalMap,
-    specularMap: specularMap,
-    shininess: 2500
-  });
-  const earth = new THREE.Mesh(geometry, material);
-  scene.add(earth);
-
-  // 夜间灯光
-  const nightMaterial = new THREE.MeshBasicMaterial({
-    map: nightTexture,
-    blending: THREE.AdditiveBlending,
-    transparent: true,
-    opacity: 0.5
-  });
-  const earthNight = new THREE.Mesh(geometry, nightMaterial);
-  scene.add(earthNight);
-
-  // 云层
-  const cloudGeometry = new THREE.SphereGeometry(1.83, 64, 64);
-  const cloudMaterial = new THREE.MeshLambertMaterial({
-    map: cloudTexture,
-    transparent: true,
-    opacity: 0.4
-  });
-  const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
-  scene.add(clouds);
-
-  // 大气层
-  const atmosphereGeometry = new THREE.SphereGeometry(1.9, 64, 64);
-  const atmosphereMaterial = new THREE.ShaderMaterial({
-    transparent: true,
-    side: THREE.BackSide,
-    vertexShader: `
-      varying vec3 vNormal;
-      void main() {
-        vNormal = normalize(normalMatrix * normal);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: `
-      varying vec3 vNormal;
-      void main() {
-        float intensity = pow(0.7 - dot(vNormal, vec3(0,0,1)), 3.0);
-        gl_FragColor = vec4(0.2, 0.5, 1.0, 0.4) * intensity;
-      }
-    `
-  });
-  const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-  scene.add(atmosphere);
-
-  // 光照
-  const ambientLight = new THREE.AmbientLight(0x404040, 4.0);
-  scene.add(ambientLight);
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 4.0);
-  directionalLight.position.set(5, 3, 5);
-  scene.add(directionalLight);
-
-  camera.position.z = 4;
-
-  // 鼠标交互
-  let mouseX = 0, mouseY = 0;
-  container.addEventListener('mousemove', (event) => {
-    const rect = container.getBoundingClientRect();
-    mouseX = (event.clientX - rect.left) / width - 0.5;
-    mouseY = (event.clientY - rect.top) / height - 0.5;
-  });
-
-  function animate() {
-    // 地球自转
-    requestAnimationFrame(animate);
-    earth.rotation.y += 0.0015;
-    earthNight.rotation.y = earth.rotation.y;
-    clouds.rotation.y += 0.001;
-       
-    // 卫星组公转
-    satelliteGroup.rotation.y += 0.002;
-
-    // 鼠标交互
-    camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
-    camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
-    camera.lookAt(scene.position);
-
-    // 更新国家标签位置
-    updateCountryLabels();
-
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  window.addEventListener('resize', () => {
-    const newWidth = container.offsetWidth;
-    const newHeight = container.offsetHeight;
-    camera.aspect = newWidth / newHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(newWidth, newHeight);
-    
-    // 更新宽高变量用于标签位置计算
-    width = newWidth;
-    height = newHeight;
-  });
-
   // 百叶窗背景切换功能 - 修复裂缝问题
   const blindsContainer = document.getElementById('blindsContainer');
   const blindControls = document.querySelectorAll('.blind-control');
@@ -1184,6 +1018,16 @@ photoUrls.forEach((url, i) => {
   
   // 每8秒自动切换
   setInterval(autoSwitchBlinds, 8000);
-</script>
-</body>
-</html>
+  
+  // 问题卡片交互功能
+  function toggleAnswer(card) {
+    // 移除其他卡片的active状态
+    document.querySelectorAll('.question-card').forEach(otherCard => {
+      if (otherCard !== card) {
+        otherCard.classList.remove('active');
+      }
+    });
+    
+    // 切换当前卡片的active状态
+    card.classList.toggle('active');
+  }
