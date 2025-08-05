@@ -31,7 +31,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.35); /* 白色半透明层 */
+      background: rgba(0, 0, 0, 0.2); /* 白色半透明层 */
       pointer-events: none; /* 确保不影响点击 */
     }
     
@@ -79,7 +79,7 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.2);
       border: 2px solid rgba(79,172,254,0.8);
       display: flex;
       align-items: center;
@@ -511,14 +511,35 @@
       padding: 0;
     }
     
-    /* 问题卡片网格布局 */
+    /* 修改后的问题卡片网格布局 - 对称排列 */
     .question-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 20px;
       max-width: 1000px;
       margin: 0 auto;
       padding: 0;
+    }
+    
+    /* 第一行 - 2张卡片 */
+    .question-row-1 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    /* 第二行 - 3张卡片 */
+    .question-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+    
+    /* 第三行 - 2张卡片 */
+    .question-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
     }
     
     .question-card {
@@ -538,6 +559,7 @@
       border: 2px solid transparent;
     }
     
+    /* 为每张卡片设置动画延迟 */
     .question-card:nth-child(1) { --i: 1; }
     .question-card:nth-child(2) { --i: 2; }
     .question-card:nth-child(3) { --i: 3; }
@@ -652,9 +674,14 @@
     
     /* 响应式调整 */
     @media (max-width: 768px) {
-      .question-grid {
+      .question-row-1,
+      .question-row-2,
+      .question-row-3 {
         grid-template-columns: 1fr;
         gap: 15px;
+      }
+      
+      .question-grid {
         padding: 0 10px;
       }
       
@@ -698,11 +725,6 @@
       
       /* 炫彩渐变背景 */
       background: linear-gradient(135deg, 
-        //#ff6b6b 0%, 
-        //#ffa500 25%, 
-        //#32cd32 50%, 
-        //#1e90ff 75%, 
-        //#9370db 100%);
         #4facfe, 
         #00f2fe);
       background-size: 400% 400%;
@@ -794,44 +816,6 @@
         transform: scale(1.02);
       }
     }
-    /* CTA 模块样式 */
-    .cta {
-      text-align: center;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      color: white;
-      padding: 50px 20px;
-      border-radius: 20px;
-      margin: 60px auto;
-      max-width: 900px;
-      box-shadow: 0 15px 40px rgba(79, 172, 254, 0.3);
-    }
-
-    .cta h2 {
-      font-size: 2rem;
-      margin-bottom: 15px;
-    }
-
-    .cta p {
-      font-size: 1.2rem;
-      margin-bottom: 25px;
-    }
-
-    .cta-button {
-      display: inline-block;
-      background: white;
-      color: #4facfe;
-      padding: 15px 40px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 1.1rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .cta-button:hover {
-      background: #f0f8ff;
-      transform: scale(1.08);
-    }
 
     footer {
       text-align: center;
@@ -913,100 +897,105 @@
 <!-- 主要内容区域 -->
 <div class="main-content">
   <section>
-  <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
-  <div class="question-grid">
-    <div class="question-card" data-card="1">
-      <div class="question-content">
-        <span class="question-icon">🤔</span>
-        <div class="question-text">外国人スタッフを雇用したいけど、どうしたらいいかわからない</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
+    <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
+    <div class="question-grid">
+      <!-- 第一行 - 2张卡片 -->
+      <div class="question-row-1">
+        <div class="question-card" data-card="1">
+          <div class="question-content">
+            <span class="question-icon">🤔</span>
+            <div class="question-text">外国人スタッフを雇用したいけど、どうしたらいいかわからない</div>
+            <div class="click-hint">クリックして回答を見る</div>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="answer-text">
+            広昌会協同組合が、雇用手続きから入国サポートまで、すべての段階でお手伝いします。まずは無料相談からお気軽にお問い合わせください。
+          </div>
+        </div>
+        
+        <div class="question-card" data-card="2">
+          <div class="question-content">
+            <span class="question-icon">💬</span>
+            <div class="question-text">言葉は、通じるの・・・</div>
+            <div class="click-hint">クリックして回答を見る</div>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="answer-text">
+            当組合では日本語研修を徹底的に行います。基本的な日常会話から専門用語まで、職場で必要なコミュニケーション能力を身につけてもらいます。
+          </div>
+        </div>
       </div>
-      <div class="answer-text">
-        広昌会協同組合が、雇用手続きから入国サポートまで、すべての段階でお手伝いします。まずは無料相談からお気軽にお問い合わせください。
+      
+      <!-- 第二行 - 3张卡片 -->
+      <div class="question-row-2">
+        <div class="question-card" data-card="3">
+          <div class="question-content">
+            <span class="question-icon">🔧</span>
+            <div class="question-text">仕事の内容は伝わるの</div>
+            <div class="click-hint">クリックして回答を見る</div>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="answer-text">
+            実習生には事前に職種別の専門研修を実施。図解やデモンストレーションを交えた分かりやすい指導で、確実に業務内容を理解してもらいます。
+          </div>
+        </div>
+        
+        <div class="question-card" data-card="4">
+          <div class="question-content">
+            <span class="question-icon">🌍</span>
+            <div class="question-text">習慣や文化は大丈夫なの</div>
+            <div class="click-hint">クリックして回答を見る</div>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="answer-text">
+            来日前に日本の生活習慣や文化、職場のマナーについて丁寧に指導します。また、来日後も継続的にサポートを行います。
+          </div>
+        </div>
+        
+        <div class="question-card" data-card="5">
+          <div class="question-content">
+            <span class="question-icon">📋</span>
+            <div class="question-text">ビザの更新とか手続きが面倒じゃないの</div>
+            <div class="click-hint">クリックして回答を見る</div>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="answer-text">
+            ビザ申請・更新等の複雑な手続きはすべて当組合が代行いたします。企業様には面倒な手続きの負担をかけません。
+          </div>
+        </div>
+      </div>
+      
+      <!-- 第三行 - 2张卡片 -->
+      <div class="question-row-3">
+        <div class="question-card" data-card="6">
+          <div class="question-content">
+            <span class="question-icon">⚡</span>
+            <div class="question-text">外国人はいい加減なんじゃないの</div>
+            <div class="click-hint">クリックして回答を見る</div>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="answer-text">
+            当組合では厳格な選考基準で人材を選抜。真面目で責任感の強い実習生のみを紹介いたします。来日後も定期的にフォローアップを行います。
+          </div>
+        </div>
+        
+        <div class="question-card" data-card="7">
+          <div class="question-content">
+            <span class="question-icon">❌</span>
+            <div class="question-text">過去に失敗した経験がある</div>
+            <div class="click-hint">クリックして回答を見る</div>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="answer-text">
+            失敗の原因を詳しく分析し、同じ問題が起こらないよう万全の対策を講じます。豊富な経験とノウハウで、必ず成功に導きます。
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div class="question-card" data-card="2">
-      <div class="question-content">
-        <span class="question-icon">💬</span>
-        <div class="question-text">言葉は、通じるの・・・</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        当組合では日本語研修を徹底的に行います。基本的な日常会話から専門用語まで、職場で必要なコミュニケーション能力を身につけてもらいます。
-      </div>
-    </div>
-    
-    <div class="question-card" data-card="3">
-      <div class="question-content">
-        <span class="question-icon">🔧</span>
-        <div class="question-text">仕事の内容は伝わるの</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        実習生には事前に職種別の専門研修を実施。図解やデモンストレーションを交えた分かりやすい指導で、確実に業務内容を理解してもらいます。
-      </div>
-    </div>
-    
-    <div class="question-card" data-card="4">
-      <div class="question-content">
-        <span class="question-icon">🌍</span>
-        <div class="question-text">習慣や文化は大丈夫なの</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        来日前に日本の生活習慣や文化、職場のマナーについて丁寧に指導します。また、来日後も継続的にサポートを行います。
-      </div>
-    </div>
-    
-    <div class="question-card" data-card="5">
-      <div class="question-content">
-        <span class="question-icon">📋</span>
-        <div class="question-text">ビザの更新とか手続きが面倒じゃないの</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        ビザ申請・更新等の複雑な手続きはすべて当組合が代行いたします。企業様には面倒な手続きの負担をかけません。
-      </div>
-    </div>
-    
-    <div class="question-card" data-card="6">
-      <div class="question-content">
-        <span class="question-icon">⚡</span>
-        <div class="question-text">外国人はいい加減なんじゃないの</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        当組合では厳格な選考基準で人材を選抜。真面目で責任感の強い実習生のみを紹介いたします。来日後も定期的にフォローアップを行います。
-      </div>
-    </div>
-    
-    <div class="question-card" data-card="7">
-      <div class="question-content">
-        <span class="question-icon">❌</span>
-        <div class="question-text">過去に失敗した経験がある</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        失敗の原因を詳しく分析し、同じ問題が起こらないよう万全の対策を講じます。豊富な経験とノウハウで、必ず成功に導きます。
-      </div>
-    </div>
-  </div>
-  <p>このお悩み広昌会協同組合が解決します!</p>
- </section>
+    <p>このお悩み広昌会協同組合が解決します!</p>
+  </section>
 </div>
-<section class="cta">
-  <h2>今すぐご相談ください</h2>
-  <p>無料相談で御社に最適な人材をご提案します。</p>
-  <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
-</section> 
+
 <footer>
   <p>&copy; 2025 広昌会協同組合</p>
 </footer>
