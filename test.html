@@ -1,60 +1,120 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>派遣机构介绍 - 広昌会協同組合</title>
+  <title>Home - 広昌会協同組合</title>
   <style>
-    * {
+    body {
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      min-height: 100vh;
+      line-height: 1.6;
       color: #333;
-      overflow-x: hidden;
       position: relative;
+      overflow-x: hidden;
     }
-
-    /* 动态背景 */
-    body::before {
-      content: '';
+    
+    /* 百叶窗背景容器 */
+    .blinds-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
+      height: 100vh;
+      z-index: -10;
+      overflow: hidden;
+    }
+    .blinds-container::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
       height: 100%;
-      background: 
-        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
-      animation: backgroundFloat 15s ease-in-out infinite;
+      background: rgba(0, 0, 0, 0.35);
       pointer-events: none;
-      z-index: -1;
     }
-
-    @keyframes backgroundFloat {
-      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
-      50% { transform: translateY(-15px) rotate(3deg); opacity: 0.8; }
+    
+    /* 百叶窗片 - 修复裂缝问题 */
+    .blind-slat {
+      position: absolute;
+      width: 100%;
+      height: calc(100vh / 15 + 2px);
+      background-size: 100% 100vh;
+      background-repeat: no-repeat;
+      transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+      transform-origin: center center;
+      border: none;
+      backface-visibility: hidden;
+      margin-top: -1px;
     }
-
+    
+    .blind-slat:first-child {
+      margin-top: 0;
+    }
+    
+    .blind-slat.flip-out {
+      transform: rotateX(-90deg);
+    }
+    
+    .blind-slat.flip-in {
+      transform: rotateX(0deg);
+    }
+    
+    /* 百叶窗控制器 */
+    .blinds-controller {
+      position: fixed;
+      bottom: 80px;
+      right: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 20;
+    }
+    
+    .blind-control {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      border: 2px solid rgba(79,172,254,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      backdrop-filter: blur(10px);
+    }
+    
+    .blind-control:hover {
+      background: rgba(79,172,254,0.9);
+      color: white;
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(79,172,254,0.4);
+    }
+    
+    .blind-control.active {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      box-shadow: 0 6px 20px rgba(79,172,254,0.5);
+    }
+    
     /* 和平主题装饰 */
     .peace-symbol {
       position: fixed;
       top: 20%;
       left: 5%;
-      width: 60px;
-      height: 60px;
+      width: 80px;
+      height: 80px;
       opacity: 0.3;
-      z-index: -1;
+      z-index: -5;
       animation: peacePulse 4s ease-in-out infinite;
     }
     
     .peace-symbol::before {
       content: '☮';
-      font-size: 50px;
+      font-size: 60px;
       color: rgba(255,255,255,0.8);
       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
@@ -75,16 +135,16 @@
       position: fixed;
       top: 25%;
       right: 8%;
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       opacity: 0.4;
-      z-index: -1;
+      z-index: -5;
       animation: earthRotate 20s linear infinite;
     }
     
     .earth-icon::before {
       content: '🌍';
-      font-size: 40px;
+      font-size: 50px;
       filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
     }
     
@@ -98,16 +158,16 @@
       position: fixed;
       bottom: 20%;
       left: 8%;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       opacity: 0.4;
-      z-index: -1;
+      z-index: -5;
       animation: unityPulse 6s ease-in-out infinite;
     }
     
     .unity-hands::before {
       content: '🤝';
-      font-size: 45px;
+      font-size: 55px;
       filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
     }
     
@@ -125,18 +185,18 @@
     /* 和平鸽装饰 */
     .peace-dove {
       position: fixed;
-      top: 60%;
-      right: 15%;
-      width: 40px;
-      height: 40px;
+      top: 25%;
+      right: 25%;
+      width: 50px;
+      height: 50px;
       opacity: 0.5;
-      z-index: -1;
+      z-index: -5;
       animation: doveFloat 8s ease-in-out infinite;
     }
     
     .peace-dove::before {
       content: '🕊';
-      font-size: 30px;
+      font-size: 40px;
       filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
     }
     
@@ -158,710 +218,782 @@
         opacity: 0.6;
       }
     }
-
+    
+    /* 温暖光晕效果 */
+    .warm-glow {
+      position: fixed;
+      top: 10%;
+      left: 10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, rgba(255,165,0,0.05) 50%, transparent 70%);
+      z-index: -6;
+      animation: glowPulse 12s ease-in-out infinite;
+      border-radius: 50%;
+    }
+    
+    @keyframes glowPulse {
+      0%, 100% { 
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% { 
+        opacity: 0.6;
+        transform: scale(1.3);
+      }
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .blinds-controller {
+        bottom: 60px;
+        right: 20px;
+        gap: 10px;
+      }
+      
+      .blind-control {
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+      }
+      
+      .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
+        display: none;
+      }
+    }
+    
     header {
-      background: rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,248,255,0.95) 100%);
+      padding: 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
-
+    
     header h1 {
       text-align: center;
-      color: white;
-      font-size: 2.5rem;
-      font-weight: 800;
-      padding: 25px 0 15px 0;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-      letter-spacing: 2px;
+      margin: 0;
+      color: #2c3e50;
+      font-size: 2.8rem;
+      font-weight: 700;
+      padding: 20px 0 10px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-
+    
+    nav {
+      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 30%, #4facfe 80%);
+      padding: 0;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
     nav ul {
       list-style: none;
+      padding: 0;
+      margin: 0;
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 70px;
+      align-items: stretch;
+      min-height: 60px;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
     }
-
+    
     nav li {
       flex: 1;
       text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.2);
       position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
     }
-
+    
+    nav li:last-child {
+      border-right: none;
+    }
+    
+    nav li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+    
+    nav li:hover::before {
+      left: 100%;
+    }
+    
     nav a {
       display: block;
       text-decoration: none;
-      color: rgba(255, 255, 255, 0.9);
+      color: white;
       font-weight: 600;
-      padding: 15px 20px;
-      border-radius: 12px;
+      padding: 18px 20px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
-      overflow: hidden;
-      margin: 0 5px;
+      z-index: 2;
       font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      width: 100%;
+      box-sizing: border-box;
     }
-
-    nav a::before {
+    
+    nav a:hover {
+      color: #4facfe;
+      background: rgba(255,255,255,0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* 边缘标签样式 */
+    .edge-tabs {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .left-tabs {
+      left: 0;
+    }
+    
+    .right-tabs {
+      right: 0;
+    }
+    
+    .edge-tab {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      text-decoration: none;
+      padding: 15px 25px 15px 15px;
+      border-radius: 0 25px 25px 0;
+      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .right-tabs .edge-tab {
+      border-radius: 25px 0 0 25px;
+      padding: 15px 15px 15px 25px;
+      text-align: right;
+    }
+    
+    .edge-tab::before {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
       transition: left 0.6s ease;
     }
-
-    nav a:hover::before {
+    
+    .edge-tab:hover::before {
       left: 100%;
     }
-
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      color: white;
+    
+    .edge-tab:hover {
+      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      transform: scale(1.05);
     }
-
-    nav a[href="sending.html"] {
-      background: rgba(255, 255, 255, 0.25);
-      color: white;
-      font-weight: 700;
-    }
-
-    /* 优化后的主容器布局 */
-    .main-container {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 0 20px;
-      position: relative;
-    }
-
-    /* 地球展示区域 - 重新布局包含服务项目 */
-    .globe-showcase {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 40px 0;
-      position: relative;
-      min-height: 600px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    /* 地球容器优化 */
-    #globe-container {
-      width: 450px;
-      height: 450px;
-      margin: 0 auto;
-      border-radius: 50%;
-      overflow: visible;
-      position: relative;
-      background: transparent;
-      box-shadow: 
-        0 30px 60px rgba(0,0,0,0.2),
-        0 0 100px rgba(79, 172, 254, 0.3);
-      flex-shrink: 0;
-    }
-
-    /* ✅ 在这里加 */
-    #globe-container canvas {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    
+    .tab-text {
+      font-weight: 600;
+      font-size: 0.9rem;
+      line-height: 1.3;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
       display: block;
     }
-
-    /* 服务项目左右布局 */
-    .services-sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 280px;
-      padding: 0 20px;
-    }
-
-    .services-left {
-      margin-right: 40px;
-    }
-
-    .services-right {
-      margin-left: 40px;
-    }
-
-    .service-item-sidebar {
+    
+    /* 主要内容区域调整 */
+    section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 60px 20px;
       background: rgba(255, 255, 255, 0.95);
       border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateX(-30px);
-      animation: slideInService 0.8s ease forwards;
     }
-
-    .services-right .service-item-sidebar {
-      transform: translateX(30px);
-    }
-
-    .service-item-sidebar:nth-child(1) { animation-delay: 0.2s; }
-    .service-item-sidebar:nth-child(2) { animation-delay: 0.4s; }
-    .service-item-sidebar:nth-child(3) { animation-delay: 0.6s; }
-
-    @keyframes slideInService {
-      to {
-        opacity: 1;
-        transform: translateX(0);
+    
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+      .edge-tab {
+        min-width: 180px;
+        font-size: 0.85rem;
+        padding: 12px 20px 12px 12px;
+      }
+      
+      .right-tabs .edge-tab {
+        padding: 12px 12px 12px 20px;
       }
     }
-
-    .service-item-sidebar::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(79, 172, 254, 0.1), transparent);
-      transition: left 0.6s ease;
+    
+    @media (max-width: 768px) {
+      .edge-tabs {
+        position: relative;
+        top: auto;
+        transform: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 20px 0;
+        gap: 10px;
+      }
+      
+      .left-tabs, .right-tabs {
+        left: auto;
+        right: auto;
+      }
+      
+      .edge-tab, .right-tabs .edge-tab {
+        border-radius: 15px;
+        min-width: 160px;
+        padding: 12px 15px;
+        text-align: center;
+        margin: 5px;
+      }
+      
+      .edge-tab:hover, .right-tabs .edge-tab:hover {
+        transform: scale(1.05);
+      }
+      
+      .tab-text {
+        font-size: 0.8rem;
+      }
     }
-
-    .service-item-sidebar:hover::before {
-      left: 100%;
+    
+    @media (max-width: 480px) {
+      .edge-tab {
+        min-width: 140px;
+        font-size: 0.75rem;
+        padding: 10px 12px;
+      }
+      
+      .tab-text {
+        font-size: 0.75rem;
+      }
     }
-
-    .service-item-sidebar:hover {
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-      background: rgba(255, 255, 255, 1);
-    }
-
-    .service-item-sidebar .service-icon {
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      color: white;
-      margin-bottom: 12px;
-      box-shadow: 0 6px 15px rgba(79, 172, 254, 0.3);
-    }
-
-    .service-item-sidebar .service-title {
-      font-size: 1.1rem;
-      font-weight: 600;
+    
+    h2 {
+      text-align: center;
       color: #2c3e50;
-      margin-bottom: 8px;
+      font-size: 1.8rem;
+      margin: 40px 0 30px 0;
     }
-
-    .service-item-sidebar .service-description {
-      color: #666;
-      line-height: 1.5;
-      font-size: 0.9rem;
-    }
-
-    /* 地球信息卡片 - 环绕地球布局，优化下方卡片位置 */
-    .globe-info-cards {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 800px;
-      height: 800px;
-      pointer-events: none;
-    }
-
-    .info-card {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 15px;
-      padding: 15px 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      pointer-events: auto;
-      transition: all 0.3s ease;
-      max-width: 200px;
-      animation: cardFloat 4s ease-in-out infinite;
-    }
-
-    .info-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .info-card.card-1 {
-      top: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      animation-delay: 0s;
-    }
-
-    .info-card.card-2 {
-      top: 30%;
-      right: 5%;
-      animation-delay: 1s;
-    }
-
-    .info-card.card-3 {
-      top: 60%;
-      right: 8%;
-      animation-delay: 2s;
-    }
-
-    /* 将原来底部的卡片移到左侧 */
-    .info-card.card-4 {
-      top: 60%;
-      left: 8%;
-      animation-delay: 3s;
-    }
-
-    .info-card.card-5 {
-      bottom: 30%;
-      left: 5%;
-      animation-delay: 0.5s;
-    }
-
-    .info-card.card-6 {
-      top: 30%;
-      left: 5%;
-      animation-delay: 1.5s;
-    }
-
-    @keyframes cardFloat {
-      0%, 100% { 
-        transform: translateY(0px) scale(1);
-      }
-      50% { 
-        transform: translateY(-8px) scale(1.02);
-      }
-    }
-
-    .info-card h4 {
-      color: #2c3e50;
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .info-card p {
-      color: #666;
-      font-size: 0.85rem;
-      line-height: 1.4;
-    }
-
-    .info-card .flag {
-      font-size: 1.2rem;
-      margin-right: 8px;
-    }
-
-    /* 内容区域 */
-    .content-section {
-      margin-top: 60px;
+    
+    /* 对称设计的问题卡片布局 - 3-3-1 排列 */
+    .question-grid {
       display: flex;
       flex-direction: column;
-      gap: 40px;
-    }
-
-    .hero-section {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 30px;
-      padding: 50px 40px;
-      box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-    }
-
-    .hero-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: linear-gradient(90deg, #4facfe, #00f2fe, #4ecdc4, #ff6b6b);
-      background-size: 300% 100%;
-      animation: gradientShift 8s ease infinite;
-    }
-
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    .main-title {
-      color: #2c3e50;
-      font-size: 3rem;
-      font-weight: 800;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .subtitle {
-      font-size: 1.2rem;
-      color: #666;
-      line-height: 1.8;
+      gap: 30px;
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 20px 0;
     }
-
-    .countries-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    
+    .question-row {
+      display: flex;
+      justify-content: center;
       gap: 25px;
+      align-items: flex-start;
     }
-
-    .country-card {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 25px;
-      padding: 0;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    
+    .question-card {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 80%);
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+      cursor: pointer;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .country-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #4facfe, #00f2fe);
-      transform: scaleX(0);
-      transition: transform 0.4s ease;
-    }
-
-    .country-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .country-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-      background: rgba(255, 255, 255, 0.95);
-    }
-
-    .country-header {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      color: white;
-      text-align: center;
-      padding: 25px 20px;
-      position: relative;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: cardSlideIn 0.6s ease forwards;
+      animation-delay: calc(var(--i) * 0.1s);
+      border: 2px solid transparent;
+      width: 350px;
+      min-height: 180px;
       display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .country-flag {
-      width: 60px;
-      height: 40px;
-      border-radius: 6px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      flex-direction: column;
+      justify-content: space-between;
       flex-shrink: 0;
     }
-
-    .indonesia { background: linear-gradient(to bottom, #ff0000 50%, #ffffff 50%); color: #333; }
-    .vietnam { background: linear-gradient(to bottom, #da251d 33%, #ffff00 33%, #ffff00 66%, #da251d 66%); color: #333; }
-    .myanmar { background: linear-gradient(to bottom, #ffcd00 33%, #008000 33%, #008000 66%, #ea2839 66%); color: white; }
-
-    .country-info {
-      flex: 1;
-      text-align: left;
+    
+    /* 重新设置动画延迟 */
+    .question-row:nth-child(1) .question-card:nth-child(1) { --i: 1; }
+    .question-row:nth-child(1) .question-card:nth-child(2) { --i: 2; }
+    .question-row:nth-child(1) .question-card:nth-child(3) { --i: 3; }
+    .question-row:nth-child(2) .question-card:nth-child(1) { --i: 4; }
+    .question-row:nth-child(2) .question-card:nth-child(2) { --i: 5; }
+    .question-row:nth-child(2) .question-card:nth-child(3) { --i: 6; }
+    .question-row:nth-child(3) .question-card:nth-child(1) { --i: 7; }
+    
+    /* 最后一张卡片（第7张）特殊样式 - 稍大且居中 */
+    .question-row:nth-child(3) .question-card {
+      width: 400px;
+      min-height: 200px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+      border: 3px solid rgba(255,255,255,0.3);
     }
-
-    .country-name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 3px;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-    }
-
-    .country-subtitle {
-      font-size: 0.9rem;
-      opacity: 0.9;
-      font-weight: 400;
-    }
-
-    .country-content {
-      padding: 25px;
-    }
-
-    .country-features {
-      list-style: none;
-      margin-bottom: 15px;
-    }
-
-    .country-features li {
-      padding: 6px 0;
-      padding-left: 20px;
-      position: relative;
-      color: #555;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-
-    .country-features li::before {
-      content: '✓';
-      position: absolute;
-      left: 0;
-      color: #4facfe;
-      font-weight: bold;
+    
+    .question-row:nth-child(3) .question-card .question-text {
       font-size: 1.1rem;
-    }
-
-    .country-skills {
-      background: #f8f9fa;
-      padding: 12px 15px;
-      border-radius: 8px;
-      margin-top: 12px;
-      border-left: 3px solid #4facfe;
-      font-size: 0.9rem;
-    }
-
-    .country-skills strong {
-      color: #2c3e50;
-      font-weight: 600;
-    }
-
-    /* 隐藏原来的服务区域，因为已经集成到地球展示区域 */
-    .services-section {
-      display: none;
-    }
-
-    .benefits-section {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 30px;
-      padding: 40px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-    }
-
-    .benefits-title {
-      color: #2c3e50;
-      font-size: 2.2rem;
       font-weight: 700;
-      text-align: center;
-      margin-bottom: 30px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
-
-    .benefits-list {
-      list-style: none;
+    
+    .question-row:nth-child(3) .question-card .question-icon {
+      font-size: 1.8rem;
     }
-
-    .benefits-list li {
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      color: white;
-      margin: 15px 0;
-      padding: 20px 25px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
-      transform: translateX(-20px);
-      opacity: 0;
-      animation: slideInLeft 0.8s ease forwards;
-      animation-delay: calc(var(--i) * 0.2s);
-      position: relative;
-      overflow: hidden;
-      font-size: 1rem;
-      font-weight: 500;
+    
+    .question-card:nth-child(1) { --i: 1; }
+    .question-card:nth-child(2) { --i: 2; }
+    .question-card:nth-child(3) { --i: 3; }
+    .question-card:nth-child(4) { --i: 4; }
+    .question-card:nth-child(5) { --i: 5; }
+    .question-card:nth-child(6) { --i: 6; }
+    .question-card:nth-child(7) { --i: 7; }
+    
+    @keyframes cardSlideIn {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
-
-    .benefits-list li:nth-child(1) { --i: 1; }
-    .benefits-list li:nth-child(2) { --i: 2; }
-    .benefits-list li:nth-child(3) { --i: 3; }
-    .benefits-list li:nth-child(4) { --i: 4; }
-
-    .benefits-list li::before {
+    
+    .question-card::before {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
       transition: left 0.6s ease;
     }
-
-    .benefits-list li:hover::before {
+    
+    .question-card:hover::before {
       left: 100%;
     }
-
-    .benefits-list li:hover {
-      transform: translateX(0) scale(1.02);
-      box-shadow: 0 12px 25px rgba(102, 126, 234, 0.3);
+    
+    .question-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+      border-color: rgba(255,255,255,0.3);
     }
-
-    @keyframes slideInLeft {
-      to {
-        transform: translateX(0);
-        opacity: 1;
+    
+    .question-card.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+      transform: translateY(-5px) scale(1.01);
+      border-color: rgba(255,255,255,0.5);
+      box-shadow: 0 20px 50px rgba(79, 172, 254, 0.5);
+      min-height: auto; /* 活跃状态时允许高度自适应 */
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      flex: 1; /* 让文本区域占据可用空间 */
+      display: flex;
+      align-items: center;
+    }
+    
+    .question-icon {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      display: block;
+      text-align: center;
+    }
+    
+    .answer-text {
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.5;
+      margin-top: 15px;
+      padding: 0;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1);
+      border-radius: 0 0 10px 10px;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transform: translateY(-10px);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(5px);
+    }
+    
+    .question-card.active .answer-text {
+      opacity: 1;
+      max-height: 200px;
+      padding: 15px;
+      transform: translateY(0);
+    }
+    
+    /* 下拉箭头指示器 */
+    .dropdown-arrow {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .question-card.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+    
+    /* 改进卡片点击区域 */
+    .question-content {
+      position: relative;
+      cursor: pointer;
+      padding: 5px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .click-hint {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    
+    /* 修复后的横向流动图片样式 - 确保无缝循环 */
+    .flowing-images {
+      width: 100%;
+      overflow: hidden;
+      margin: 40px 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(79,172,254,0.05) 100%);
+      border-radius: 15px;
+      padding: 20px 0;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+    
+    .flowing-images::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -20%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+      z-index: 1;
+    }
+    
+    @keyframes shimmer {
+      0% { left: -20%; }
+      50% { left: 120%; }
+      100% { left: -20%; }
+    }
+    
+    .image-track {
+      display: flex;
+      gap: 20px;
+      padding: 0 20px;
+      will-change: transform;
+      width: max-content; /* 让容器适应内容宽度 */
+    }
+    
+    .work-image {
+      width: 250px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+      border: 3px solid rgba(255,255,255,0.5);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .work-image:hover {
+      transform: scale(1.05) translateY(-5px);
+      box-shadow: 0 15px 30px rgba(79,172,254,0.3);
+      border-color: rgba(79,172,254,0.8);
+      z-index: 10;
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .question-grid {
+        gap: 20px;
+        padding: 0 10px;
+      }
+      
+      .question-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      
+      .question-card {
+        width: 100%;
+        max-width: 350px;
+        min-height: 160px;
+        padding: 20px;
+      }
+      
+      /* 移动端第7张卡片不需要特殊大小 */
+      .question-row:nth-child(3) .question-card {
+        width: 100%;
+        max-width: 350px;
+        min-height: 160px;
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 80%);
+        border: 2px solid transparent;
+      }
+      
+      .question-row:nth-child(3) .question-card .question-text {
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+      
+      .question-row:nth-child(3) .question-card .question-icon {
+        font-size: 1.3rem;
+      }
+      
+      .question-text {
+        font-size: 0.95rem;
+      }
+      
+      .question-icon {
+        font-size: 1.3rem;
+      }
+      
+      .work-image {
+        width: 200px;
+        height: 120px;
+      }
+      
+      .flowing-images {
+        padding: 15px 0;
+        margin: 30px 0;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .question-card {
+        padding: 18px;
+        min-height: 140px;
+      }
+      
+      .question-text {
+        font-size: 0.9rem;
+      }
+      
+      .question-icon {
+        font-size: 1.2rem;
+      }
+      
+      .work-image {
+        width: 180px;
+        height: 110px;
       }
     }
 
-    .cta-section {
+    /* CTA 模块样式 */
+    .cta {
       text-align: center;
-      padding: 40px 30px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 25px;
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .cta-title {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
       color: white;
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      padding: 50px 20px;
+      border-radius: 20px;
+      margin: 60px auto;
+      max-width: 900px;
+      box-shadow: 0 15px 40px rgba(79, 172, 254, 0.3);
     }
 
-    .cta-text {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 1.1rem;
+    .cta h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .cta p {
+      font-size: 1.2rem;
       margin-bottom: 25px;
-      line-height: 1.6;
     }
 
     .cta-button {
       display: inline-block;
-      background: rgba(255, 255, 255, 0.9);
+      background: white;
       color: #4facfe;
-      padding: 15px 35px;
-      border-radius: 50px;
+      padding: 15px 40px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1.1rem;
       text-decoration: none;
-      font-weight: 700;
-      font-size: 1rem;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-      transition: left 0.6s ease;
-    }
-
-    .cta-button:hover::before {
-      left: 100%;
+      transition: all 0.3s ease;
     }
 
     .cta-button:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-      background: white;
+      background: #f0f8ff;
+      transform: scale(1.08);
     }
 
     footer {
       text-align: center;
-      padding: 40px 20px;
-      background: rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      color: rgba(255, 255, 255, 0.8);
-      margin-top: 60px;
-      font-size: 1rem;
+      padding: 30px;
+      background: rgba(44, 62, 80, 0.9);
+      color: white;
+      margin-top: 40px;
     }
-
-    /* 响应式设计 */
-    @media (max-width: 1200px) {
-      .globe-showcase {
-        flex-direction: column;
-        min-height: auto;
-        gap: 30px;
+    
+    /* 优化的底部文字效果 */
+    .highlight-text {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      margin: 50px 0;
+      padding: 30px 20px;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      
+      /* 炫彩渐变背景 */
+      background: linear-gradient(135deg, 
+        #4facfe, 
+        #00f2fe);
+      background-size: 400% 400%;
+      animation: gradientShift 3s ease-in-out infinite;
+      
+      /* 霓虹发光文字 */
+      color: #ffffff;
+      text-shadow: 
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 20px rgba(255,105,180,0.6),
+        0 0 30px rgba(255,105,180,0.4),
+        0 0 40px rgba(255,105,180,0.2);
+      
+      /* 3D立体效果 */
+      transform: perspective(500px) rotateX(10deg);
+      box-shadow: 
+        0 15px 30px rgba(0,0,0,0.3),
+        0 0 50px rgba(255,105,180,0.2),
+        inset 0 2px 10px rgba(255,255,255,0.2);
+      
+      /* 动画过渡 */
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* 悬停效果 */
+    .highlight-text:hover {
+      transform: perspective(500px) rotateX(0deg) scale(1.05);
+      box-shadow: 
+        0 25px 50px rgba(0,0,0,0.4),
+        0 0 100px rgba(255,105,180,0.4),
+        inset 0 2px 15px rgba(255,255,255,0.3);
+      
+      text-shadow: 
+        0 0 15px rgba(255,255,255,1),
+        0 0 30px rgba(255,20,147,0.8),
+        0 0 45px rgba(255,20,147,0.6),
+        0 0 60px rgba(255,20,147,0.4);
+    }
+    
+    /* 背景渐变动画 */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* 闪烁边框效果 */
+    .highlight-text::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ff6b6b, #ffa500, #32cd32, #1e90ff, #9370db);
+      border-radius: 22px;
+      z-index: -1;
+      animation: borderGlow 2s linear infinite;
+      opacity: 0.8;
+    }
+    
+    @keyframes borderGlow {
+      0% { filter: hue-rotate(0deg) brightness(1); }
+      50% { filter: hue-rotate(180deg) brightness(1.2); }
+      100% { filter: hue-rotate(360deg) brightness(1); }
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .highlight-text {
+        font-size: 1.6rem;
+        padding: 25px 15px;
+        transform: perspective(300px) rotateX(5deg);
       }
-
-      .services-sidebar {
-        flex-direction: row;
-        width: 100%;
-        max-width: 800px;
-        margin: 0;
-        padding: 0 10px;
-        gap: 15px;
-      }
-
-      .services-left, .services-right {
-        margin: 0;
-        flex: 1;
-      }
-
-      .service-item-sidebar {
-        padding: 15px;
-      }
-
-      #globe-container {
-        width: 350px;
-        height: 350px;
-      }
-
-      .globe-info-cards {
-        width: 650px;
-        height: 650px;
-      }
-
-      .info-card {
-        max-width: 120px;
-        padding: 8px 10px;
-      }
-
-      .info-card.card-2,
-      .info-card.card-3,
-      .info-card.card-5,
-      .info-card.card-6 {
-        display: none;
+      
+      .highlight-text:hover {
+        transform: perspective(300px) rotateX(0deg) scale(1.03);
       }
     }
+    
+    @media (max-width: 480px) {
+      .highlight-text {
+        font-size: 1.3rem;
+        padding: 20px 10px;
+      }
+    }
+    
   </style>
 </head>
 <body>
+<!-- 百叶窗背景切换系统 -->
+<div class="blinds-container" id="blindsContainer">
+  <!-- 百叶窗片将通过JavaScript动态生成 -->
+</div>
+
+<!-- 百叶窗控制器 -->
+<div class="blinds-controller">
+  <div class="blind-control active" data-image="1">1</div>
+  <div class="blind-control" data-image="2">2</div>
+  <div class="blind-control" data-image="3">3</div>
+</div>
+
 <!-- 和平主题装饰 -->
 <div class="peace-symbol"></div>
 <div class="earth-icon"></div>
 <div class="unity-hands"></div>
 <div class="peace-dove"></div>
+<div class="warm-glow"></div>
 
 <header>
   <h1>広昌会協同組合</h1>
@@ -878,634 +1010,339 @@
   </nav>
 </header>
 
-<div class="main-container">
-  <!-- 地球展示区域 -->
-  <div class="globe-showcase">
-    <!-- 左侧服务项目 -->
-    <div class="services-sidebar services-left">
-      <div class="service-item-sidebar">
-        <div class="service-icon">👥</div>
-        <div class="service-title">候補者選定</div>
-        <p class="service-description">優秀な候補者を厳格に選別し、技能レベルと日本語能力が要求を満たすことを確保</p>
-      </div>
-      <div class="service-item-sidebar">
-        <div class="service-icon">📚</div>
-        <div class="service-title">事前研修</div>
-        <p class="service-description">日本語研修、技能研修、日本文化適応訓練を提供</p>
-      </div>
-      <div class="service-item-sidebar">
-        <div class="service-icon">📋</div>
-        <div class="service-title">書類手続き</div>
-        <p class="service-description">各種ビザ申請及び関連法的書類の手続きを支援</p>
-      </div>
-    </div>
-
-    <!-- 中央地球容器 -->
-    <div id="globe-container"></div>
-    
-    <!-- 右侧服务项目 -->
-    <div class="services-sidebar services-right">
-      <div class="service-item-sidebar">
-        <div class="service-icon">✈️</div>
-        <div class="service-title">出国手配</div>
-        <p class="service-description">航空券予約、出迎えサービス、初期生活手配を行う</p>
-      </div>
-      <div class="service-item-sidebar">
-        <div class="service-icon">🤝</div>
-        <div class="service-title">継続サポート</div>
-        <p class="service-description">在日期間中の生活・就労面での継続的サポートサービス提供</p>
-      </div>
-      <div class="service-item-sidebar">
-        <div class="service-icon">📞</div>
-        <div class="service-title">24時間サポート</div>
-        <p class="service-description">24時間緊急連絡・問題解決サポートサービス提供</p>
-      </div>
-    </div>
-    
-    <!-- 环绕地球的信息卡片 -->
-    <div class="globe-info-cards">
-      <div class="info-card card-1">
-        <h4><span class="flag">🇯🇵</span>日本</h4>
-        <p>高品質な技術研修と安定した就業環境を提供</p>
-      </div>
-      
-      <div class="info-card card-2">
-        <h4><span class="flag">🇮🇩</span>インドネシア</h4>
-        <p>豊富な人材資源と優秀な技能実習生候補者</p>
-      </div>
-      
-      <div class="info-card card-3">
-        <h4><span class="flag">🇻🇳</span>ベトナム</h4>
-        <p>高い学習意欲と真面目な仕事態度</p>
-      </div>
-      
-      <div class="info-card card-4">
-        <h4><span class="flag">🌏</span>グローバル協力</h4>
-        <p>国際的な人材交流と技術移転を促進</p>
-      </div>
-      
-      <div class="info-card card-5">
-        <h4><span class="flag">🇲🇲</span>ミャンマー</h4>
-        <p>温和で友好的な性格と精巧な手工技術</p>
-      </div>
-      
-      <div class="info-card card-6">
-        <h4><span class="flag">🤝</span>信頼関係</h4>
-        <p>長期的なパートナーシップの構築</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="content-section">
-    <div class="hero-section">
-      <h2 class="main-title">送り出し機関紹介</h2>
-      <p class="subtitle">
-        インドネシア、ベトナム、ミャンマーなど各国に信頼できる送り出し機関を持ち、<br>
-        候補者選定から出国準備まで、ワンストップでの全面的なサポートサービスを提供。<br>
-        技能実習生・特定技能労働者の円滑な来日就労を確実にサポートします。
-      </p>
-    </div>
-
-    <div class="countries-grid">
-      <div class="country-card">
-        <div class="country-header">
-          <div class="country-flag indonesia">🇮🇩</div>
-          <div class="country-info">
-            <div class="country-name">インドネシア</div>
-            <div class="country-subtitle">Indonesia</div>
-          </div>
-        </div>
-        <div class="country-content">
-          <ul class="country-features">
-            <li>人口豊富で労働力資源が充実</li>
-            <li>勤勉で適応能力が高い</li>
-            <li>多文化背景でコミュニケーション能力良好</li>
-            <li>技能訓練体系が完備</li>
-            <li>日本文化への受容度が高い</li>
-          </ul>
-          <div class="country-skills">
-            <strong>主要技能分野：</strong>製造業、建設業、農業、介護等
-          </div>
-        </div>
-      </div>
-
-      <div class="country-card">
-        <div class="country-header">
-          <div class="country-flag vietnam">🇻🇳</div>
-          <div class="country-info">
-            <div class="country-name">ベトナム</div>
-            <div class="country-subtitle">Vietnam</div>
-          </div>
-        </div>
-        <div class="country-content">
-          <ul class="country-features">
-            <li>学習能力が高く、技術受容度が高い</li>
-            <li>仕事に対して真面目で責任感が強い</li>
-            <li>若年化程度が高く、活力に満ちている</li>
-            <li>日本語学習への熱意が高い</li>
-            <li>チームワーク精神が強い</li>
-          </ul>
-          <div class="country-skills">
-            <strong>主要技能分野：</strong>電子製造、繊維業、食品加工、建設等
-          </div>
-        </div>
-      </div>
-
-      <div class="country-card">
-        <div class="country-header">
-          <div class="country-flag myanmar">🇲🇲</div>
-          <div class="country-info">
-            <div class="country-name">ミャンマー</div>
-            <div class="country-subtitle">Myanmar</div>
-          </div>
-        </div>
-        <div class="country-content">
-          <ul class="country-features">
-            <li>温和で友好的、人間関係が調和的</li>
-            <li>手工技術が精巧で細やか</li>
-            <li>学習意欲が強く、進歩が迅速</li>
-            <li>文化的素養が高い</li>
-            <li>適応性が強く、安定性が良い</li>
-          </ul>
-          <div class="country-skills">
-            <strong>主要技能分野：</strong>繊維、農業、製造業、サービス業等
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="benefits-section">
-      <h3 class="benefits-title">送り出しサービスの優位性</h3>
-      <ul class="benefits-list">
-        <li>🌏 多国送り出しネットワーク、豊富な人材リソースプール</li>
-        <li>🔍 厳格な候補者選別・研修体系</li>
-        <li>📋 ワンストップサービス、選定から来日まで全工程サポート</li>
-        <li>🏆 長年の経験蓄積、信頼できる協力パートナー</li>
-      </ul>
-    </div>
-
-    <div class="cta-section">
-      <h3 class="cta-title">優秀な海外人材をお探しですか？</h3>
-      <p class="cta-text">
-        最適な技能実習生・特定技能労働者の発見をサポートし、<br>
-        専門チームが全方位的な送り出しサービスサポートを提供します。
-      </p>
-      <a href="contact.html" class="cta-button">今すぐ相談</a>
-    </div>
-  </div>
+<!-- 左侧边缘标签 -->
+<div class="edge-tabs left-tabs">
+  <a href="interview.html" class="edge-tab">
+    <span class="tab-text">専門家にインタビュー</span>
+  </a>
+  <a href="jinzai.html" class="edge-tab">
+    <span class="tab-text">人材情報一覧</span>
+  </a>
+  <a href="kyujin.html" class="edge-tab">
+    <span class="tab-text">求人掲載のお申し込み</span>
+  </a>
+  <a href="qa.html" class="edge-tab">
+    <span class="tab-text">外国人雇用Q＆A一覧</span>
+  </a>
 </div>
 
+<!-- 右侧边缘标签 -->
+<div class="edge-tabs right-tabs">
+  <a href="denryoku.html" class="edge-tab">
+    <span class="tab-text">企業様に電力及び社員寮提供</span>
+  </a>
+  <a href="solar.html" class="edge-tab">
+    <span class="tab-text">太陽光発電及び蓄電提供</span>
+  </a>
+  <a href="denki.html" class="edge-tab">
+    <span class="tab-text">企業様に電気及び寮提供</span>
+  </a>
+  <a href="sendingzy.html" class="edge-tab">
+    <span class="tab-text">送り出し機関を探す</span>
+  </a>
+</div>
+
+<!-- 主要内容区域 -->
+<div class="main-content">
+  <section>
+  <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
+  <div class="question-grid">
+    <div class="question-card" data-card="1">
+      <div class="question-content">
+        <span class="question-icon">🤔</span>
+        <div class="question-text">外国人スタッフを雇用したいけど、どうしたらいいかわからない</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        広昌会協同組合が、雇用手続きから入国サポートまで、すべての段階でお手伝いします。まずは無料相談からお気軽にお問い合わせください。
+      </div>
+    </div>
+    
+    <div class="question-card" data-card="2">
+      <div class="question-content">
+        <span class="question-icon">💬</span>
+        <div class="question-text">言葉は、通じるの・・・</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        当組合では日本語研修を徹底的に行います。基本的な日常会話から専門用語まで、職場で必要なコミュニケーション能力を身につけてもらいます。
+      </div>
+    </div>
+    
+    <div class="question-card" data-card="3">
+      <div class="question-content">
+        <span class="question-icon">🔧</span>
+        <div class="question-text">仕事の内容は伝わるの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        実習生には事前に職種別の専門研修を実施。図解やデモンストレーションを交えた分かりやすい指導で、確実に業務内容を理解してもらいます。
+      </div>
+    </div>
+    
+    <div class="question-card" data-card="4">
+      <div class="question-content">
+        <span class="question-icon">🌍</span>
+        <div class="question-text">習慣や文化は大丈夫なの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        来日前に日本の生活習慣や文化、職場のマナーについて丁寧に指導します。また、来日後も継続的にサポートを行います。
+      </div>
+    </div>
+    
+    <div class="question-card" data-card="5">
+      <div class="question-content">
+        <span class="question-icon">📋</span>
+        <div class="question-text">ビザの更新とか手続きが面倒じゃないの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        ビザ申請・更新等の複雑な手続きはすべて当組合が代行いたします。企業様には面倒な手続きの負担をかけません。
+      </div>
+    </div>
+    
+    <div class="question-card" data-card="6">
+      <div class="question-content">
+        <span class="question-icon">⚡</span>
+        <div class="question-text">外国人はいい加減なんじゃないの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        当組合では厳格な選考基準で人材を選抜。真面目で責任感の強い実習生のみを紹介いたします。来日後も定期的にフォローアップを行います。
+      </div>
+    </div>
+    
+    <div class="question-card" data-card="7">
+      <div class="question-content">
+        <span class="question-icon">❌</span>
+        <div class="question-text">過去に失敗した経験がある</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        失敗の原因を詳しく分析し、同じ問題が起こらないよう万全の対策を講じます。豊富な経験とノウハウで、必ず成功に導きます。
+      </div>
+    </div>
+  </div>
+  
+  <!-- 修复后的横向流动工作图片 -->
+  <div class="flowing-images">
+    <div class="image-track" id="imageTrack">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
+      <!-- 重复图片以确保无缝循环 -->
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
+    </div>
+  </div>
+  
+  <div class="highlight-text">このお悩み広昌会協同組合が解決します!</div>
+ </section>
+</div>
+
+<section class="cta">
+  <h2>今すぐご相談ください</h2>
+  <p>無料相談で御社に最適な人材をご提案します。</p>
+  <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
+</section> 
+
 <footer>
-  <p>&copy; 2025 広昌会協同組合 - 国際人材育成協力パートナー</p>
+  <p>&copy; 2025 広昌会協同組合</p>
 </footer>
 
-<!-- Three.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-  const container = document.getElementById("globe-container");
-  let width = container.offsetWidth;
-  let height = container.offsetHeight;
+// 页面加载完成后执行
+document.addEventListener('DOMContentLoaded', function() {
   
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  // 百叶窗背景切换功能
+  const blindsContainer = document.getElementById('blindsContainer');
+  const blindControls = document.querySelectorAll('.blind-control');
+  const numberOfSlats = 15;
+  let currentImage = 1;
+  let isAnimating = false;
   
-  renderer.setSize(width, height);
-  renderer.setClearColor(0x000000, 0);
-  container.appendChild(renderer.domElement);
+  // 世界和平主题图片
+  const peaceImages = {
+    1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
+  };
   
-  // 真实地球纹理
-  const loader = new THREE.TextureLoader();
-  const earthTexture = loader.load("https://threejs.org/examples/textures/land_ocean_ice_cloud_2048.jpg");
-  const normalMap = loader.load("https://threejsfundamentals.org/threejs/resources/images/earth-normal.jpg");
-  const specularMap = loader.load("https://threejsfundamentals.org/threejs/resources/images/earth-specular.gif");
-  const nightTexture = loader.load("https://eoimages.gsfc.nasa.gov/images/57000/57730/earth_lights_lrg.jpg");
-  const cloudTexture = loader.load("https://threejs.org/examples/textures/planets/earth_clouds.png");
-
-  // 国家数据 (经纬度转换为3D坐标)
-  const countries = [
-    { name: '🇮🇩 インドネシア', lat: -6.2, lng: 106.8 }, // 雅加达
-    { name: '🇲🇲 ミャンマー', lat: 21.9, lng: 96.0 },   // 仰光
-    { name: '🇨🇳 中国', lat: 39.9, lng: 116.4 },        // 北京
-    { name: '🇰🇭 カンボジア', lat: 11.6, lng: 104.9 },   // 金边
-    { name: '🇻🇳 ベトナム', lat: 21.0, lng: 105.8 },     // 河内
-    { name: '🇳🇵 ネパール', lat: 27.7, lng: 85.3 },      // 加德满都
-    { name: '🇯🇵 日本', lat: 35.7, lng: 139.7 }          // 东京
-  ];
-
-  // 经纬度转3D坐标函数
-  function latLngToVector3(lat, lng, radius) {
-    const phi = (90 - lat) * (Math.PI / 180);
-    const theta = (lng + 180) * (Math.PI / 180);
+  // 创建百叶窗片
+  function createBlindSlats() {
+    blindsContainer.innerHTML = '';
+    const slatHeight = 100 / numberOfSlats;
     
-    return new THREE.Vector3(
-      -radius * Math.sin(phi) * Math.cos(theta),
-      radius * Math.cos(phi),
-      radius * Math.sin(phi) * Math.sin(theta)
-    );
+    for (let i = 0; i < numberOfSlats; i++) {
+      const slat = document.createElement('div');
+      slat.className = 'blind-slat';
+      
+      slat.style.top = `${i * slatHeight}%`;
+      slat.style.height = `${slatHeight + 0.1}%`;
+      
+      slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
+      slat.style.backgroundSize = '100% 100vh';
+      slat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
+      slat.style.backgroundRepeat = 'no-repeat';
+      
+      blindsContainer.appendChild(slat);
+    }
   }
-
-  // 创建国家标记点
-  const countryPoints = [];
-  countries.forEach((country, index) => {
-    const countryPos = latLngToVector3(country.lat, country.lng, 1.82);
-    
-    // 创建发光点
-    const pointGeometry = new THREE.SphereGeometry(0.02, 8, 8);
-    const pointMaterial = new THREE.MeshBasicMaterial({ 
-      color: 0x4facfe,
-      transparent: true,
-      opacity: 0.9
-    });
-    const point = new THREE.Mesh(pointGeometry, pointMaterial);
-    point.position.copy(countryPos);
-    
-    // 创建发光效果
-    const glowGeometry = new THREE.SphereGeometry(0.04, 8, 8);
-    const glowMaterial = new THREE.MeshBasicMaterial({
-      color: 0x4facfe,
-      transparent: true,
-      opacity: 0.3
-    });
-    const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-    glow.position.copy(countryPos);
-    
-    scene.add(point);
-    scene.add(glow);
-    
-    countryPoints.push({ point, glow, country });
-  });
-
-  // 地球主体
-  const geometry = new THREE.SphereGeometry(2.8, 64, 64);
-  const material = new THREE.MeshPhongMaterial({
-    map: earthTexture,
-    normalMap: normalMap,
-    specularMap: specularMap,
-    shininess: 1000
-  });
-  const earth = new THREE.Mesh(geometry, material);
-  scene.add(earth);
-
-  // 夜间灯光
-  const nightMaterial = new THREE.MeshBasicMaterial({
-    map: nightTexture,
-    blending: THREE.AdditiveBlending,
-    transparent: true,
-    opacity: 0.3
-  });
-  const earthNight = new THREE.Mesh(geometry, nightMaterial);
-  scene.add(earthNight);
-
-  // 云层
-  const cloudGeometry = new THREE.SphereGeometry(2.83, 64, 64);
-  const cloudMaterial = new THREE.MeshLambertMaterial({
-    map: cloudTexture,
-    transparent: true,
-    opacity: 0.2
-  });
-  const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
-  scene.add(clouds);
-
-  // 大气层
-  const atmosphereGeometry = new THREE.SphereGeometry(2.9, 64, 64);
-  const atmosphereMaterial = new THREE.ShaderMaterial({
-    transparent: true,
-    side: THREE.BackSide,
-    vertexShader: `
-      varying vec3 vNormal;
-      void main() {
-        vNormal = normalize(normalMatrix * normal);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: `
-      varying vec3 vNormal;
-      void main() {
-        float intensity = pow(0.7 - dot(vNormal, vec3(0,0,1)), 2.0);
-        gl_FragColor = vec4(0.3, 0.6, 1.0, 0.4) * intensity;
-      }
-    `
-  });
-  const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-  scene.add(atmosphere);
-
-  // 星空背景
-  const starGeometry = new THREE.BufferGeometry();
-  const starMaterial = new THREE.PointsMaterial({
-    color: 0xffffff,
-    size: 2,
-    transparent: true,
-    opacity: 0.8
-  });
-
-  const starVertices = [];
-  for (let i = 0; i < 2000; i++) {
-    const x = (Math.random() - 0.5) * 2000;
-    const y = (Math.random() - 0.5) * 2000;
-    const z = (Math.random() - 0.5) * 2000;
-    starVertices.push(x, y, z);
-  }
-
-  starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-  const stars = new THREE.Points(starGeometry, starMaterial);
-  scene.add(stars);
-
-  // 光照
-  const ambientLight = new THREE.AmbientLight(0x404040, 4.5);
-  scene.add(ambientLight);
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 3.0);
-  directionalLight.position.set(5, 3, 5);
-  scene.add(directionalLight);
-
-  camera.position.z = 5;
-
-  // 鼠标交互
-  let mouseX = 0, mouseY = 0;
-  let targetRotationX = 0, targetRotationY = 0;
   
-  container.addEventListener('mousemove', (event) => {
-    const rect = container.getBoundingClientRect();
-    mouseX = (event.clientX - rect.left) / width - 0.5;
-    mouseY = (event.clientY - rect.top) / height - 0.5;
+  // 百叶窗翻转切换效果
+  function switchBlindsImage(newImageIndex) {
+    if (isAnimating || newImageIndex === currentImage) return;
     
-    targetRotationX = mouseY * 0.3;
-    targetRotationY = mouseX * 0.3;
-  });
+    isAnimating = true;
+    const oldSlats = document.querySelectorAll('.blind-slat');
+    const slatHeight = 100 / numberOfSlats;
 
-  // 触摸事件支持
-  container.addEventListener('touchmove', (event) => {
-    event.preventDefault();
-    const rect = container.getBoundingClientRect();
-    const touch = event.touches[0];
-    mouseX = (touch.clientX - rect.left) / width - 0.5;
-    mouseY = (touch.clientY - rect.top) / height - 0.5;
-    
-    targetRotationX = mouseY * 0.3;
-    targetRotationY = mouseX * 0.3;
-  });
+    // 创建新的百叶窗片
+    for (let i = 0; i < numberOfSlats; i++) {
+      const newSlat = document.createElement('div');
+      newSlat.className = 'blind-slat';
+      
+      newSlat.style.top = `${i * slatHeight}%`;
+      newSlat.style.height = `${slatHeight + 0.1}%`;
+      
+      newSlat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
+      newSlat.style.backgroundSize = '100% 100vh';
+      newSlat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
+      newSlat.style.backgroundRepeat = 'no-repeat';
+      
+      newSlat.style.transform = 'rotateX(90deg)';
+      newSlat.style.backfaceVisibility = 'hidden';
+      
+      blindsContainer.appendChild(newSlat);
+    }
 
-  let time = 0;
+    const newSlats = Array.from(document.querySelectorAll('.blind-slat')).slice(numberOfSlats);
 
-  function animate() {
-    requestAnimationFrame(animate);
-    time += 0.01;
-    
-    // 地球自转
-    earth.rotation.y += 0.002;
-    earthNight.rotation.y = earth.rotation.y;
-    clouds.rotation.y += 0.001;
-    
-    // 星空旋转
-    stars.rotation.y += 0.0002;
-    
-    // 国家点发光动画
-    countryPoints.forEach((pointData, index) => {
-      const { point, glow } = pointData;
-      const pulse = Math.sin(time * 2 + index * 0.5) * 0.3 + 0.7;
-      point.material.opacity = pulse;
-      glow.material.opacity = pulse * 0.3;
-      glow.scale.setScalar(1 + Math.sin(time * 3 + index) * 0.2);
-    });
-    
-    // 平滑的鼠标交互
-    camera.position.x += (targetRotationY - camera.position.x) * 0.05;
-    camera.position.y += (targetRotationX - camera.position.y) * 0.05;
-    camera.lookAt(scene.position);
-    
-    // 大气层脉动
-    atmosphere.material.uniforms = atmosphere.material.uniforms || {};
-    
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  window.addEventListener('resize', () => {
-    const newWidth = container.offsetWidth;
-    const newHeight = container.offsetHeight;
-    camera.aspect = newWidth / newHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(newWidth, newHeight);
-    
-    width = newWidth;
-    height = newHeight;
-  });
-
-  // 页面加载动画
-  window.addEventListener('load', () => {
-    const heroSection = document.querySelector('.hero-section');
-    const countryCards = document.querySelectorAll('.country-card');
-    const serviceItems = document.querySelectorAll('.service-item-sidebar');
-    const globeContainer = document.getElementById('globe-container');
-    const infoCards = document.querySelectorAll('.info-card');
-    
-    // 初始状态
-    heroSection.style.opacity = '0';
-    heroSection.style.transform = 'translateY(30px)';
-    
-    globeContainer.style.opacity = '0';
-    globeContainer.style.transform = 'scale(0.8)';
-    
-    infoCards.forEach((card, index) => {
-      card.style.opacity = '0';
-      card.style.transform = 'scale(0.8) translateY(20px)';
-    });
-    
-    countryCards.forEach((card, index) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateX(-30px)';
-    });
-
-    serviceItems.forEach((item, index) => {
-      item.style.opacity = '0';
-      if (item.closest('.services-left')) {
-        item.style.transform = 'translateX(-30px)';
-      } else {
-        item.style.transform = 'translateX(30px)';
-      }
-    });
-    
     // 动画序列
-    setTimeout(() => {
-      // 地球容器动画
-      globeContainer.style.transition = 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
-      globeContainer.style.opacity = '1';
-      globeContainer.style.transform = 'scale(1)';
-      
-      // 服务项目动画
-      serviceItems.forEach((item, index) => {
-        setTimeout(() => {
-          item.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-          item.style.opacity = '1';
-          item.style.transform = 'translateX(0)';
-        }, 200 + index * 100);
-      });
-      
-      // 信息卡片动画
-      infoCards.forEach((card, index) => {
-        setTimeout(() => {
-          card.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-          card.style.opacity = '1';
-          card.style.transform = 'scale(1) translateY(0)';
-        }, 800 + index * 100);
-      });
-      
-      // 主标题动画
+    oldSlats.forEach((slat, index) => {
       setTimeout(() => {
-        heroSection.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-        heroSection.style.opacity = '1';
-        heroSection.style.transform = 'translateY(0)';
-      }, 1200);
-      
-      // 国家卡片动画
-      countryCards.forEach((card, index) => {
-        setTimeout(() => {
-          card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-          card.style.opacity = '1';
-          card.style.transform = 'translateX(0)';
-        }, 1600 + index * 150);
-      });
+        slat.style.transform = 'rotateX(-90deg)';
+      }, index * 40);
+    });
 
-    }, 200);
-  });
+    newSlats.forEach((slat, index) => {
+      setTimeout(() => {
+        slat.style.transform = 'rotateX(0deg)';
+      }, index * 40 + 200);
+    });
 
-  // 滚动时的视差效果
-  window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.peace-symbol, .earth-icon, .unity-hands, .peace-dove');
+    setTimeout(() => {
+      oldSlats.forEach(slat => slat.remove());
+      currentImage = newImageIndex;
+      blindControls.forEach(control => control.classList.remove('active'));
+      document.querySelector(`[data-image="${newImageIndex}"]`).classList.add('active');
+      isAnimating = false;
+    }, numberOfSlats * 40 + 1400);
+  }
+  
+  // 自动切换
+  function autoSwitchBlinds() {
+    if (!isAnimating) {
+      const nextImage = (currentImage % 3) + 1;
+      switchBlindsImage(nextImage);
+    }
+  }
+  
+  // 问题卡片交互功能
+  const questionGrid = document.querySelector('.question-grid');
+  
+  if (questionGrid) {
+    questionGrid.addEventListener('click', function(e) {
+      const questionCard = e.target.closest('.question-card');
+      if (questionCard) {
+        // 移除其他卡片的active状态
+        document.querySelectorAll('.question-card').forEach(otherCard => {
+          if (otherCard !== questionCard) {
+            otherCard.classList.remove('active');
+          }
+        });
+        
+        // 切换当前卡片的active状态
+        questionCard.classList.toggle('active');
+      }
+    });
+  }
+  
+  // 修复后的横向图片流动效果 - 真正的无缝循环
+  const imageTrack = document.getElementById('imageTrack');
+  if (imageTrack) {
+    let scrollPosition = 0;
+    const scrollSpeed = 1.2;
+    let animationId;
+    let isPaused = false;
     
-    parallaxElements.forEach((element, index) => {
-      const speed = (index + 1) * 0.3;
-      element.style.transform = `translateY(${scrolled * speed}px)`;
+    // 计算单个图片组的宽度（包括间距）
+    function getImageGroupWidth() {
+      const images = imageTrack.querySelectorAll('.work-image');
+      const totalImages = images.length / 2; // 因为图片是重复的
+      const imageWidth = 250 + 20; // 图片宽度 + gap
+      return totalImages * imageWidth;
+    }
+    
+    function animateImages() {
+      if (!isPaused) {
+        scrollPosition -= scrollSpeed;
+        
+        const groupWidth = getImageGroupWidth();
+        
+        // 当第一组图片完全滑出视野时，重置位置
+        if (Math.abs(scrollPosition) >= groupWidth) {
+          scrollPosition = 0;
+        }
+        
+        imageTrack.style.transform = `translateX(${scrollPosition}px)`;
+      }
+      
+      animationId = requestAnimationFrame(animateImages);
+    }
+    
+    // 鼠标悬停时暂停
+    imageTrack.addEventListener('mouseenter', () => {
+      isPaused = true;
     });
     
-    // 地球容器视差效果
-    const globeContainer = document.getElementById('globe-container');
-    if (globeContainer) {
-      const rate = scrolled * -0.2;
-      globeContainer.style.transform = `translateY(${rate}px)`;
-    }
+    imageTrack.addEventListener('mouseleave', () => {
+      isPaused = false;
+    });
+    
+    // 启动动画
+    animateImages();
+  }
+  
+  // 初始化百叶窗
+  createBlindSlats();
+  
+  // 控制器点击事件
+  blindControls.forEach(control => {
+    control.addEventListener('click', () => {
+      const imageIndex = parseInt(control.dataset.image);
+      switchBlindsImage(imageIndex);
+    });
   });
+  
+  // 每12秒自动切换
+  setInterval(autoSwitchBlinds, 12000);
+  
+});
 </script>
+
 </body>
-</html>-card {
-        max-width: 180px;
-        padding: 12px 16px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2rem;
-      }
-
-      nav ul {
-        flex-wrap: wrap;
-        height: auto;
-        padding: 10px;
-      }
-
-      nav li {
-        flex: none;
-        margin: 5px;
-      }
-
-      .main-container {
-        padding: 0 15px;
-      }
-
-      .globe-showcase {
-        padding: 20px 0;
-        min-height: auto;
-        flex-direction: column;
-        gap: 20px;
-      }
-
-      .services-sidebar {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .service-item-sidebar {
-        padding: 15px;
-      }
-
-      #globe-container {
-        width: 280px;
-        height: 280px;
-      }
-
-      .globe-info-cards {
-        width: 500px;
-        height: 500px;
-      }
-
-      .info-card {
-        max-width: 150px;
-        padding: 10px 12px;
-        font-size: 0.8rem;
-      }
-
-      .info-card h4 {
-        font-size: 0.9rem;
-        margin-bottom: 5px;
-      }
-
-      .info-card p {
-        font-size: 0.75rem;
-      }
-
-      .hero-section,
-      .benefits-section {
-        padding: 30px 20px;
-      }
-
-      .main-title {
-        font-size: 2.2rem;
-      }
-
-      .countries-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .country-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-      }
-
-      .country-info {
-        text-align: center;
-      }
-
-      .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
-        display: none;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .globe-showcase {
-        min-height: auto;
-        padding: 15px 0;
-      }
-
-      .services-sidebar {
-        padding: 0 5px;
-        gap: 10px;
-      }
-
-      .service-item-sidebar {
-        padding: 12px;
-      }
-
-      #globe-container {
-        width: 240px;
-        height: 240px;
-      }
-
-      .globe-info-cards {
-        width: 400px;
-        height: 400px;
-      }
-
-      .info
+</html>
