@@ -31,31 +31,28 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.35); /* 白色半透明层 */
-      pointer-events: none; /* 确保不影响点击 */
+      background: rgba(0, 0, 0, 0.35);
+      pointer-events: none;
     }
     
     /* 百叶窗片 - 修复裂缝问题 */
     .blind-slat {
       position: absolute;
       width: 100%;
-      height: calc(100vh / 15 + 2px); /* 增加2px重叠以避免裂缝 */
-      background-size: 100% 100vh; /* 确保背景图覆盖整个容器高度 */
+      height: calc(100vh / 15 + 2px);
+      background-size: 100% 100vh;
       background-repeat: no-repeat;
       transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
       transform-origin: center center;
-      border: none; /* 移除边框避免视觉干扰 */
+      border: none;
       backface-visibility: hidden;
-      /* 添加微小的重叠以确保无缝连接 */
       margin-top: -1px;
     }
     
-    /* 第一个片段不需要margin-top */
     .blind-slat:first-child {
       margin-top: 0;
     }
     
-    /* 百叶窗翻转动画 */
     .blind-slat.flip-out {
       transform: rotateX(-90deg);
     }
@@ -261,7 +258,7 @@
       }
       
       .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
-        display: none; /* 在移动设备上隐藏装饰元素 */
+        display: none;
       }
     }
     
@@ -505,26 +502,27 @@
       margin: 40px 0 30px 0;
     }
     
-    section ul {
-      max-width: 800px;
+    /* 对称设计的问题卡片布局 - 3-3-1 排列 */
+    .question-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0;
+      padding: 20px 0;
     }
     
-    /* 问题卡片网格布局 */
-    .question-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0;
+    .question-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      align-items: flex-start;
     }
     
     .question-card {
       background: linear-gradient(135deg, #4facfe 0%, #00f2fe 80%);
       color: white;
-      padding: 20px;
+      padding: 25px;
       border-radius: 15px;
       box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
       cursor: pointer;
@@ -536,6 +534,39 @@
       animation: cardSlideIn 0.6s ease forwards;
       animation-delay: calc(var(--i) * 0.1s);
       border: 2px solid transparent;
+      width: 340px;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    
+    /* 重新设置动画延迟 */
+    .question-row:nth-child(1) .question-card:nth-child(1) { --i: 1; }
+    .question-row:nth-child(1) .question-card:nth-child(2) { --i: 2; }
+    .question-row:nth-child(1) .question-card:nth-child(3) { --i: 3; }
+    .question-row:nth-child(2) .question-card:nth-child(1) { --i: 4; }
+    .question-row:nth-child(2) .question-card:nth-child(2) { --i: 5; }
+    .question-row:nth-child(2) .question-card:nth-child(3) { --i: 6; }
+    .question-row:nth-child(3) .question-card:nth-child(1) { --i: 7; }
+    
+    /* 最后一张卡片（第7张）特殊样式 - 稍大且居中 */
+    .question-row:nth-child(3) .question-card {
+      width: 340px;
+      min-height: 200px;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+      border: 3px solid rgba(255,255,255,0.3);
+    }
+    
+    .question-row:nth-child(3) .question-card .question-text {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    
+    .question-row:nth-child(3) .question-card .question-icon {
+      font-size: 1.8rem;
     }
     
     .question-card:nth-child(1) { --i: 1; }
@@ -580,6 +611,7 @@
       transform: translateY(-5px) scale(1.01);
       border-color: rgba(255,255,255,0.5);
       box-shadow: 0 20px 50px rgba(79, 172, 254, 0.5);
+      min-height: auto; /* 活跃状态时允许高度自适应 */
     }
     
     .question-text {
@@ -588,6 +620,9 @@
       line-height: 1.4;
       margin-bottom: 10px;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      flex: 1; /* 让文本区域占据可用空间 */
+      display: flex;
+      align-items: center;
     }
     
     .question-icon {
@@ -602,7 +637,7 @@
       font-weight: 400;
       line-height: 1.5;
       margin-top: 15px;
-      padding: 0 15px;
+      padding: 0;
       border-top: 1px solid rgba(255,255,255,0.3);
       background: rgba(255,255,255,0.1);
       border-radius: 0 0 10px 10px;
@@ -640,26 +675,115 @@
       position: relative;
       cursor: pointer;
       padding: 5px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     
     .click-hint {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       opacity: 0.8;
       text-align: center;
       margin-top: 10px;
       font-style: italic;
     }
     
+    /* 修复后的横向流动图片样式 - 确保无缝循环 */
+    .flowing-images {
+      width: 100%;
+      overflow: hidden;
+      margin: 40px 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(79,172,254,0.05) 100%);
+      border-radius: 15px;
+      padding: 20px 0;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+    
+    .flowing-images::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -20%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+      z-index: 1;
+    }
+    
+    @keyframes shimmer {
+      0% { left: -20%; }
+      50% { left: 120%; }
+      100% { left: -20%; }
+    }
+    
+    .image-track {
+      display: flex;
+      gap: 20px;
+      padding: 0 20px;
+      will-change: transform;
+      width: max-content; /* 让容器适应内容宽度 */
+    }
+    
+    .work-image {
+      width: 250px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+      border: 3px solid rgba(255,255,255,0.5);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .work-image:hover {
+      transform: scale(1.05) translateY(-5px);
+      box-shadow: 0 15px 30px rgba(79,172,254,0.3);
+      border-color: rgba(79,172,254,0.8);
+      z-index: 10;
+    }
+    
     /* 响应式调整 */
     @media (max-width: 768px) {
       .question-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 20px;
         padding: 0 10px;
       }
       
+      .question-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      
       .question-card {
-        padding: 18px;
+        width: 100%;
+        max-width: 350px;
+        min-height: 160px;
+        padding: 20px;
+      }
+      
+      /* 移动端第7张卡片不需要特殊大小 */
+      .question-row:nth-child(3) .question-card {
+        width: 100%;
+        max-width: 340px;
+        min-height: 160px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+        border: 2px solid transparent;
+      }
+      
+      .question-row:nth-child(3) .question-card .question-text {
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+      
+      .question-row:nth-child(3) .question-card .question-icon {
+        font-size: 1.3rem;
       }
       
       .question-text {
@@ -668,14 +792,39 @@
       
       .question-icon {
         font-size: 1.3rem;
-        padding: 20px 10px;
-        transform: none;
       }
       
-      section p:hover {
-        transform: scale(1.02);
+      .work-image {
+        width: 200px;
+        height: 120px;
+      }
+      
+      .flowing-images {
+        padding: 15px 0;
+        margin: 30px 0;
       }
     }
+    
+    @media (max-width: 480px) {
+      .question-card {
+        padding: 18px;
+        min-height: 140px;
+      }
+      
+      .question-text {
+        font-size: 0.9rem;
+      }
+      
+      .question-icon {
+        font-size: 1.2rem;
+      }
+      
+      .work-image {
+        width: 180px;
+        height: 110px;
+      }
+    }
+
     /* CTA 模块样式 */
     .cta {
       text-align: center;
@@ -691,6 +840,7 @@
     .cta h2 {
       font-size: 2rem;
       margin-bottom: 15px;
+      color: white;
     }
 
     .cta p {
@@ -699,15 +849,18 @@
     }
 
     .cta-button {
-      display: inline-block;
+      //display: inline-block;
+      display: block;
+      margin: 15px auto 0; 
       background: white;
       color: #4facfe;
-      padding: 15px 40px;
+      padding: 10px 20px;
       border-radius: 30px;
       font-weight: bold;
       font-size: 1.1rem;
       text-decoration: none;
       transition: all 0.3s ease;
+      width: fit-content;
     }
 
     .cta-button:hover {
@@ -721,6 +874,106 @@
       background: rgba(44, 62, 80, 0.9);
       color: white;
       margin-top: 40px;
+    }
+    
+    /* 优化的底部文字效果 */
+    .highlight-text {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      margin: 50px 0;
+      padding: 30px 20px;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      
+      /* 炫彩渐变背景 */
+      background: linear-gradient(135deg, 
+        #4facfe, 
+        #00f2fe);
+      background-size: 300% 300%;
+      animation: gradientShift 3s ease-in-out infinite;
+      
+      /* 霓虹发光文字 */
+      color: #ffffff;
+      text-shadow: 
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 20px rgba(255,105,180,0.6),
+        0 0 30px rgba(255,105,180,0.4),
+        0 0 40px rgba(255,105,180,0.2);
+      
+      /* 3D立体效果 */
+      transform: perspective(500px) rotateX(10deg);
+      box-shadow: 
+        0 15px 30px rgba(0,0,0,0.3),
+        0 0 50px rgba(255,105,180,0.2),
+        inset 0 2px 10px rgba(255,255,255,0.2);
+      
+      /* 动画过渡 */
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* 悬停效果 */
+    .highlight-text:hover {
+      transform: perspective(500px) rotateX(0deg) scale(1.05);
+      box-shadow: 
+        0 25px 50px rgba(0,0,0,0.4),
+        0 0 100px rgba(255,105,180,0.4),
+        inset 0 2px 15px rgba(255,255,255,0.3);
+      
+      text-shadow: 
+        0 0 15px rgba(255,255,255,1),
+        0 0 30px rgba(255,20,147,0.8),
+        0 0 45px rgba(255,20,147,0.6),
+        0 0 60px rgba(255,20,147,0.4);
+    }
+    
+    /* 背景渐变动画 */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* 闪烁边框效果 */
+    .highlight-text::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ff6b6b, #ffa500, #32cd32, #1e90ff, #9370db);
+      border-radius: 22px;
+      z-index: -1;
+      animation: borderGlow 2s linear infinite;
+      opacity: 0.8;
+    }
+    
+    @keyframes borderGlow {
+      0% { filter: hue-rotate(0deg) brightness(1); }
+      50% { filter: hue-rotate(180deg) brightness(1.2); }
+      100% { filter: hue-rotate(360deg) brightness(1); }
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .highlight-text {
+        font-size: 1.6rem;
+        padding: 25px 15px;
+        transform: perspective(300px) rotateX(5deg);
+      }
+      
+      .highlight-text:hover {
+        transform: perspective(300px) rotateX(0deg) scale(1.03);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .highlight-text {
+        font-size: 1.3rem;
+        padding: 20px 10px;
+      }
     }
     
   </style>
@@ -797,6 +1050,7 @@
   <section>
   <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
   <div class="question-grid">
+   <div class="question-row">
     <div class="question-card" data-card="1">
       <div class="question-content">
         <span class="question-icon">🤔</span>
@@ -832,7 +1086,8 @@
         実習生には事前に職種別の専門研修を実施。図解やデモンストレーションを交えた分かりやすい指導で、確実に業務内容を理解してもらいます。
       </div>
     </div>
-    
+   </div>   
+   <div class="question-row">
     <div class="question-card" data-card="4">
       <div class="question-content">
         <span class="question-icon">🌍</span>
@@ -868,7 +1123,8 @@
         当組合では厳格な選考基準で人材を選抜。真面目で責任感の強い実習生のみを紹介いたします。来日後も定期的にフォローアップを行います。
       </div>
     </div>
-    
+   </div>
+   <div class="question-row"> 
     <div class="question-card" data-card="7">
       <div class="question-content">
         <span class="question-icon">❌</span>
@@ -880,30 +1136,35 @@
         失敗の原因を詳しく分析し、同じ問題が起こらないよう万全の対策を講じます。豊富な経験とノウハウで、必ず成功に導きます。
       </div>
     </div>
-  </div>
+   </div>
   
-  <!-- 横向流动的工作图片 -->
+  <!-- 修复后的横向流动工作图片 -->
   <div class="flowing-images">
-    <div class="image-track">
-      <img src="./photos/photo1.png" alt="外国人技能実習生の職場風景" class="work-image">
-      <img src="./photos/photo2.jpg" alt="研修センターでの学習風景" class="work-image">
-      <img src="./photos/photo3.jpg" alt="工場での作業風景" class="work-image">
-      <img src="./photos/photo4.jpg" alt="日本語研修の様子" class="work-image">
-      <img src="./photos/photo1.png" alt="外国人技能実習生の職場風景" class="work-image">
-      <img src="./photos/photo2.jpg" alt="研修センターでの学習風景" class="work-image">
-      <img src="./photos/photo3.jpg" alt="工場での作業風景" class="work-image">
-      <img src="./photos/photo4.jpg" alt="日本語研修の様子" class="work-image">
+    <div class="image-track" id="imageTrack">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
+      <!-- 重复图片以确保无缝循环 -->
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
     </div>
   </div>
-  
-  <p>このお悩み広昌会協同組合が解決します!</p>
+  <h2>
+    今すぐご相談ください<br>
+    <span class="sub-text">無料相談で御社に最適な人材をご提案します!</span></h2>
+  <div class="highlight-text">このお悩み広昌会協同組合が解決します!
+   <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
+  </div>
  </section>
 </div>
-<section class="cta">
-  <h2>今すぐご相談ください</h2>
-  <p>無料相談で御社に最適な人材をご提案します。</p>
-  <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
-</section> 
+
+ 
+
 <footer>
   <p>&copy; 2025 広昌会協同組合</p>
 </footer>
@@ -1026,53 +1287,50 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // 横向图片流动效果 - 改进版
-  const imageTrack = document.querySelector('.image-track');
+  // 修复后的横向图片流动效果 - 真正的无缝循环
+  const imageTrack = document.getElementById('imageTrack');
   if (imageTrack) {
-    let isScrolling = false;
     let scrollPosition = 0;
-    const scrollSpeed = 0.8;
+    const scrollSpeed = 1.2;
+    let animationId;
+    let isPaused = false;
     
-    function startImageFlow() {
-      if (!isScrolling) {
-        isScrolling = true;
-        animateImages();
-      }
+    // 计算单个图片组的宽度（包括间距）
+    function getImageGroupWidth() {
+      const images = imageTrack.querySelectorAll('.work-image');
+      const totalImages = images.length / 2; // 因为图片是重复的
+      const imageWidth = 250 + 20; // 图片宽度 + gap
+      return totalImages * imageWidth;
     }
     
     function animateImages() {
-      scrollPosition -= scrollSpeed;
-      
-      // 获取图片总宽度
-      const firstImage = imageTrack.querySelector('.work-image');
-      if (firstImage) {
-        const imageWidth = firstImage.offsetWidth + 20; // 包括gap
-        const totalImages = imageTrack.children.length / 2; // 因为有重复的图片
-        const resetPoint = -(imageWidth * totalImages);
+      if (!isPaused) {
+        scrollPosition -= scrollSpeed;
         
-        if (scrollPosition <= resetPoint) {
+        const groupWidth = getImageGroupWidth();
+        
+        // 当第一组图片完全滑出视野时，重置位置
+        if (Math.abs(scrollPosition) >= groupWidth) {
           scrollPosition = 0;
         }
         
         imageTrack.style.transform = `translateX(${scrollPosition}px)`;
       }
       
-      if (isScrolling) {
-        requestAnimationFrame(animateImages);
-      }
+      animationId = requestAnimationFrame(animateImages);
     }
     
-    // 悬停时暂停
+    // 鼠标悬停时暂停
     imageTrack.addEventListener('mouseenter', () => {
-      isScrolling = false;
+      isPaused = true;
     });
     
     imageTrack.addEventListener('mouseleave', () => {
-      startImageFlow();
+      isPaused = false;
     });
     
     // 启动动画
-    startImageFlow();
+    animateImages();
   }
   
   // 初始化百叶窗
@@ -1094,221 +1352,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .question-card {
-        padding: 15px;
-      }
-      
-      .question-text {
-        font-size: 0.9rem;
-      }
-      
-      .question-icon {
-        font-size: 1.2rem;
-      }
-    }
-    
-    /* 横向流动图片样式 */
-    .flowing-images {
-      width: 100%;
-      overflow: hidden;
-      margin: 40px 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(79,172,254,0.05) 100%);
-      border-radius: 15px;
-      padding: 20px 0;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-      backdrop-filter: blur(10px);
-      position: relative;
-    }
-    
-    .flowing-images::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -20%;
-      width: 40%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      animation: shimmer 3s ease-in-out infinite;
-      z-index: 1;
-    }
-    
-    @keyframes shimmer {
-      0% { left: -20%; }
-      50% { left: 120%; }
-      100% { left: -20%; }
-    }
-    
-    .image-track {
-      display: flex;
-      gap: 20px;
-      padding: 0 20px;
-      will-change: transform;
-      animation: flowRight 15s linear infinite;
-    }
-    
-    @keyframes flowRight {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(calc(-100% - 20px));
-      }
-    }
-    
-    .work-image {
-      width: 250px;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      flex-shrink: 0;
-      border: 3px solid rgba(255,255,255,0.5);
-      position: relative;
-      z-index: 2;
-    }
-    
-    .work-image:hover {
-      transform: scale(1.05) translateY(-5px);
-      box-shadow: 0 15px 30px rgba(79,172,254,0.3);
-      border-color: rgba(79,172,254,0.8);
-      z-index: 10;
-    }
-    
-    /* 暂停动画在悬停时 */
-    .flowing-images:hover .image-track {
-      animation-play-state: paused;
-    }
-    
-    /* 响应式调整 */
-    @media (max-width: 768px) {
-      .work-image {
-        width: 200px;
-        height: 120px;
-      }
-      
-      .image-track {
-        animation-duration: 12s;
-        gap: 15px;
-        padding: 0 15px;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .work-image {
-        width: 180px;
-        height: 110px;
-      }
-      
-      .image-track {
-        animation-duration: 10s;
-        gap: 10px;
-        padding: 0 10px;
-      }
-      
-      .flowing-images {
-        padding: 15px 0;
-        margin: 30px 0;
-      }
-    }
-    
-    /* 优化的底部文字效果 */
-    section p {
-      text-align: center;
-      font-size: 2rem;
-      font-weight: 900;
-      margin: 50px 0;
-      padding: 30px 20px;
-      border-radius: 20px;
-      position: relative;
-      overflow: hidden;
-      
-      /* 炫彩渐变背景 */
-      background: linear-gradient(135deg, 
-        #4facfe, 
-        #00f2fe);
-      background-size: 400% 400%;
-      animation: gradientShift 3s ease-in-out infinite;
-      
-      /* 霓虹发光文字 */
-      color: #ffffff;
-      text-shadow: 
-        0 0 10px rgba(255,255,255,0.8),
-        0 0 20px rgba(255,105,180,0.6),
-        0 0 30px rgba(255,105,180,0.4),
-        0 0 40px rgba(255,105,180,0.2);
-      
-      /* 3D立体效果 */
-      transform: perspective(500px) rotateX(10deg);
-      box-shadow: 
-        0 15px 30px rgba(0,0,0,0.3),
-        0 0 50px rgba(255,105,180,0.2),
-        inset 0 2px 10px rgba(255,255,255,0.2);
-      
-      /* 动画过渡 */
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    /* 悬停效果 */
-    section p:hover {
-      transform: perspective(500px) rotateX(0deg) scale(1.05);
-      box-shadow: 
-        0 25px 50px rgba(0,0,0,0.4),
-        0 0 100px rgba(255,105,180,0.4),
-        inset 0 2px 15px rgba(255,255,255,0.3);
-      
-      text-shadow: 
-        0 0 15px rgba(255,255,255,1),
-        0 0 30px rgba(255,20,147,0.8),
-        0 0 45px rgba(255,20,147,0.6),
-        0 0 60px rgba(255,20,147,0.4);
-    }
-    
-    /* 背景渐变动画 */
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
-    /* 闪烁边框效果 */
-    section p::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, #ff6b6b, #ffa500, #32cd32, #1e90ff, #9370db);
-      border-radius: 22px;
-      z-index: -1;
-      animation: borderGlow 2s linear infinite;
-      opacity: 0.8;
-    }
-    
-    @keyframes borderGlow {
-      0% { filter: hue-rotate(0deg) brightness(1); }
-      50% { filter: hue-rotate(180deg) brightness(1.2); }
-      100% { filter: hue-rotate(360deg) brightness(1); }
-    }
-    
-    /* 响应式调整 */
-    @media (max-width: 768px) {
-      section p {
-        font-size: 1.6rem;
-        padding: 25px 15px;
-        transform: perspective(300px) rotateX(5deg);
-      }
-      
-      section p:hover {
-        transform: perspective(300px) rotateX(0deg) scale(1.03);
-      }
-    }
-    
-    @media (max-width: 480px) {
-      section p {
-        font-size: 1.3rem;
