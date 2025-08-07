@@ -11,73 +11,263 @@
       margin: 0;
       color: #333;
     }
+    
     header {
-      background: rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,248,255,0.95) 100%);
+      padding: 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
       position: sticky;
       top: 0;
       z-index: 1000;
     }
+    
     header h1 {
       text-align: center;
-      color: white;
-      font-size: 2.5rem;
-      font-weight: 800;
-      padding: 25px 0;
+      margin: 0;
+      color: #2c3e50;
+      font-size: 2.8rem;
+      font-weight: 700;
+      padding: 20px 0 10px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+    
+    nav {
+      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 30%, #4facfe 80%);
+      padding: 0;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      min-height: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    nav li {
+      flex: 1;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    
+    nav li:last-child {
+      border-right: none;
+    }
+    
+    nav li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+    
+    nav li:hover::before {
+      left: 100%;
+    }
+    
+    nav a {
+      display: block;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      padding: 18px 20px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 2;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    nav a:hover {
+      color: #4facfe;
+      background: rgba(255,255,255,0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
     section {
       max-width: 1200px;
       margin: 40px auto;
       padding: 0 20px;
     }
+    
     .interview-container {
       background: rgba(255, 255, 255, 0.95);
       border-radius: 25px;
       padding: 40px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
     }
+    
     .main-title {
       text-align: center;
       font-size: 2.5rem;
       font-weight: 800;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       background: linear-gradient(135deg, #4facfe, #00f2fe);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+    
+    .subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 40px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+    
     .interview-card {
       display: flex;
       align-items: flex-start;
       background: linear-gradient(135deg, rgba(79,172,254,0.1), rgba(0,242,254,0.1));
-      border: 1px solid rgba(79,172,254,0.3);
+      border: 2px solid transparent;
       border-radius: 20px;
       padding: 25px;
       margin-bottom: 25px;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
     }
+    
+    .interview-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .interview-card:hover::before {
+      left: 100%;
+    }
+    
     .interview-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 35px rgba(79,172,254,0.2);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(79,172,254,0.3);
+      border-color: rgba(79,172,254,0.5);
+      background: linear-gradient(135deg, rgba(79,172,254,0.15), rgba(0,242,254,0.15));
     }
+    
     .interview-card img {
       width: 120px;
       height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      margin-right: 20px;
+      margin-right: 25px;
       border: 3px solid #4facfe;
+      box-shadow: 0 8px 20px rgba(79,172,254,0.3);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
     }
+    
+    .interview-card:hover img {
+      border-color: #00f2fe;
+      box-shadow: 0 12px 30px rgba(0,242,254,0.4);
+      transform: scale(1.05);
+    }
+    
     .interview-content h3 {
-      margin: 0;
+      margin: 0 0 15px 0;
       font-size: 1.5rem;
       color: #2c3e50;
+      font-weight: 700;
     }
+    
     .interview-content p {
-      margin-top: 10px;
-      line-height: 1.7;
+      margin: 0;
+      line-height: 1.8;
       color: #555;
+      font-size: 1rem;
     }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .interview-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 30px 20px;
+      }
+      
+      .interview-card img {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+      
+      .main-title {
+        font-size: 2rem;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+        padding: 0 10px;
+      }
+      
+      header h1 {
+        font-size: 2.2rem;
+      }
+      
+      nav ul {
+        flex-wrap: wrap;
+        min-height: auto;
+      }
+      
+      nav li {
+        min-width: 50%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+      }
+      
+      nav li:nth-child(even) {
+        border-left: 1px solid rgba(255,255,255,0.2);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      nav li {
+        min-width: 100%;
+        border-left: none !important;
+      }
+      
+      nav a {
+        padding: 15px;
+        font-size: 0.9rem;
+      }
+      
+      .interview-container {
+        padding: 30px 20px;
+      }
+    }
+    
     footer {
       text-align: center;
       padding: 30px;
@@ -85,17 +275,33 @@
       backdrop-filter: blur(10px);
       color: white;
       margin-top: 50px;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 <header>
   <h1>広昌会協同組合</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="overview.html">組合概要</a></li>
+      <li><a href="ginou.html">技能実習</a></li>
+      <li><a href="tokutei.html">特定技能</a></li>
+      <li><a href="sending.html">送り出し紹介</a></li>
+      <li><a href="training.html">研修センター紹介</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+    </ul>
+  </nav>
 </header>
 
 <section>
   <div class="interview-container">
     <h2 class="main-title">専門家にインタビュー</h2>
+    <p class="subtitle">
+      外国人材受け入れの各分野で活躍する専門家の皆様に、<br>
+      最新の動向や実践的なノウハウについてお聞きしました
+    </p>
 
     <div class="interview-card">
       <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="専門家A">
@@ -103,6 +309,7 @@
         <h3>田中 一郎 氏（介護分野専門家）</h3>
         <p>
           外国人介護人材の受け入れに関する最新の動向と、介護現場での文化的な理解の重要性についてお話いただきました。
+          「言語だけでなく、心のコミュニケーションが何より大切です。文化の違いを理解し合うことで、より良い介護サービスが生まれます。」
         </p>
       </div>
     </div>
@@ -113,26 +320,40 @@
         <h3>佐藤 花子 氏（人材育成コンサルタント）</h3>
         <p>
           技能実習生の教育プログラムと、日本企業における多文化共生の実践方法について語っていただきました。
+          「成功の鍵は、一人ひとりの個性を理解し、それぞれに合った指導方法を見つけることです。」
         </p>
       </div>
     </div>
     
     <div class="interview-card">
-      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="専門家B">
+      <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="専門家C">
       <div class="interview-content">
-        <h3>** ** 氏（人材育成コンサルタント）</h3>
+        <h3>山田 次郎 氏（製造業人材アドバイザー）</h3>
         <p>
-          技能実習生の教育プログラムと、日本企業における多文化共生の実践方法について語っていただきました。
+          製造業における外国人技能実習生の安全管理と技術習得について詳しく解説していただきました。
+          「安全第一の意識を共有し、実践的な技術指導を通じて、真のプロフェッショナルを育成しています。」
         </p>
       </div>
     </div>
 
     <div class="interview-card">
-      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="専門家B">
+      <img src="https://randomuser.me/api/portraits/women/58.jpg" alt="専門家D">
       <div class="interview-content">
-        <h3>++ ** 氏（人材育成コンサルタント）</h3>
+        <h3>鈴木 美智子 氏（法律・ビザ専門家）</h3>
         <p>
-          技能実習生の教育プログラムと、日本企業における多文化共生の実践方法について語っていただきました。
+          外国人雇用における法的な注意点と、ビザ申請の最新動向について専門的な見解をお聞きしました。
+          「法令遵守は基本中の基本。適切な手続きを踏むことで、企業も実習生も安心して取り組めます。」
+        </p>
+      </div>
+    </div>
+
+    <div class="interview-card">
+      <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="専門家E">
+      <div class="interview-content">
+        <h3>高橋 雅彦 氏（国際交流コーディネーター）</h3>
+        <p>
+          異文化理解と地域社会での共生について、豊富な経験をもとにお話いただきました。
+          「地域全体で外国人を温かく迎えることで、真の国際化が実現します。お互いを理解し合う姿勢が大切です。」
         </p>
       </div>
     </div>
