@@ -123,6 +123,347 @@
       margin: 0 auto 30px;
     }
 
+    /* 制度の利点ハイライト */
+    .benefits-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .benefit-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 25px;
+      padding: 35px 30px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .benefit-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      transform: scale(0);
+      transition: transform 0.6s;
+    }
+
+    .benefit-card:hover::before {
+      transform: scale(1);
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(102, 126, 234, 0.3);
+    }
+
+    .benefit-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .benefit-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .benefit-desc {
+      font-size: 1rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    /* 比較テーブル */
+    .comparison-section {
+      background: rgba(255,255,255,0.95);
+      border-radius: 25px;
+      padding: 40px 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    .comparison-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .comparison-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      border-radius: 2px;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 20px 15px;
+      text-align: center;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .comparison-table th {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .comparison-table td {
+      background: rgba(255,255,255,0.8);
+      font-size: 0.95rem;
+      color: #444;
+      transition: background 0.3s;
+    }
+
+    .comparison-table tr:hover td {
+      background: rgba(79, 172, 254, 0.1);
+    }
+
+    .comparison-table .highlight {
+      background: linear-gradient(135deg, rgba(79, 172, 254, 0.2), rgba(0, 242, 254, 0.1));
+      font-weight: 600;
+    }
+
+    /* 職種詳細 */
+    .industries-section {
+      background: rgba(255,255,255,0.95);
+      border-radius: 25px;
+      padding: 40px 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    .industries-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .industries-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+      border-radius: 2px;
+    }
+
+    .industries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .industry-card {
+      background: linear-gradient(135deg, #f8f9ff, #ffffff);
+      border-radius: 20px;
+      padding: 30px 25px;
+      border: 1px solid rgba(79, 172, 254, 0.1);
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .industry-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+
+    .industry-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .industry-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(79, 172, 254, 0.15);
+      border-color: rgba(79, 172, 254, 0.3);
+    }
+
+    .industry-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .industry-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .industry-details {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .industry-salary {
+      background: rgba(79, 172, 254, 0.1);
+      color: #4facfe;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-top: 15px;
+      display: inline-block;
+    }
+
+    /* プロセスフロー */
+    .process-section {
+      background: rgba(255,255,255,0.95);
+      border-radius: 25px;
+      padding: 40px 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    .process-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .process-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(90deg, #4ecdc4, #44a08d);
+      border-radius: 2px;
+    }
+
+    .process-timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .process-timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, #4facfe, #00f2fe);
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .process-step {
+      position: relative;
+      margin-bottom: 50px;
+      padding: 0 40px;
+    }
+
+    .process-step:nth-child(odd) .process-content {
+      margin-right: 50%;
+      text-align: right;
+    }
+
+    .process-step:nth-child(even) .process-content {
+      margin-left: 50%;
+      text-align: left;
+    }
+
+    .process-number {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+    }
+
+    .process-content {
+      background: rgba(255,255,255,0.9);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border: 1px solid rgba(79, 172, 254, 0.1);
+    }
+
+    .process-content h4 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .process-content p {
+      color: #666;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .process-duration {
+      background: rgba(79, 172, 254, 0.1);
+      color: #4facfe;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      display: inline-block;
+    }
+
     .info-card {
       background: rgba(255,255,255,0.9);
       border-radius: 20px;
@@ -151,6 +492,66 @@
     }
     ol { padding-left: 25px; }
 
+    /* CTA セクション */
+    .cta-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 25px;
+      padding: 50px 40px;
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .cta-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .cta-desc {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .cta-button {
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .cta-button:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .cta-button.primary {
+      background: white;
+      color: #667eea;
+      border-color: white;
+    }
+
+    .cta-button.primary:hover {
+      background: #f8f9ff;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(255,255,255,0.3);
+    }
+
     footer {
       text-align: center;
       padding: 40px 20px;
@@ -165,6 +566,17 @@
       .main-title{font-size:2.2rem;}
       .hero-section{padding:40px 25px;}
       .info-card{padding:20px;}
+      .benefits-section { grid-template-columns: 1fr; }
+      .industries-grid { grid-template-columns: 1fr; }
+      .process-step:nth-child(odd) .process-content,
+      .process-step:nth-child(even) .process-content {
+        margin: 0;
+        text-align: center;
+      }
+      .process-timeline::before { display: none; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .comparison-table { font-size: 0.8rem; }
+      .comparison-table th, .comparison-table td { padding: 12px 8px; }
     }
   </style>
 </head>
@@ -194,42 +606,158 @@
     </p>
   </div>
 
-  <div class="info-card">
-    <h3>特定技能制度とは</h3>
-    <p>特定技能は、人材不足が顕著な分野で即戦力として外国人が就労できる制度です。一定の日本語能力と技能水準が求められます。</p>
+  <!-- 制度の利点 -->
+  <div class="benefits-section">
+    <div class="benefit-card">
+      <span class="benefit-icon">🚀</span>
+      <h3 class="benefit-title">即戦力として活躍</h3>
+      <p class="benefit-desc">技能実習とは異なり、既に技能を持つ人材として即座に業務に従事可能</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">🏠</span>
+      <h3 class="benefit-title">転職・家族帯同可能</h3>
+      <p class="benefit-desc">特定技能2号では家族の帯同や永続的な在留も可能</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">💰</span>
+      <h3 class="benefit-title">日本人同等の報酬</h3>
+      <p class="benefit-desc">同等の業務に従事する日本人と同じ水準の報酬を保証</p>
+    </div>
   </div>
 
-  <div class="info-card">
-    <h3>特定技能1号・2号</h3>
-    <p><strong>1号：</strong> 在留期間に制限あり。一定の技能を有する者が対象。<br>
-       <strong>2号：</strong> 熟練技能を有する者が対象。家族帯同が可能で、在留期間更新も認められます。</p>
+  <!-- 技能実習との比較 -->
+  <div class="comparison-section">
+    <h3 class="comparison-title">技能実習制度との比較</h3>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>技能実習</th>
+          <th class="highlight">特定技能</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>制度目的</strong></td>
+          <td>技能移転による国際貢献</td>
+          <td class="highlight">人手不足解消</td>
+        </tr>
+        <tr>
+          <td><strong>在留期間</strong></td>
+          <td>最長5年</td>
+          <td class="highlight">1号：最長5年<br>2号：更新可能</td>
+        </tr>
+        <tr>
+          <td><strong>家族帯同</strong></td>
+          <td>不可</td>
+          <td class="highlight">2号は可能</td>
+        </tr>
+        <tr>
+          <td><strong>転職</strong></td>
+          <td>原則不可</td>
+          <td class="highlight">同職種内で可能</td>
+        </tr>
+        <tr>
+          <td><strong>技能水準</strong></td>
+          <td>なし（学習が前提）</td>
+          <td class="highlight">試験等で技能確認済み</td>
+        </tr>
+        <tr>
+          <td><strong>日本語能力</strong></td>
+          <td>なし</td>
+          <td class="highlight">基準あり（N4以上等）</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="info-card">
-    <h3>取得までの流れ</h3>
-    <ol>
-      <li>技能試験・日本語試験に合格</li>
-      <li>雇用契約締結</li>
-      <li>在留資格申請</li>
-      <li>特定技能外国人として就労開始</li>
-    </ol>
+  <!-- 対象職種 -->
+  <div class="industries-section">
+    <h3 class="industries-title">特定技能対象職種（14分野）</h3>
+    <div class="industries-grid">
+      <div class="industry-card">
+        <div class="industry-icon">🏥</div>
+        <h4 class="industry-name">介護</h4>
+        <p class="industry-details">高齢者施設での身体介護・生活支援業務</p>
+        <span class="industry-salary">月給：18-28万円</span>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🏗️</div>
+        <h4 class="industry-name">建設</h4>
+        <p class="industry-details">型枠施工・左官・配管・建設機械施工等</p>
+        <span class="industry-salary">月給：20-35万円</span>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🌾</div>
+        <h4 class="industry-name">農業</h4>
+        <p class="industry-details">耕種農業・畜産農業に関する業務</p>
+        <span class="industry-salary">月給：16-25万円</span>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🏭</div>
+        <h4 class="industry-name">食品製造業</h4>
+        <p class="industry-details">食品・飲料の製造・加工・包装業務</p>
+        <span class="industry-salary">月給：18-30万円</span>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">⚙️</div>
+        <h4 class="industry-name">機械・金属加工</h4>
+        <p class="industry-details">機械加工・金属プレス・鋳造等</p>
+        <span class="industry-salary">月給：20-32万円</span>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🛏️</div>
+        <h4 class="industry-name">宿泊</h4>
+        <p class="industry-details">ホテル・旅館での接客・清掃業務</p>
+        <span class="industry-salary">月給：17-26万円</span>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🧹</div>
+        <h4 class="industry-name">ビルクリーニング</h4>
+        <p class="industry-details">建築物内部の清掃業務</p>
+        <span class="industry-salary">月給：16-24万円</span>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🐟</div>
+        <h4 class="industry-name">漁業</h4>
+        <p class="industry-details">漁業・養殖業に関する業務</p>
+        <span class="industry-salary">月給：18-28万円</span>
+      </div>
+    </div>
   </div>
 
-  <div class="info-card">
-    <h3>受け入れ可能な職種</h3>
-    <p>介護、農業、建設、食品製造業、機械・金属加工、宿泊、ビルクリーニングなど幅広い分野に対応しています。</p>
-  </div>
-
-  <div class="info-card">
-    <h3>技能実習との違い</h3>
-    <p>技能実習が「学びながら働く制度」であるのに対し、特定技能は即戦力として雇用可能。<br>
-       また、より幅広い職種と権利が認められています。</p>
-  </div>
-</section>
-
-<footer>
-  <p>&copy; 2025 広昌会協同組合 - 国際人材育成パートナー</p>
-</footer>
-
-</body>
-</html>
+  <!-- 取得プロセス -->
+  <div class="process-section">
+    <h3 class="process-title">特定技能資格取得プロセス</h3>
+    <div class="process-timeline">
+      <div class="process-step">
+        <div class="process-number">1</div>
+        <div class="process-content">
+          <h4>技能・日本語試験</h4>
+          <p>各分野の技能評価試験と日本語能力試験に合格する必要があります。日本語試験は国際交流基金日本語基礎テスト（A2以上）または日本語能力試験（N4以上）が必要です。</p>
+          <span class="process-duration">期間：1-6ヶ月</span>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="process-number">2</div>
+        <div class="process-content">
+          <h4>雇用契約締結</h4>
+          <p>受入機関と雇用条件書を締結。日本人と同等以上の報酬、適切な労働時間、健康保険等の確認を行います。登録支援機関による支援計画も作成されます。</p>
+          <span class="process-duration">期間：2-4週間</span>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="process-number">3</div>
+        <div class="process-content">
+          <h4>在留資格申請</h4>
+          <p>出入国在留管理局に「特定技能」の在留資格変更許可申請または在留資格認定証明書交付申請を行います。健康診断書や犯罪経歴証明書等も必要です。</p>
+          <span class="process-duration">期間：1-3ヶ月</span>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="process-number">4</div>
+        <div class="process-content">
+          <h4>入国・就労開始</h4>
+          <p>在留資格が許可されたら入国し、登録支援機関による生活オリエンテーション、住居確保支援、銀行口座開設等の支援を受けながら就労を開始します。</p>
+          <span class="process-duration">期間：1-2週間</span>
+        </div
