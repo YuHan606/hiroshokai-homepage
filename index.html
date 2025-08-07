@@ -551,13 +551,21 @@
     .question-row:nth-child(2) .question-card:nth-child(3) { --i: 6; }
     .question-row:nth-child(3) .question-card:nth-child(1) { --i: 7; }
     
-    /* 最后一张卡片（第7张）特殊样式 - 稍大且居中 */
+   /* 最后一张卡片（第7张）特殊样式 - 稍大且居中 */
     .question-row:nth-child(3) .question-card {
       width: 340px;
       min-height: 200px;
       background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
       box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
       border: 3px solid rgba(255,255,255,0.3);
+    }
+    
+    /* 确保第7张卡片的悬停效果正常工作 */
+    .question-row:nth-child(3) .question-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+      border-color: rgba(255,255,255,0.3);
     }
     
     .question-row:nth-child(3) .question-card .question-text {
