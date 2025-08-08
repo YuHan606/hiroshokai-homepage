@@ -135,6 +135,7 @@
       backdrop-filter: blur(10px);
       position: relative;
       overflow: hidden;
+      margin-bottom: 40px;
     }
 
     .overview-container::before {
@@ -193,6 +194,7 @@
     .info-table tr {
       transition: all 0.3s ease;
       position: relative;
+      cursor: pointer;
     }
 
     .info-table tr:hover {
@@ -241,6 +243,56 @@
     .info-table tr:last-child th,
     .info-table tr:last-child td {
       border-bottom: none;
+    }
+
+    /* 详细信息展示区域 */
+    .detail-info {
+      max-height: 0;
+      overflow: hidden;
+      background: rgba(240, 248, 255, 0.9);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 0 0 15px 15px;
+      margin-top: -1px;
+    }
+
+    .detail-info.active {
+      max-height: 300px;
+      border-top: 2px solid #4facfe;
+    }
+
+    .detail-content {
+      padding: 25px 30px;
+      background: linear-gradient(135deg, rgba(79, 172, 254, 0.05), rgba(0, 242, 254, 0.05));
+      border-radius: 0 0 15px 15px;
+    }
+
+    .detail-title {
+      color: #4facfe;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .detail-title::before {
+      content: '💡';
+      font-size: 1.5rem;
+    }
+
+    .detail-text {
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
     }
 
     /* 特殊样式 */
@@ -319,6 +371,90 @@
       font-weight: 600;
     }
 
+    /* 新增的服务特色区域 */
+    .service-features {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      padding: 50px;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .service-features::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ff6b6b);
+      background-size: 400% 100%;
+      animation: gradientFlow 8s ease infinite;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      padding: 30px 25px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(79, 172, 254, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .feature-card:hover::before {
+      left: 100%;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: #4facfe;
+      box-shadow: 0 20px 40px rgba(79, 172, 254, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .feature-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .feature-description {
+      color: #666;
+      line-height: 1.7;
+      text-align: center;
+    }
+
     footer {
       text-align: center;
       padding: 40px 20px;
@@ -346,7 +482,7 @@
         margin: 5px;
       }
 
-      .overview-container {
+      .overview-container, .service-features {
         padding: 40px 25px;
         margin: 20px;
       }
@@ -389,6 +525,36 @@
       .stat-number {
         font-size: 2rem;
       }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 点击提示动画 */
+    .click-indicator {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #4facfe;
+      font-size: 1.2rem;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+    }
+
+    .info-table tr:hover .click-indicator {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.2);
+    }
+
+    /* 展开/收缩图标动画 */
+    .expand-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .expand-icon.active {
+      transform: rotate(180deg);
     }
   </style>
 </head>
@@ -413,26 +579,97 @@
     <h2 class="main-title">組合概要</h2>
     
     <table class="info-table">
-      <tr>
+      <tr data-detail="organization">
         <th>組合名</th>
-        <td>広昌会協同組合</td>
+        <td>
+          広昌会協同組合
+          <span class="click-indicator expand-icon">▼</span>
+        </td>
       </tr>
       <tr>
+        <td colspan="2">
+          <div class="detail-info" id="detail-organization">
+            <div class="detail-content">
+              <div class="detail-title">組合について</div>
+              <div class="detail-text">
+                <span class="highlight">広昌会協同組合</span>は、国際人材の受け入れと育成を通じて、日本と海外諸国の架け橋となることを使命とする協同組合です。
+                設立以来、技能実習生および特定技能労働者の適正な受け入れと、質の高いサポートサービスを提供してまいりました。
+                「信頼」「責任」「成長」を基本理念として、すべてのステークホルダーの満足と発展を目指しています。
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      
+      <tr data-detail="location">
         <th>所在地</th>
         <td>
           <span class="address-line"><strong>本部：</strong>〒720-2104 広島県福山市神辺町道上1123－1―３F</span>
           <span class="address-line"><strong>支店：</strong>〒303-0031 茨城県常総市水海道山田町1076‐2</span>
+          <span class="click-indicator expand-icon">▼</span>
         </td>
       </tr>
       <tr>
+        <td colspan="2">
+          <div class="detail-info" id="detail-location">
+            <div class="detail-content">
+              <div class="detail-title">拠点戦略</div>
+              <div class="detail-text">
+                <span class="highlight">本部（広島県福山市）</span>では、西日本エリアを中心とした受け入れ企業様への営業・サポート業務を行っております。
+                <span class="highlight">支店（茨城県常総市）</span>では、東日本エリアでの事業展開と、より細やかな地域密着型サービスを提供。
+                この戦略的な2拠点体制により、全国の企業様に迅速かつ効果的なサービスをお届けしています。
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr data-detail="license">
         <th>許可番号</th>
-        <td><strong>1709001309</strong></td>
+        <td>
+          <strong>1709001309</strong>
+          <span class="click-indicator expand-icon">▼</span>
+        </td>
       </tr>
       <tr>
+        <td colspan="2">
+          <div class="detail-info" id="detail-license">
+            <div class="detail-content">
+              <div class="detail-title">技能実習計画認定について</div>
+              <div class="detail-text">
+                外国人技能実習機構（OTIT）より正式に認定された<span class="highlight">技能実習監理団体</span>として、
+                法令遵守とアフターケアを重視した適正な監理業務を実施しております。定期的な監査と継続的な改善により、
+                高い品質基準を維持し、実習生と受け入れ企業双方の満足度向上に努めています。
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr data-detail="support">
         <th>外国人特定技能<br>登録支援機関許可番号</th>
-        <td><strong>21登-006107</strong></td>
+        <td>
+          <strong>21登-006107</strong>
+          <span class="click-indicator expand-icon">▼</span>
+        </td>
       </tr>
       <tr>
+        <td colspan="2">
+          <div class="detail-info" id="detail-support">
+            <div class="detail-content">
+              <div class="detail-title">特定技能支援サービス</div>
+              <div class="detail-text">
+                出入国在留管理庁より認定された<span class="highlight">登録支援機関</span>として、特定技能外国人の受け入れから
+                在留期間中の包括的支援まで、法定支援項目をすべて網羅したサービスを提供。
+                生活オリエンテーション、住居確保、各種手続きサポート、24時間相談体制など、
+                外国人材が安心して日本で働き続けられる環境づくりに取り組んでいます。
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr data-detail="countries">
         <th>主な受け入れ国</th>
         <td>
           <div class="countries">
@@ -443,9 +680,27 @@
             <span class="tag">🇻🇳 ベトナム</span>
             <span class="tag">🇳🇵 ネパール</span>
           </div>
+          <span class="click-indicator expand-icon">▼</span>
         </td>
       </tr>
       <tr>
+        <td colspan="2">
+          <div class="detail-info" id="detail-countries">
+            <div class="detail-content">
+              <div class="detail-title">国際ネットワークと送り出し機関</div>
+              <div class="detail-text">
+                各国の優良な送り出し機関との強固なパートナーシップにより、質の高い人材の安定供給を実現。
+                <span class="highlight">インドネシア・ミャンマー</span>からは製造業・建設業分野、
+                <span class="highlight">ベトナム・カンボジア</span>からは農業・食品製造業分野、
+                <span class="highlight">中国・ネパール</span>からは介護・サービス業分野を中心に、
+                各国の特性を活かした最適な人材マッチングを行っております。
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr data-detail="industries">
         <th>受け入れ可能職種</th>
         <td>
           <div class="industries">
@@ -460,6 +715,22 @@
             <span class="tag">🎨 塗装</span>
             <span class="tag">🧹 ビルクリーニング</span>
             <span class="tag">➕ その他</span>
+          </div>
+          <span class="click-indicator expand-icon">▼</span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="detail-info" id="detail-industries">
+            <div class="detail-content">
+              <div class="detail-title">専門分野別サポート体制</div>
+              <div class="detail-text">
+                各職種の専門知識を持つスタッフが、業界特有の技術習得支援から安全管理まで、
+                きめ細かなサポートを提供。<span class="highlight">農業分野</span>では季節労働への対応、
+                <span class="highlight">製造業</span>では品質管理と効率化、<span class="highlight">介護分野</span>では
+                日本特有のケア技術と文化理解など、それぞれの分野に最適化したプログラムを展開しています。
+              </div>
+            </div>
           </div>
         </td>
       </tr>
@@ -484,6 +755,60 @@
       </div>
     </div>
   </div>
+
+  <!-- 新增的服务特色区域 -->
+  <div class="service-features">
+    <h2 class="main-title">サービス特色</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🌟</div>
+        <div class="feature-title">質の高い人材選抜</div>
+        <div class="feature-description">
+          各国の優良送り出し機関との連携により、技術力・日本語能力・人格面で優秀な人材のみを厳選。入国前の充実した研修で即戦力を育成します。
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">🤝</div>
+        <div class="feature-title">24時間サポート体制</div>
+        <div class="feature-description">
+          多言語対応可能なスタッフが24時間365日体制でサポート。緊急時対応から日常的な相談まで、安心して働ける環境を提供します。
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">法令遵守の徹底</div>
+        <div class="feature-description">
+          関係法令を厳格に遵守し、適正な実習・就労環境の確保を最優先。定期監査と継続的な改善により、透明性の高い運営を実現しています。
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">🎓</div>
+        <div class="feature-title">継続的スキル向上</div>
+        <div class="feature-description">
+          日本語教育から専門技術研修まで、段階的なスキルアップをサポート。資格取得支援やキャリア相談も積極的に行います。
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">🏠</div>
+        <div class="feature-title">生活環境整備</div>
+        <div class="feature-description">
+          住居確保から生活必需品の準備、地域コミュニティとの橋渡しまで、日本での快適な生活基盤づくりを全面的にサポートします。
+        </div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">💼</div>
+        <div class="feature-title">企業様への丁寧なフォロー</div>
+        <div class="feature-description">
+          受け入れ企業様のニーズに応じたきめ細かな対応と定期的なフォローアップにより、長期的な信頼関係を構築します。
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <footer>
@@ -494,11 +819,15 @@
   // 页面加载动画
   window.addEventListener('load', () => {
     const container = document.querySelector('.overview-container');
+    const serviceContainer = document.querySelector('.service-features');
     const tableRows = document.querySelectorAll('.info-table tr');
     const statCards = document.querySelectorAll('.stat-card');
+    const featureCards = document.querySelectorAll('.feature-card');
     
     container.style.opacity = '0';
     container.style.transform = 'translateY(30px)';
+    serviceContainer.style.opacity = '0';
+    serviceContainer.style.transform = 'translateY(30px)';
     
     tableRows.forEach((row, index) => {
       row.style.opacity = '0';
@@ -506,6 +835,11 @@
     });
 
     statCards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+    });
+
+    featureCards.forEach((card, index) => {
       card.style.opacity = '0';
       card.style.transform = 'translateY(30px)';
     });
@@ -530,7 +864,57 @@
           card.style.transform = 'translateY(0)';
         }, 800 + index * 150);
       });
+
+      setTimeout(() => {
+        serviceContainer.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        serviceContainer.style.opacity = '1';
+        serviceContainer.style.transform = 'translateY(0)';
+
+        featureCards.forEach((card, index) => {
+          setTimeout(() => {
+            card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 200 + index * 150);
+        });
+      }, 1500);
     }, 100);
+  });
+
+  // 表格行点击展开详细信息
+  document.querySelectorAll('.info-table tr[data-detail]').forEach(row => {
+    row.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const detailType = this.dataset.detail;
+      const detailDiv = document.getElementById(`detail-${detailType}`);
+      const expandIcon = this.querySelector('.expand-icon');
+      
+      // 关闭其他已打开的详细信息
+      document.querySelectorAll('.detail-info.active').forEach(activeDetail => {
+        if (activeDetail !== detailDiv) {
+          activeDetail.classList.remove('active');
+          const otherIcon = document.querySelector(`tr[data-detail] .expand-icon.active`);
+          if (otherIcon && otherIcon !== expandIcon) {
+            otherIcon.classList.remove('active');
+          }
+        }
+      });
+      
+      // 切换当前详细信息的显示状态
+      detailDiv.classList.toggle('active');
+      expandIcon.classList.toggle('active');
+      
+      // 添加平滑滚动效果
+      if (detailDiv.classList.contains('active')) {
+        setTimeout(() => {
+          detailDiv.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest'
+          });
+        }, 200);
+      }
+    });
   });
 
   // 统计数字动画
@@ -573,6 +957,84 @@
 
   document.querySelectorAll('.stat-card').forEach(card => {
     observer.observe(card);
+  });
+
+  // 特色卡片交互效果
+  document.querySelectorAll('.feature-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-8px) scale(1.02)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0) scale(1)';
+    });
+  });
+
+  // 添加键盘导航支持
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      // ESC键关闭所有展开的详细信息
+      document.querySelectorAll('.detail-info.active').forEach(detail => {
+        detail.classList.remove('active');
+      });
+      document.querySelectorAll('.expand-icon.active').forEach(icon => {
+        icon.classList.remove('active');
+      });
+    }
+  });
+
+  // 添加表格行焦点效果
+  document.querySelectorAll('.info-table tr[data-detail]').forEach(row => {
+    row.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.click();
+      }
+    });
+    
+    // 使行可以获得焦点
+    row.setAttribute('tabindex', '0');
+  });
+
+  // 添加平滑的页面滚动
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  // 性能优化：防抖函数
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  // 滚动性能优化
+  let ticking = false;
+  function updateScrollEffects() {
+    // 这里可以添加基于滚动位置的效果
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(updateScrollEffects);
+      ticking = true;
+    }
   });
 </script>
 </body>
