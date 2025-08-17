@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home - 広昌会協同組合</title>
   <style>
     body {
@@ -35,7 +36,7 @@
       pointer-events: none;
     }
     
-    /* 百叶窗片 - 修复裂缝问题 */
+    /* 百叶窗片 */
     .blind-slat {
       position: absolute;
       width: 100%;
@@ -98,168 +99,6 @@
       background: linear-gradient(135deg, #1A237E, #1A237E);
       color: white;
       box-shadow: 0 6px 20px rgba(79,172,254,0.5);
-    }
-    
-    /* 和平主题装饰 */
-    .peace-symbol {
-      position: fixed;
-      top: 20%;
-      left: 5%;
-      width: 80px;
-      height: 80px;
-      opacity: 0.3;
-      z-index: -5;
-      animation: peacePulse 4s ease-in-out infinite;
-    }
-    
-    .peace-symbol::before {
-      content: '☮';
-      font-size: 60px;
-      color: rgba(255,255,255,0.8);
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    
-    @keyframes peacePulse {
-      0%, 100% { 
-        opacity: 0.3;
-        transform: scale(1);
-      }
-      50% { 
-        opacity: 0.6;
-        transform: scale(1.1);
-      }
-    }
-    
-    /* 地球图标装饰 */
-    .earth-icon {
-      position: fixed;
-      top: 25%;
-      right: 8%;
-      width: 60px;
-      height: 60px;
-      opacity: 0.4;
-      z-index: -5;
-      animation: earthRotate 20s linear infinite;
-    }
-    
-    .earth-icon::before {
-      content: '🌍';
-      font-size: 50px;
-      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-    }
-    
-    @keyframes earthRotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    /* 团结之手装饰 */
-    .unity-hands {
-      position: fixed;
-      bottom: 20%;
-      left: 8%;
-      width: 70px;
-      height: 70px;
-      opacity: 0.4;
-      z-index: -5;
-      animation: unityPulse 6s ease-in-out infinite;
-    }
-    
-    .unity-hands::before {
-      content: '🤝';
-      font-size: 55px;
-      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-    }
-    
-    @keyframes unityPulse {
-      0%, 100% { 
-        opacity: 0.4;
-        transform: scale(1);
-      }
-      50% { 
-        opacity: 0.7;
-        transform: scale(1.15);
-      }
-    }
-    
-    /* 和平鸽装饰 */
-    .peace-dove {
-      position: fixed;
-      top: 25%;
-      right: 25%;
-      width: 50px;
-      height: 50px;
-      opacity: 0.5;
-      z-index: -5;
-      animation: doveFloat 8s ease-in-out infinite;
-    }
-    
-    .peace-dove::before {
-      content: '🕊';
-      font-size: 40px;
-      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-    }
-    
-    @keyframes doveFloat {
-      0%, 100% { 
-        transform: translateY(0px) rotate(0deg);
-        opacity: 0.5;
-      }
-      25% { 
-        transform: translateY(-8px) rotate(2deg);
-        opacity: 0.7;
-      }
-      50% { 
-        transform: translateY(-5px) rotate(-1deg);
-        opacity: 0.8;
-      }
-      75% { 
-        transform: translateY(-10px) rotate(1deg);
-        opacity: 0.6;
-      }
-    }
-    
-    /* 温暖光晕效果 */
-    .warm-glow {
-      position: fixed;
-      top: 10%;
-      left: 10%;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, rgba(255,165,0,0.05) 50%, transparent 70%);
-      z-index: -6;
-      animation: glowPulse 12s ease-in-out infinite;
-      border-radius: 50%;
-    }
-    
-    @keyframes glowPulse {
-      0%, 100% { 
-        opacity: 0.3;
-        transform: scale(1);
-      }
-      50% { 
-        opacity: 0.6;
-        transform: scale(1.3);
-      }
-    }
-    
-    /* 响应式设计 */
-    @media (max-width: 768px) {
-      .blinds-controller {
-        bottom: 60px;
-        right: 20px;
-        gap: 10px;
-      }
-      
-      .blind-control {
-        width: 50px;
-        height: 50px;
-        font-size: 14px;
-      }
-      
-      .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
-        display: none;
-      }
     }
     
     header {
@@ -358,13 +197,16 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     
-    /* ==================== 下拉菜单样式 ==================== */
+    /* 下拉菜单样式 */
     .dropdown {
       position: relative;
     }
     
     .dropdown-btn {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
       text-decoration: none;
       color: white;
       font-weight: 600;
@@ -380,16 +222,17 @@
       cursor: pointer;
       background: none;
       border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
+      outline: none;
+      font-family: inherit;
+      height: 100%;
+      min-height: 60px;
     }
     
     .dropdown-btn::after {
       content: '▼';
       font-size: 0.7rem;
       transition: transform 0.3s ease;
+      margin-left: 5px;
     }
     
     .dropdown.active .dropdown-btn::after {
@@ -485,29 +328,7 @@
       box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3);
     }
     
-    /* 响应式下拉菜单 */
-    @media (max-width: 768px) {
-      .dropdown-content {
-        flex-direction: column;
-        gap: 5px;
-      }
-      
-      .dropdown-item {
-        border-right: none;
-        border-bottom: 1px solid rgba(26, 35, 126, 0.2);
-      }
-      
-      .dropdown-item:last-child {
-        border-bottom: none;
-      }
-      
-      .dropdown-item a {
-        padding: 10px 12px;
-        font-size: 0.85rem;
-      }
-    }
-    
-    /* ==================== 改进的边缘标签样式 ==================== */
+    /* 边缘标签样式 */
     .edge-tabs {
       position: fixed;
       top: 50%;
@@ -526,7 +347,6 @@
       right: -5px;
     }
     
-    /* 现代化的边缘标签设计 */
     .edge-tab {
       position: relative;
       background: linear-gradient(135deg, 
@@ -545,8 +365,6 @@
       overflow: hidden;
       backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      
-      /* 添加渐变边框效果 */
       background-clip: padding-box;
     }
     
@@ -556,7 +374,6 @@
       text-align: right;
     }
     
-    /* 动态光效背景 */
     .edge-tab::before {
       content: '';
       position: absolute;
@@ -572,38 +389,8 @@
       z-index: 1;
     }
     
-    /* 发光效果 */
-    .edge-tab::after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, 
-        #ff6b6b 0%, 
-        #1A237E 25%, 
-        #1A237E 50%, 
-        #764ba2 75%, 
-        #ff6b6b 100%);
-      border-radius: inherit;
-      z-index: -1;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      animation: borderRotate 3s linear infinite;
-    }
-    
-    @keyframes borderRotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
     .edge-tab:hover::before {
       left: 100%;
-    }
-    
-    .edge-tab:hover::after {
-      opacity: 0.8;
     }
     
     .edge-tab:hover {
@@ -632,7 +419,6 @@
       letter-spacing: 0.3px;
     }
     
-    /* 添加图标装饰 */
     .edge-tab .tab-icon {
       display: inline-block;
       margin-right: 8px;
@@ -649,99 +435,12 @@
       transform: scale(1.2) rotate(10deg);
     }
     
-    /* 脉冲动画效果 */
-    .edge-tab {
-      animation: tabPulse 4s ease-in-out infinite;
+    /* 主要内容区域 */
+    .main-content {
+      position: relative;
+      z-index: 10;
     }
     
-    @keyframes tabPulse {
-      0%, 100% { 
-        box-shadow: 
-          0 8px 32px rgba(79, 172, 254, 0.4),
-          0 4px 16px rgba(0, 0, 0, 0.2);
-      }
-      50% { 
-        box-shadow: 
-          0 10px 40px rgba(79, 172, 254, 0.5),
-          0 6px 20px rgba(0, 0, 0, 0.25);
-      }
-    }
-    
-    /* 响应式设计 */
-    @media (max-width: 1024px) {
-      .edge-tab {
-        min-width: 200px;
-        font-size: 0.88rem;
-        padding: 14px 24px 14px 16px;
-      }
-      
-      .right-tabs .edge-tab {
-        padding: 14px 16px 14px 24px;
-      }
-      
-      .tab-text {
-        font-size: 0.88rem;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .edge-tabs {
-        position: relative;
-        top: auto;
-        transform: none;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 25px 0;
-        gap: 12px;
-        padding: 0 15px;
-      }
-      
-      .left-tabs, .right-tabs {
-        left: auto;
-        right: auto;
-      }
-      
-      .edge-tab, .right-tabs .edge-tab {
-        border-radius: 20px;
-        min-width: 180px;
-        padding: 14px 18px;
-        text-align: center;
-        margin: 8px;
-        transform: none;
-      }
-      
-      .edge-tab:hover, .right-tabs .edge-tab:hover {
-        transform: translateY(-3px) scale(1.03);
-      }
-      
-      .tab-text {
-        font-size: 0.85rem;
-      }
-      
-      .edge-tab .tab-icon, .right-tabs .edge-tab .tab-icon {
-        margin: 0 4px 0 0;
-        display: inline-block;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .edge-tab {
-        min-width: 160px;
-        font-size: 0.8rem;
-        padding: 12px 15px;
-      }
-      
-      .tab-text {
-        font-size: 0.8rem;
-      }
-      
-      .edge-tab .tab-icon {
-        font-size: 1rem;
-      }
-    }
-    
-    /* 主要内容区域调整 */
     section {
       max-width: 1200px;
       margin: 40px auto;
@@ -759,7 +458,7 @@
       margin: 40px 0 30px 0;
     }
     
-    /* 对称设计的问题卡片布局 - 3-3-1 排列 */
+    /* 问题卡片布局 - 3-3-1 排列 */
     .question-grid {
       display: flex;
       flex-direction: column;
@@ -799,7 +498,6 @@
       flex-shrink: 0;
     }
     
-    /* 重新设置动画延迟 */
     .question-row:nth-child(1) .question-card:nth-child(1) { --i: 1; }
     .question-row:nth-child(1) .question-card:nth-child(2) { --i: 2; }
     .question-row:nth-child(1) .question-card:nth-child(3) { --i: 3; }
@@ -808,7 +506,6 @@
     .question-row:nth-child(2) .question-card:nth-child(3) { --i: 6; }
     .question-row:nth-child(3) .question-card:nth-child(1) { --i: 7; }
     
-   /* 最后一张卡片（第7张）特殊样式 - 稍大且居中 */
     .question-row:nth-child(3) .question-card {
       width: 340px;
       min-height: 200px;
@@ -817,30 +514,12 @@
       border: 3px solid rgba(255,255,255,0.3);
     }
     
-    /* 确保第7张卡片的悬停效果正常工作 */
     .question-row:nth-child(3) .question-card:hover {
       transform: translateY(-8px) scale(1.02);
       box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4);
       background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
       border-color: rgba(255,255,255,0.3);
     }
-    
-    .question-row:nth-child(3) .question-card .question-text {
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-    
-    .question-row:nth-child(3) .question-card .question-icon {
-      font-size: 1.8rem;
-    }
-    
-    .question-card:nth-child(1) { --i: 1; }
-    .question-card:nth-child(2) { --i: 2; }
-    .question-card:nth-child(3) { --i: 3; }
-    .question-card:nth-child(4) { --i: 4; }
-    .question-card:nth-child(5) { --i: 5; }
-    .question-card:nth-child(6) { --i: 6; }
-    .question-card:nth-child(7) { --i: 7; }
     
     @keyframes cardSlideIn {
       to {
@@ -876,7 +555,7 @@
       transform: translateY(-5px) scale(1.01);
       border-color: rgba(255,255,255,0.5);
       box-shadow: 0 20px 50px rgba(79, 172, 254, 0.5);
-      min-height: auto; /* 活跃状态时允许高度自适应 */
+      min-height: auto;
     }
     
     .question-text {
@@ -885,7 +564,7 @@
       line-height: 1.4;
       margin-bottom: 10px;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-      flex: 1; /* 让文本区域占据可用空间 */
+      flex: 1;
       display: flex;
       align-items: center;
     }
@@ -921,7 +600,6 @@
       transform: translateY(0);
     }
     
-    /* 下拉箭头指示器 */
     .dropdown-arrow {
       position: absolute;
       top: 15px;
@@ -935,7 +613,6 @@
       transform: rotate(180deg);
     }
     
-    /* 改进卡片点击区域 */
     .question-content {
       position: relative;
       cursor: pointer;
@@ -954,7 +631,7 @@
       font-style: italic;
     }
     
-    /* 修复后的横向流动图片样式 - 确保无缝循环 */
+    /* 横向流动图片样式 */
     .flowing-images {
       width: 100%;
       overflow: hidden;
@@ -967,30 +644,12 @@
       position: relative;
     }
     
-    .flowing-images::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -20%;
-      width: 40%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      animation: shimmer 3s ease-in-out infinite;
-      z-index: 1;
-    }
-    
-    @keyframes shimmer {
-      0% { left: -20%; }
-      50% { left: 120%; }
-      100% { left: -20%; }
-    }
-    
     .image-track {
       display: flex;
       gap: 20px;
       padding: 0 20px;
       will-change: transform;
-      width: max-content; /* 让容器适应内容宽度 */
+      width: max-content;
     }
     
     .work-image {
@@ -1013,8 +672,142 @@
       z-index: 10;
     }
     
-    /* 响应式调整 */
+    /* 底部文字效果 */
+    .highlight-text {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      margin: 50px 0;
+      padding: 30px 20px;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1A237E, #1A237E);
+      background-size: 300% 300%;
+      animation: gradientShift 3s ease-in-out infinite;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+      transform: perspective(500px) rotateX(10deg);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .highlight-text:hover {
+      transform: perspective(500px) rotateX(0deg) scale(1.05);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .sub-text {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      margin: 20px auto 0;
+      background: white;
+      color: #1A237E;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    .cta-button:hover {
+      background: #f0f8ff;
+      transform: scale(1.08);
+      box-shadow: 0 12px 35px rgba(26, 35, 126, 0.3);
+    }
+    
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(44, 62, 80, 0.9);
+      color: white;
+      margin-top: 40px;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+      .edge-tab {
+        min-width: 200px;
+        font-size: 0.88rem;
+        padding: 14px 24px 14px 16px;
+      }
+      
+      .right-tabs .edge-tab {
+        padding: 14px 16px 14px 24px;
+      }
+      
+      .tab-text {
+        font-size: 0.88rem;
+      }
+    }
+    
     @media (max-width: 768px) {
+      .blinds-controller {
+        bottom: 60px;
+        right: 20px;
+        gap: 10px;
+      }
+      
+      .blind-control {
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+      }
+      
+      .edge-tabs {
+        position: relative;
+        top: auto;
+        transform: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 25px 0;
+        gap: 12px;
+        padding: 0 15px;
+      }
+      
+      .left-tabs, .right-tabs {
+        left: auto;
+        right: auto;
+      }
+      
+      .edge-tab, .right-tabs .edge-tab {
+        border-radius: 20px;
+        min-width: 180px;
+        padding: 14px 18px;
+        text-align: center;
+        margin: 8px;
+        transform: none;
+      }
+      
+      .edge-tab:hover, .right-tabs .edge-tab:hover {
+        transform: translateY(-3px) scale(1.03);
+      }
+      
+      .tab-text {
+        font-size: 0.85rem;
+      }
+      
+      .edge-tab .tab-icon, .right-tabs .edge-tab .tab-icon {
+        margin: 0 4px 0 0;
+        display: inline-block;
+      }
+      
       .question-grid {
         gap: 20px;
         padding: 0 10px;
@@ -1033,22 +826,12 @@
         padding: 20px;
       }
       
-      /* 移动端第7张卡片不需要特殊大小 */
       .question-row:nth-child(3) .question-card {
         width: 100%;
         max-width: 340px;
         min-height: 160px;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
         border: 2px solid transparent;
-      }
-      
-      .question-row:nth-child(3) .question-card .question-text {
-        font-size: 0.95rem;
-        font-weight: 600;
-      }
-      
-      .question-row:nth-child(3) .question-card .question-icon {
-        font-size: 1.3rem;
       }
       
       .question-text {
@@ -1067,6 +850,35 @@
       .flowing-images {
         padding: 15px 0;
         margin: 30px 0;
+      }
+      
+      .highlight-text {
+        font-size: 1.6rem;
+        padding: 25px 15px;
+        transform: perspective(300px) rotateX(5deg);
+      }
+      
+      .highlight-text:hover {
+        transform: perspective(300px) rotateX(0deg) scale(1.03);
+      }
+      
+      .dropdown-content {
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .dropdown-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(26, 35, 126, 0.2);
+      }
+      
+      .dropdown-item:last-child {
+        border-bottom: none;
+      }
+      
+      .dropdown-item a {
+        padding: 10px 12px;
+        font-size: 0.85rem;
       }
     }
     
@@ -1088,575 +900,442 @@
         width: 180px;
         height: 110px;
       }
-    }
-
-    /* CTA 模块样式 */
-    .cta {
-      text-align: center;
-      background: linear-gradient(135deg, #1A237E, #1A237E);
-      color: white;
-      padding: 50px 20px;
-      border-radius: 20px;
-      margin: 60px auto;
-      max-width: 900px;
-      box-shadow: 0 15px 40px rgba(79, 172, 254, 0.3);
-    }
-
-    .cta h2 {
-      font-size: 2rem;
-      margin-bottom: 15px;
-      color: white;
-    }
-
-    .cta p {
-      font-size: 1.2rem;
-      margin-bottom: 25px;
-    }
-
-    .cta-button {
-      display: block;
-      margin: 15px auto 0; 
-      background: white;
-      color: #1A237E;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 1.1rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      width: fit-content;
-    }
-
-    .cta-button:hover {
-      background: #f0f8ff;
-      transform: scale(1.08);
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: rgba(44, 62, 80, 0.9);
-      color: white;
-      margin-top: 40px;
-    }
-    
-    /* 优化的底部文字效果 */
-    .highlight-text {
-      text-align: center;
-      font-size: 2rem;
-      font-weight: 900;
-      margin: 50px 0;
-      padding: 30px 20px;
-      border-radius: 20px;
-      position: relative;
-      overflow: hidden;
       
-      /* 炫彩渐变背景 */
-      background: linear-gradient(135deg, 
-        #1A237E, 
-        #1A237E);
-      background-size: 300% 300%;
-      animation: gradientShift 3s ease-in-out infinite;
-      
-      /* 霓虹发光文字 */
-      color: #ffffff;
-      text-shadow: 
-        0 0 10px rgba(255,255,255,0.8),
-        0 0 20px rgba(255,105,180,0.6),
-        0 0 30px rgba(255,105,180,0.4),
-        0 0 40px rgba(255,105,180,0.2);
-      
-      /* 3D立体效果 */
-      transform: perspective(500px) rotateX(10deg);
-      box-shadow: 
-        0 15px 30px rgba(0,0,0,0.3),
-        0 0 50px rgba(255,105,180,0.2),
-        inset 0 2px 10px rgba(255,255,255,0.2);
-      
-      /* 动画过渡 */
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    /* 悬停效果 */
-    .highlight-text:hover {
-      transform: perspective(500px) rotateX(0deg) scale(1.05);
-      box-shadow: 
-        0 25px 50px rgba(0,0,0,0.4),
-        0 0 100px rgba(255,105,180,0.4),
-        inset 0 2px 15px rgba(255,255,255,0.3);
-      
-      text-shadow: 
-        0 0 15px rgba(255,255,255,1),
-        0 0 30px rgba(255,20,147,0.8),
-        0 0 45px rgba(255,20,147,0.6),
-        0 0 60px rgba(255,20,147,0.4);
-    }
-    
-    /* 背景渐变动画 */
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
-    /* 闪烁边框效果 */
-    .highlight-text::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, #ff6b6b, #ffa500, #32cd32, #1e90ff, #9370db);
-      border-radius: 22px;
-      z-index: -1;
-      animation: borderGlow 2s linear infinite;
-      opacity: 0.8;
-    }
-    
-    @keyframes borderGlow {
-      0% { filter: hue-rotate(0deg) brightness(1); }
-      50% { filter: hue-rotate(180deg) brightness(1.2); }
-      100% { filter: hue-rotate(360deg) brightness(1); }
-    }
-    
-    /* 响应式调整 */
-    @media (max-width: 768px) {
-      .highlight-text {
-        font-size: 1.6rem;
-        padding: 25px 15px;
-        transform: perspective(300px) rotateX(5deg);
+      .edge-tab {
+        min-width: 160px;
+        font-size: 0.8rem;
+        padding: 12px 15px;
       }
       
-      .highlight-text:hover {
-        transform: perspective(300px) rotateX(0deg) scale(1.03);
+      .tab-text {
+        font-size: 0.8rem;
       }
-    }
-    
-    @media (max-width: 480px) {
+      
+      .edge-tab .tab-icon {
+        font-size: 1rem;
+      }
+      
       .highlight-text {
         font-size: 1.3rem;
         padding: 20px 10px;
       }
     }
-    
   </style>
 </head>
 <body>
-<!-- 百叶窗背景切换系统 -->
-<div class="blinds-container" id="blindsContainer">
-  <!-- 百叶窗片将通过JavaScript动态生成 -->
-</div>
+  <!-- 百叶窗背景切换系统 -->
+  <div class="blinds-container" id="blindsContainer">
+    <!-- 百叶窗片将通过JavaScript动态生成 -->
+  </div>
 
-<!-- 百叶窗控制器 -->
-<div class="blinds-controller">
-  <div class="blind-control active" data-image="1">1</div>
-  <div class="blind-control" data-image="2">2</div>
-  <div class="blind-control" data-image="3">3</div>
-</div>
+  <!-- 百叶窗控制器 -->
+  <div class="blinds-controller">
+    <div class="blind-control active" data-image="1">1</div>
+    <div class="blind-control" data-image="2">2</div>
+    <div class="blind-control" data-image="3">3</div>
+  </div>
 
-<!-- 和平主题装饰 -->
-<div class="peace-symbol"></div>
-<div class="earth-icon"></div>
-<div class="unity-hands"></div>
-<div class="peace-dove"></div>
-<div class="warm-glow"></div>
+  <header>
+    <h1>広昌会協同組合</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+          <button class="dropdown-btn">専門家を探す</button>
+          <div class="dropdown-menu">
+            <div class="dropdown-content">
+              <div class="dropdown-item">
+                <a href="ginou.html">技能実習</a>
+              </div>
+              <div class="dropdown-item">
+                <a href="tokutei.html">特定技能</a>
+              </div>
+              <div class="dropdown-item">
+                <a href="sending.html">送り出し紹介</a>
+              </div>
+              <div class="dropdown-item">
+                <a href="training.html">研修センター紹介</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="overview.html">組合概要</a></li>
+        <li><a href="ginou.html">技能実習</a></li>
+        <li><a href="tokutei.html">特定技能</a></li>
+        <li><a href="sending.html">送り出し紹介</a></li>
+        <li><a href="training.html">研修センター紹介</a></li>
+        <li><a href="contact.html">お問い合わせ</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<header>
-  <h1>広昌会協同組合</h1>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li class="dropdown">
-        <button class="dropdown-btn">専門家を探す</button>
-        <div class="dropdown-menu">
-          <div class="dropdown-content">
-            <div class="dropdown-item">
-              <a href="ginou.html">技能実習</a>
+  <!-- 左侧边缘标签 -->
+  <div class="edge-tabs left-tabs">
+    <a href="interview.html" class="edge-tab">
+      <span class="tab-icon">🎤</span>
+      <span class="tab-text">専門家にインタビュー</span>
+    </a>
+    <a href="jinzai.html" class="edge-tab">
+      <span class="tab-icon">👥</span>
+      <span class="tab-text">人材情報一覧</span>
+    </a>
+    <a href="kyujin.html" class="edge-tab">
+      <span class="tab-icon">📝</span>
+      <span class="tab-text">求人掲載のお申し込み</span>
+    </a>
+    <a href="qa.html" class="edge-tab">
+      <span class="tab-icon">❓</span>
+      <span class="tab-text">外国人雇用Q＆A一覧</span>
+    </a>
+  </div>
+
+  <!-- 右侧边缘标签 -->
+  <div class="edge-tabs right-tabs">
+    <a href="denryoku.html" class="edge-tab">
+      <span class="tab-text">企業様に電力及び社員寮提供</span>
+      <span class="tab-icon">⚡</span>
+    </a>
+    <a href="solar.html" class="edge-tab">
+      <span class="tab-text">太陽光発電及び蓄電提供</span>
+      <span class="tab-icon">☀️</span>
+    </a>
+    <a href="denki.html" class="edge-tab">
+      <span class="tab-text">企業様に電気及び寮提供</span>
+      <span class="tab-icon">🏠</span>
+    </a>
+    <a href="sendingzy.html" class="edge-tab">
+      <span class="tab-text">送り出し機関を探す</span>
+      <span class="tab-icon">🔍</span>
+    </a>
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="main-content">
+    <section>
+      <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
+      <div class="question-grid">
+        <div class="question-row">
+          <div class="question-card" data-card="1">
+            <div class="question-content">
+              <span class="question-icon">🤔</span>
+              <div class="question-text">外国人スタッフを雇用したいけど、どうしたらいいかわからない</div>
+              <div class="click-hint">クリックして回答を見る</div>
+              <span class="dropdown-arrow">▼</span>
             </div>
-            <div class="dropdown-item">
-              <a href="tokutei.html">特定技能</a>
+            <div class="answer-text">
+              広昌会協同組合が、雇用手続きから入国サポートまで、すべての段階でお手伝いします。まずは無料相談からお気軽にお問い合わせください。
             </div>
-            <div class="dropdown-item">
-              <a href="sending.html">送り出し紹介</a>
+          </div>
+          
+          <div class="question-card" data-card="2">
+            <div class="question-content">
+              <span class="question-icon">💬</span>
+              <div class="question-text">言葉は、通じるの・・・</div>
+              <div class="click-hint">クリックして回答を見る</div>
+              <span class="dropdown-arrow">▼</span>
             </div>
-            <div class="dropdown-item">
-              <a href="training.html">研修センター紹介</a>
+            <div class="answer-text">
+              当組合では日本語研修を徹底的に行います。基本的な日常会話から専門用語まで、職場で必要なコミュニケーション能力を身につけてもらいます。
+            </div>
+          </div>
+          
+          <div class="question-card" data-card="3">
+            <div class="question-content">
+              <span class="question-icon">🔧</span>
+              <div class="question-text">仕事の内容は伝わるの</div>
+              <div class="click-hint">クリックして回答を見る</div>
+              <span class="dropdown-arrow">▼</span>
+            </div>
+            <div class="answer-text">
+              実習生には事前に職種別の専門研修を実施。図解やデモンストレーションを交えた分かりやすい指導で、確実に業務内容を理解してもらいます。
+            </div>
+          </div>
+        </div>   
+        
+        <div class="question-row">
+          <div class="question-card" data-card="4">
+            <div class="question-content">
+              <span class="question-icon">🌍</span>
+              <div class="question-text">習慣や文化は大丈夫なの</div>
+              <div class="click-hint">クリックして回答を見る</div>
+              <span class="dropdown-arrow">▼</span>
+            </div>
+            <div class="answer-text">
+              来日前に日本の生活習慣や文化、職場のマナーについて丁寧に指導します。また、来日後も継続的にサポートを行います。
+            </div>
+          </div>
+          
+          <div class="question-card" data-card="5">
+            <div class="question-content">
+              <span class="question-icon">📋</span>
+              <div class="question-text">ビザの更新とか手続きが面倒じゃないの</div>
+              <div class="click-hint">クリックして回答を見る</div>
+              <span class="dropdown-arrow">▼</span>
+            </div>
+            <div class="answer-text">
+              ビザ申請・更新等の複雑な手続きはすべて当組合が代行いたします。企業様には面倒な手続きの負担をかけません。
+            </div>
+          </div>
+          
+          <div class="question-card" data-card="6">
+            <div class="question-content">
+              <span class="question-icon">⚡</span>
+              <div class="question-text">外国人はいい加減なんじゃないの</div>
+              <div class="click-hint">クリックして回答を見る</div>
+              <span class="dropdown-arrow">▼</span>
+            </div>
+            <div class="answer-text">
+              当組合では厳格な選考基準で人材を選抜。真面目で責任感の強い実習生のみを紹介いたします。来日後も定期的にフォローアップを行います。
             </div>
           </div>
         </div>
-      </li>
-      <li><a href="overview.html">組合概要</a></li>
-      <li><a href="ginou.html">技能実習</a></li>
-      <li><a href="tokutei.html">特定技能</a></li>
-      <li><a href="sending.html">送り出し紹介</a></li>
-      <li><a href="training.html">研修センター紹介</a></li>
-      <li><a href="contact.html">お問い合わせ</a></li>
-    </ul>
-  </nav>
-</header>
-
-<!-- 左侧边缘标签 - 添加图标 -->
-<div class="edge-tabs left-tabs">
-  <a href="interview.html" class="edge-tab">
-    <span class="tab-icon">🎤</span>
-    <span class="tab-text">専門家にインタビュー</span>
-  </a>
-  <a href="jinzai.html" class="edge-tab">
-    <span class="tab-icon">👥</span>
-    <span class="tab-text">人材情報一覧</span>
-  </a>
-  <a href="kyujin.html" class="edge-tab">
-    <span class="tab-icon">📝</span>
-    <span class="tab-text">求人掲載のお申し込み</span>
-  </a>
-  <a href="qa.html" class="edge-tab">
-    <span class="tab-icon">❓</span>
-    <span class="tab-text">外国人雇用Q＆A一覧</span>
-  </a>
-</div>
-
-<!-- 右侧边缘标签 - 添加图标 -->
-<div class="edge-tabs right-tabs">
-  <a href="denryoku.html" class="edge-tab">
-    <span class="tab-text">企業様に電力及び社員寮提供</span>
-    <span class="tab-icon">⚡</span>
-  </a>
-  <a href="solar.html" class="edge-tab">
-    <span class="tab-text">太陽光発電及び蓄電提供</span>
-    <span class="tab-icon">☀️</span>
-  </a>
-  <a href="denki.html" class="edge-tab">
-    <span class="tab-text">企業様に電気及び寮提供</span>
-    <span class="tab-icon">🏠</span>
-  </a>
-  <a href="sendingzy.html" class="edge-tab">
-    <span class="tab-text">送り出し機関を探す</span>
-    <span class="tab-icon">🔍</span>
-  </a>
-</div>
-
-<!-- 主要内容区域 -->
-<div class="main-content">
-  <section>
-  <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
-  <div class="question-grid">
-   <div class="question-row">
-    <div class="question-card" data-card="1">
-      <div class="question-content">
-        <span class="question-icon">🤔</span>
-        <div class="question-text">外国人スタッフを雇用したいけど、どうしたらいいかわからない</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
+        
+        <div class="question-row"> 
+          <div class="question-card" data-card="7">
+            <div class="question-content">
+              <span class="question-icon">❌</span>
+              <div class="question-text">過去に失敗した経験がある</div>
+              <div class="click-hint">クリックして回答を見る</div>
+              <span class="dropdown-arrow">▼</span>
+            </div>
+            <div class="answer-text">
+              失敗の原因を詳しく分析し、同じ問題が起こらないよう万全の対策を講じます。豊富な経験とノウハウで、必ず成功に導きます。
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="answer-text">
-        広昌会協同組合が、雇用手続きから入国サポートまで、すべての段階でお手伝いします。まずは無料相談からお気軽にお問い合わせください。
+      
+      <!-- 横向流动工作图片 -->
+      <div class="flowing-images">
+        <div class="image-track" id="imageTrack">
+          <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
+          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
+          <!-- 重复图片以确保无缝循环 -->
+          <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
+          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
+        </div>
       </div>
-    </div>
-    
-    <div class="question-card" data-card="2">
-      <div class="question-content">
-        <span class="question-icon">💬</span>
-        <div class="question-text">言葉は、通じるの・・・</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
+      
+      <h2>
+        今すぐご相談ください<br>
+        <span class="sub-text">無料相談で御社に最適な人材をご提案します!</span>
+      </h2>
+      
+      <div class="highlight-text">
+        このお悩み広昌会協同組合が解決します!
+        <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
       </div>
-      <div class="answer-text">
-        当組合では日本語研修を徹底的に行います。基本的な日常会話から専門用語まで、職場で必要なコミュニケーション能力を身につけてもらいます。
-      </div>
-    </div>
-    
-    <div class="question-card" data-card="3">
-      <div class="question-content">
-        <span class="question-icon">🔧</span>
-        <div class="question-text">仕事の内容は伝わるの</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        実習生には事前に職種別の専門研修を実施。図解やデモンストレーションを交えた分かりやすい指導で、確実に業務内容を理解してもらいます。
-      </div>
-    </div>
-   </div>   
-   <div class="question-row">
-    <div class="question-card" data-card="4">
-      <div class="question-content">
-        <span class="question-icon">🌍</span>
-        <div class="question-text">習慣や文化は大丈夫なの</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        来日前に日本の生活習慣や文化、職場のマナーについて丁寧に指導します。また、来日後も継続的にサポートを行います。
-      </div>
-    </div>
-    
-    <div class="question-card" data-card="5">
-      <div class="question-content">
-        <span class="question-icon">📋</span>
-        <div class="question-text">ビザの更新とか手続きが面倒じゃないの</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        ビザ申請・更新等の複雑な手続きはすべて当組合が代行いたします。企業様には面倒な手続きの負担をかけません。
-      </div>
-    </div>
-    
-    <div class="question-card" data-card="6">
-      <div class="question-content">
-        <span class="question-icon">⚡</span>
-        <div class="question-text">外国人はいい加減なんじゃないの</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        当組合では厳格な選考基準で人材を選抜。真面目で責任感の強い実習生のみを紹介いたします。来日後も定期的にフォローアップを行います。
-      </div>
-    </div>
-   </div>
-   <div class="question-row"> 
-    <div class="question-card" data-card="7">
-      <div class="question-content">
-        <span class="question-icon">❌</span>
-        <div class="question-text">過去に失敗した経験がある</div>
-        <div class="click-hint">クリックして回答を見る</div>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div class="answer-text">
-        失敗の原因を詳しく分析し、同じ問題が起こらないよう万全の対策を講じます。豊富な経験とノウハウで、必ず成功に導きます。
-      </div>
-    </div>
-   </div>
+    </section>
   </div>
-  
-  <!-- 修复后的横向流动工作图片 -->
-  <div class="flowing-images">
-    <div class="image-track" id="imageTrack">
-      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
-      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
-      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
-      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
-      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
-      <!-- 重复图片以确保无缝循环 -->
-      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
-      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
-      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
-      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
-      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
-    </div>
-  </div>
-  <h2>
-    今すぐご相談ください<br>
-    <span class="sub-text">無料相談で御社に最適な人材をご提案します!</span></h2>
-  <div class="highlight-text">このお悩み広昌会協同組合が解決します!
-   <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
-  </div>
- </section>
-</div>
 
-<footer>
-  <p>&copy; 2025 広昌会協同組合</p>
-</footer>
+  <footer>
+    <p>&copy; 2025 広昌会協同組合</p>
+  </footer>
 
-<script>
-// 页面加载完成后执行
-document.addEventListener('DOMContentLoaded', function() {
-  
-  // 下拉菜单功能
-  const dropdown = document.querySelector('.dropdown');
-  const dropdownBtn = document.querySelector('.dropdown-btn');
-  const dropdownMenu = document.querySelector('.dropdown-menu');
-  
-  // 点击按钮切换下拉菜单
-  dropdownBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    dropdown.classList.toggle('active');
-  });
-  
-  // 点击页面其他位置关闭下拉菜单
-  document.addEventListener('click', function(e) {
-    if (!dropdown.contains(e.target)) {
-      dropdown.classList.remove('active');
-    }
-  });
-  
-  // 百叶窗背景切换功能
-  const blindsContainer = document.getElementById('blindsContainer');
-  const blindControls = document.querySelectorAll('.blind-control');
-  const numberOfSlats = 15;
-  let currentImage = 1;
-  let isAnimating = false;
-  
-  // 世界和平主题图片
-  const peaceImages = {
-    1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
-    2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
-    3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
-  };
-  
-  // 创建百叶窗片
-  function createBlindSlats() {
-    blindsContainer.innerHTML = '';
-    const slatHeight = 100 / numberOfSlats;
-    
-    for (let i = 0; i < numberOfSlats; i++) {
-      const slat = document.createElement('div');
-      slat.className = 'blind-slat';
+  <script>
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
       
-      slat.style.top = `${i * slatHeight}%`;
-      slat.style.height = `${slatHeight + 0.1}%`;
+      // 下拉菜单功能
+      const dropdown = document.querySelector('.dropdown');
+      const dropdownBtn = document.querySelector('.dropdown-btn');
+      const dropdownMenu = document.querySelector('.dropdown-menu');
       
-      slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
-      slat.style.backgroundSize = '100% 100vh';
-      slat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
-      slat.style.backgroundRepeat = 'no-repeat';
-      
-      blindsContainer.appendChild(slat);
-    }
-  }
-  
-  // 百叶窗翻转切换效果
-  function switchBlindsImage(newImageIndex) {
-    if (isAnimating || newImageIndex === currentImage) return;
-    
-    isAnimating = true;
-    const oldSlats = document.querySelectorAll('.blind-slat');
-    const slatHeight = 100 / numberOfSlats;
-
-    // 创建新的百叶窗片
-    for (let i = 0; i < numberOfSlats; i++) {
-      const newSlat = document.createElement('div');
-      newSlat.className = 'blind-slat';
-      
-      newSlat.style.top = `${i * slatHeight}%`;
-      newSlat.style.height = `${slatHeight + 0.1}%`;
-      
-      newSlat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
-      newSlat.style.backgroundSize = '100% 100vh';
-      newSlat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
-      newSlat.style.backgroundRepeat = 'no-repeat';
-      
-      newSlat.style.transform = 'rotateX(90deg)';
-      newSlat.style.backfaceVisibility = 'hidden';
-      
-      blindsContainer.appendChild(newSlat);
-    }
-
-    const newSlats = Array.from(document.querySelectorAll('.blind-slat')).slice(numberOfSlats);
-
-    // 动画序列
-    oldSlats.forEach((slat, index) => {
-      setTimeout(() => {
-        slat.style.transform = 'rotateX(-90deg)';
-      }, index * 40);
-    });
-
-    newSlats.forEach((slat, index) => {
-      setTimeout(() => {
-        slat.style.transform = 'rotateX(0deg)';
-      }, index * 40 + 200);
-    });
-
-    setTimeout(() => {
-      oldSlats.forEach(slat => slat.remove());
-      currentImage = newImageIndex;
-      blindControls.forEach(control => control.classList.remove('active'));
-      document.querySelector(`[data-image="${newImageIndex}"]`).classList.add('active');
-      isAnimating = false;
-    }, numberOfSlats * 40 + 1400);
-  }
-  
-  // 自动切换
-  function autoSwitchBlinds() {
-    if (!isAnimating) {
-      const nextImage = (currentImage % 3) + 1;
-      switchBlindsImage(nextImage);
-    }
-  }
-  
-  // 问题卡片交互功能
-  const questionGrid = document.querySelector('.question-grid');
-  
-  if (questionGrid) {
-    questionGrid.addEventListener('click', function(e) {
-      const questionCard = e.target.closest('.question-card');
-      if (questionCard) {
-        // 移除其他卡片的active状态
-        document.querySelectorAll('.question-card').forEach(otherCard => {
-          if (otherCard !== questionCard) {
-            otherCard.classList.remove('active');
+      if (dropdown && dropdownBtn && dropdownMenu) {
+        // 点击按钮切换下拉菜单
+        dropdownBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          dropdown.classList.toggle('active');
+        });
+        
+        // 点击页面其他位置关闭下拉菜单
+        document.addEventListener('click', function(e) {
+          if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('active');
           }
         });
         
-        // 切换当前卡片的active状态
-        questionCard.classList.toggle('active');
-      }
-    });
-  }
-  
-  // 修复后的横向图片流动效果 - 真正的无缝循环
-  const imageTrack = document.getElementById('imageTrack');
-  if (imageTrack) {
-    let scrollPosition = 0;
-    const scrollSpeed = 1.2;
-    let animationId;
-    let isPaused = false;
-    
-    // 计算单个图片组的宽度（包括间距）
-    function getImageGroupWidth() {
-      const images = imageTrack.querySelectorAll('.work-image');
-      const totalImages = images.length / 2; // 因为图片是重复的
-      const imageWidth = 250 + 20; // 图片宽度 + gap
-      return totalImages * imageWidth;
-    }
-    
-    function animateImages() {
-      if (!isPaused) {
-        scrollPosition -= scrollSpeed;
-        
-        const groupWidth = getImageGroupWidth();
-        
-        // 当第一组图片完全滑出视野时，重置位置
-        if (Math.abs(scrollPosition) >= groupWidth) {
-          scrollPosition = 0;
-        }
-        
-        imageTrack.style.transform = `translateX(${scrollPosition}px)`;
+        // 防止下拉菜单内部点击时关闭菜单
+        dropdownMenu.addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
       }
       
-      animationId = requestAnimationFrame(animateImages);
-    }
-    
-    // 鼠标悬停时暂停
-    imageTrack.addEventListener('mouseenter', () => {
-      isPaused = true;
-    });
-    
-    imageTrack.addEventListener('mouseleave', () => {
-      isPaused = false;
-    });
-    
-    // 启动动画
-    animateImages();
-  }
-  
-  // 初始化百叶窗
-  createBlindSlats();
-  
-  // 控制器点击事件
-  blindControls.forEach(control => {
-    control.addEventListener('click', () => {
-      const imageIndex = parseInt(control.dataset.image);
-      switchBlindsImage(imageIndex);
-    });
-  });
-  
-  // 每12秒自动切换
-  setInterval(autoSwitchBlinds, 12000);
-  
-});
-</script>
+      // 百叶窗背景切换功能
+      const blindsContainer = document.getElementById('blindsContainer');
+      const blindControls = document.querySelectorAll('.blind-control');
+      const numberOfSlats = 15;
+      let currentImage = 1;
+      let isAnimating = false;
+      
+      // 背景图片
+      const peaceImages = {
+        1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+        2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+        3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
+      };
+      
+      // 创建百叶窗片
+      function createBlindSlats() {
+        blindsContainer.innerHTML = '';
+        const slatHeight = 100 / numberOfSlats;
+        
+        for (let i = 0; i < numberOfSlats; i++) {
+          const slat = document.createElement('div');
+          slat.className = 'blind-slat';
+          slat.style.top = `${i * slatHeight}%`;
+          slat.style.height = `${slatHeight}%`;
+          slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
+          slat.style.backgroundPosition = `0 -${i * slatHeight}%`;
+          slat.style.backgroundSize = '100% 100vh';
+          slat.style.animationDelay = `${i * 0.05}s`;
+          blindsContainer.appendChild(slat);
+        }
+      }
 
+      // 切换百叶窗图片
+      function switchBlinds(newImageIndex) {
+        if (isAnimating || newImageIndex === currentImage) return;
+        
+        isAnimating = true;
+        const slats = document.querySelectorAll('.blind-slat');
+        
+        // 翻转出去
+        slats.forEach((slat, index) => {
+          setTimeout(() => {
+            slat.classList.add('flip-out');
+          }, index * 50);
+        });
+        
+        // 等待翻转完成后更新图片并翻转回来
+        setTimeout(() => {
+          slats.forEach((slat, index) => {
+            slat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
+            setTimeout(() => {
+              slat.classList.remove('flip-out');
+              slat.classList.add('flip-in');
+            }, index * 50);
+          });
+          
+          // 清理动画类
+          setTimeout(() => {
+            slats.forEach(slat => {
+              slat.classList.remove('flip-in');
+            });
+            isAnimating = false;
+          }, 1000);
+          
+        }, 800);
+        
+        // 更新当前图片索引和控制按钮状态
+        currentImage = newImageIndex;
+        blindControls.forEach((control, index) => {
+          control.classList.toggle('active', index + 1 === currentImage);
+        });
+      }
+
+      // 初始化百叶窗
+      createBlindSlats();
+
+      // 绑定控制按钮事件
+      blindControls.forEach(control => {
+        control.addEventListener('click', () => {
+          const imageIndex = parseInt(control.dataset.image);
+          switchBlinds(imageIndex);
+        });
+      });
+
+      // 自动切换百叶窗
+      setInterval(() => {
+        const nextImage = currentImage === 3 ? 1 : currentImage + 1;
+        switchBlinds(nextImage);
+      }, 8000);
+
+      // 问题卡片交互功能
+      const questionCards = document.querySelectorAll('.question-card');
+
+      questionCards.forEach(card => {
+        const questionContent = card.querySelector('.question-content');
+        
+        if (questionContent) {
+          questionContent.addEventListener('click', function() {
+            // 关闭其他打开的卡片
+            questionCards.forEach(otherCard => {
+              if (otherCard !== card) {
+                otherCard.classList.remove('active');
+              }
+            });
+            
+            // 切换当前卡片状态
+            card.classList.toggle('active');
+          });
+        }
+      });
+
+      // 横向滚动图片动画
+      const imageTrack = document.getElementById('imageTrack');
+      if (imageTrack) {
+        let scrollPosition = 0;
+        const scrollSpeed = 1;
+        const images = imageTrack.querySelectorAll('.work-image');
+        const imageWidth = 270;
+        const totalWidth = images.length * imageWidth / 2;
+        
+        function animateImages() {
+          scrollPosition -= scrollSpeed;
+          
+          if (Math.abs(scrollPosition) >= totalWidth) {
+            scrollPosition = 0;
+          }
+          
+          imageTrack.style.transform = `translateX(${scrollPosition}px)`;
+          requestAnimationFrame(animateImages);
+        }
+        
+        animateImages();
+        
+        imageTrack.addEventListener('mouseenter', () => {
+          imageTrack.style.animationPlayState = 'paused';
+        });
+        
+        imageTrack.addEventListener('mouseleave', () => {
+          imageTrack.style.animationPlayState = 'running';
+        });
+      }
+
+      // 页面滚动视差效果
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+        
+        const blindsContainer = document.getElementById('blindsContainer');
+        if (blindsContainer) {
+          blindsContainer.style.transform = `translateY(${rate}px)`;
+        }
+      });
+
+      // 页面加载完成后的入场动画
+      window.addEventListener('load', () => {
+        document.body.classList.add('loaded');
+        
+        setTimeout(() => {
+          questionCards.forEach((card, index) => {
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, index * 100);
+          });
+        }, 300);
+      });
+
+    });
+  </script>
 </body>
 </html>
