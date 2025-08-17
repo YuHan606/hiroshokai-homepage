@@ -95,7 +95,7 @@
     }
     
     .blind-control.active {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #1A237E, #00f2fe);
       color: white;
       box-shadow: 0 6px 20px rgba(79,172,254,0.5);
     }
@@ -281,14 +281,14 @@
       font-weight: 700;
       padding: 20px 0 10px 0;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #1A237E, #00f2fe);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     
     nav {
-      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 30%, #4facfe 80%);
+      background: linear-gradient(90deg, #1A237E 0%, #00f2fe 30%, #1A237E 80%);
       padding: 0;
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
     }
@@ -352,13 +352,13 @@
     }
     
     nav a:hover {
-      color: #4facfe;
+      color: #1A237E;
       background: rgba(255,255,255,0.95);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     
-    /* 边缘标签样式 */
+    /* ==================== 改进的边缘标签样式 ==================== */
     .edge-tabs {
       position: fixed;
       top: 50%;
@@ -366,36 +366,48 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 12px;
     }
     
     .left-tabs {
-      left: 0;
+      left: -5px;
     }
     
     .right-tabs {
-      right: 0;
+      right: -5px;
     }
     
+    /* 现代化的边缘标签设计 */
     .edge-tab {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      position: relative;
+      background: linear-gradient(135deg, 
+        rgba(79, 172, 254, 0.95) 0%, 
+        rgba(0, 242, 254, 0.95) 50%, 
+        rgba(79, 172, 254, 0.95) 100%);
       color: white;
       text-decoration: none;
-      padding: 15px 25px 15px 15px;
-      border-radius: 0 25px 25px 0;
-      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      min-width: 200px;
-      position: relative;
+      padding: 16px 28px 16px 18px;
+      border-radius: 0 30px 30px 0;
+      box-shadow: 
+        0 8px 32px rgba(79, 172, 254, 0.4),
+        0 4px 16px rgba(0, 0, 0, 0.2);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 220px;
       overflow: hidden;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      
+      /* 添加渐变边框效果 */
+      background-clip: padding-box;
     }
     
     .right-tabs .edge-tab {
-      border-radius: 25px 0 0 25px;
-      padding: 15px 15px 15px 25px;
+      border-radius: 30px 0 0 30px;
+      padding: 16px 18px 16px 28px;
       text-align: right;
     }
     
+    /* 动态光效背景 */
     .edge-tab::before {
       content: '';
       position: absolute;
@@ -403,49 +415,123 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.6s ease;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+      transition: left 0.8s ease;
+      z-index: 1;
+    }
+    
+    /* 发光效果 */
+    .edge-tab::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, 
+        #ff6b6b 0%, 
+        #1A237E 25%, 
+        #00f2fe 50%, 
+        #764ba2 75%, 
+        #ff6b6b 100%);
+      border-radius: inherit;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: borderRotate 3s linear infinite;
+    }
+    
+    @keyframes borderRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     
     .edge-tab:hover::before {
       left: 100%;
     }
     
+    .edge-tab:hover::after {
+      opacity: 0.8;
+    }
+    
     .edge-tab:hover {
-      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      transform: scale(1.05);
+      transform: translateX(8px) scale(1.05);
+      box-shadow: 
+        0 15px 50px rgba(79, 172, 254, 0.6),
+        0 8px 25px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, 
+        rgba(102, 126, 234, 0.95) 0%, 
+        rgba(118, 75, 162, 0.95) 50%, 
+        rgba(102, 126, 234, 0.95) 100%);
+    }
+    
+    .right-tabs .edge-tab:hover {
+      transform: translateX(-8px) scale(1.05);
     }
     
     .tab-text {
-      font-weight: 600;
-      font-size: 0.9rem;
-      line-height: 1.3;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      font-weight: 700;
+      font-size: 0.92rem;
+      line-height: 1.4;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       display: block;
+      position: relative;
+      z-index: 2;
+      letter-spacing: 0.3px;
     }
     
-    /* 主要内容区域调整 */
-    section {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 60px 20px;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      backdrop-filter: blur(10px);
+    /* 添加图标装饰 */
+    .edge-tab .tab-icon {
+      display: inline-block;
+      margin-right: 8px;
+      font-size: 1.1rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .right-tabs .edge-tab .tab-icon {
+      margin-right: 0;
+      margin-left: 8px;
+    }
+    
+    .edge-tab:hover .tab-icon {
+      transform: scale(1.2) rotate(10deg);
+    }
+    
+    /* 脉冲动画效果 */
+    .edge-tab {
+      animation: tabPulse 4s ease-in-out infinite;
+    }
+    
+    @keyframes tabPulse {
+      0%, 100% { 
+        box-shadow: 
+          0 8px 32px rgba(79, 172, 254, 0.4),
+          0 4px 16px rgba(0, 0, 0, 0.2);
+      }
+      50% { 
+        box-shadow: 
+          0 10px 40px rgba(79, 172, 254, 0.5),
+          0 6px 20px rgba(0, 0, 0, 0.25);
+      }
     }
     
     /* 响应式设计 */
     @media (max-width: 1024px) {
       .edge-tab {
-        min-width: 180px;
-        font-size: 0.85rem;
-        padding: 12px 20px 12px 12px;
+        min-width: 200px;
+        font-size: 0.88rem;
+        padding: 14px 24px 14px 16px;
       }
       
       .right-tabs .edge-tab {
-        padding: 12px 12px 12px 20px;
+        padding: 14px 16px 14px 24px;
+      }
+      
+      .tab-text {
+        font-size: 0.88rem;
       }
     }
     
@@ -457,8 +543,9 @@
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        margin: 20px 0;
-        gap: 10px;
+        margin: 25px 0;
+        gap: 12px;
+        padding: 0 15px;
       }
       
       .left-tabs, .right-tabs {
@@ -467,32 +554,53 @@
       }
       
       .edge-tab, .right-tabs .edge-tab {
-        border-radius: 15px;
-        min-width: 160px;
-        padding: 12px 15px;
+        border-radius: 20px;
+        min-width: 180px;
+        padding: 14px 18px;
         text-align: center;
-        margin: 5px;
+        margin: 8px;
+        transform: none;
       }
       
       .edge-tab:hover, .right-tabs .edge-tab:hover {
-        transform: scale(1.05);
+        transform: translateY(-3px) scale(1.03);
       }
       
       .tab-text {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
+      }
+      
+      .edge-tab .tab-icon, .right-tabs .edge-tab .tab-icon {
+        margin: 0 4px 0 0;
+        display: inline-block;
       }
     }
     
     @media (max-width: 480px) {
       .edge-tab {
-        min-width: 140px;
-        font-size: 0.75rem;
-        padding: 10px 12px;
+        min-width: 160px;
+        font-size: 0.8rem;
+        padding: 12px 15px;
       }
       
       .tab-text {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
       }
+      
+      .edge-tab .tab-icon {
+        font-size: 1rem;
+      }
+    }
+    
+    /* 主要内容区域调整 */
+    section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 60px 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
     }
     
     h2 {
@@ -520,7 +628,7 @@
     }
     
     .question-card {
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 80%);
+      background: linear-gradient(135deg, #1A237E 0%, #00f2fe 80%);
       color: white;
       padding: 25px;
       border-radius: 15px;
@@ -551,13 +659,21 @@
     .question-row:nth-child(2) .question-card:nth-child(3) { --i: 6; }
     .question-row:nth-child(3) .question-card:nth-child(1) { --i: 7; }
     
-    /* 最后一张卡片（第7张）特殊样式 - 稍大且居中 */
+   /* 最后一张卡片（第7张）特殊样式 - 稍大且居中 */
     .question-row:nth-child(3) .question-card {
       width: 340px;
       min-height: 200px;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      background: linear-gradient(135deg, #1A237E 0%, #00f2fe 100%);
       box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
       border: 3px solid rgba(255,255,255,0.3);
+    }
+    
+    /* 确保第7张卡片的悬停效果正常工作 */
+    .question-row:nth-child(3) .question-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+      border-color: rgba(255,255,255,0.3);
     }
     
     .question-row:nth-child(3) .question-card .question-text {
@@ -828,7 +944,7 @@
     /* CTA 模块样式 */
     .cta {
       text-align: center;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #1A237E, #00f2fe);
       color: white;
       padding: 50px 20px;
       border-radius: 20px;
@@ -851,14 +967,16 @@
     .cta-button {
       //display: inline-block;
       display: block;
+      margin: 15px auto 0; 
       background: white;
-      color: #4facfe;
-      padding: 15px 150px;
+      color: #1A237E;
+      padding: 10px 20px;
       border-radius: 30px;
       font-weight: bold;
       font-size: 1.1rem;
       text-decoration: none;
       transition: all 0.3s ease;
+      width: fit-content;
     }
 
     .cta-button:hover {
@@ -887,9 +1005,9 @@
       
       /* 炫彩渐变背景 */
       background: linear-gradient(135deg, 
-        #4facfe, 
+        #1A237E, 
         #00f2fe);
-      background-size: 400% 400%;
+      background-size: 300% 300%;
       animation: gradientShift 3s ease-in-out infinite;
       
       /* 霓虹发光文字 */
@@ -1011,35 +1129,43 @@
   </nav>
 </header>
 
-<!-- 左侧边缘标签 -->
+<!-- 左侧边缘标签 - 添加图标 -->
 <div class="edge-tabs left-tabs">
   <a href="interview.html" class="edge-tab">
+    <span class="tab-icon">🎤</span>
     <span class="tab-text">専門家にインタビュー</span>
   </a>
   <a href="jinzai.html" class="edge-tab">
+    <span class="tab-icon">👥</span>
     <span class="tab-text">人材情報一覧</span>
   </a>
   <a href="kyujin.html" class="edge-tab">
+    <span class="tab-icon">📝</span>
     <span class="tab-text">求人掲載のお申し込み</span>
   </a>
   <a href="qa.html" class="edge-tab">
+    <span class="tab-icon">❓</span>
     <span class="tab-text">外国人雇用Q＆A一覧</span>
   </a>
 </div>
 
-<!-- 右侧边缘标签 -->
+<!-- 右侧边缘标签 - 添加图标 -->
 <div class="edge-tabs right-tabs">
   <a href="denryoku.html" class="edge-tab">
     <span class="tab-text">企業様に電力及び社員寮提供</span>
+    <span class="tab-icon">⚡</span>
   </a>
   <a href="solar.html" class="edge-tab">
     <span class="tab-text">太陽光発電及び蓄電提供</span>
+    <span class="tab-icon">☀️</span>
   </a>
   <a href="denki.html" class="edge-tab">
     <span class="tab-text">企業様に電気及び寮提供</span>
+    <span class="tab-icon">🏠</span>
   </a>
   <a href="sendingzy.html" class="edge-tab">
     <span class="tab-text">送り出し機関を探す</span>
+    <span class="tab-icon">🔍</span>
   </a>
 </div>
 
@@ -1152,18 +1278,14 @@
       <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
     </div>
   </div>
-  
+  <h2>
+    今すぐご相談ください<br>
+    <span class="sub-text">無料相談で御社に最適な人材をご提案します!</span></h2>
   <div class="highlight-text">このお悩み広昌会協同組合が解決します!
    <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
   </div>
  </section>
 </div>
-
-<section class="cta">
-  <h2>今すぐご相談ください</h2>
-  <p>無料相談で御社に最適な人材をご提案します。</p>
-  <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
-</section> 
 
 <footer>
   <p>&copy; 2025 広昌会協同組合</p>
