@@ -35,7 +35,7 @@
       pointer-events: none;
     }
     
-    /* 百叶窗片 */
+    /* 百叶窗片 - 修复裂缝问题 */
     .blind-slat {
       position: absolute;
       width: 100%;
@@ -243,47 +243,23 @@
       }
     }
     
-    /* 加载动画 */
-    .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: linear-gradient(135deg, #1A237E 0%, #303F9F 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    
-    .loading-overlay.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-    
-    .loader {
-      width: 60px;
-      height: 60px;
-      border: 4px solid rgba(255,255,255,0.3);
-      border-top: 4px solid white;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .loading-text {
-      color: white;
-      font-size: 1.2rem;
-      margin-top: 20px;
-      text-align: center;
-      opacity: 0.8;
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .blinds-controller {
+        bottom: 60px;
+        right: 20px;
+        gap: 10px;
+      }
+      
+      .blind-control {
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+      }
+      
+      .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
+        display: none;
+      }
     }
     
     header {
@@ -382,79 +358,7 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     
-    /* 下拉菜单样式 */
-    .dropdown {
-      position: relative;
-    }
-    
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      min-width: 200px;
-      background: linear-gradient(135deg, rgba(79, 172, 254, 0.95) 0%, rgba(0, 242, 254, 0.95) 100%);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-      border-radius: 0 0 15px 15px;
-      z-index: 1001;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-top: none;
-    }
-    
-    .dropdown-content a {
-      display: block;
-      padding: 12px 16px;
-      text-decoration: none;
-      color: white;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .dropdown-content a:last-child {
-      border-bottom: none;
-      border-radius: 0 0 15px 15px;
-    }
-    
-    .dropdown-content a:hover {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      padding-left: 20px;
-      transform: none;
-      box-shadow: none;
-    }
-    
-    .dropdown:hover .dropdown-content {
-      display: block;
-      animation: slideDown 0.3s ease;
-    }
-    
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    /* 下拉箭头 */
-    .dropdown > a::after {
-      content: ' ▼';
-      font-size: 0.7rem;
-      margin-left: 5px;
-      transition: transform 0.3s ease;
-    }
-    
-    .dropdown:hover > a::after {
-      transform: rotate(180deg);
-    }
-    
-    /* 边缘标签样式 */
+    /* ==================== 改进的边缘标签样式 ==================== */
     .edge-tabs {
       position: fixed;
       top: 50%;
@@ -473,6 +377,7 @@
       right: -5px;
     }
     
+    /* 现代化的边缘标签设计 */
     .edge-tab {
       position: relative;
       background: linear-gradient(135deg, 
@@ -491,6 +396,8 @@
       overflow: hidden;
       backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.2);
+      
+      /* 添加渐变边框效果 */
       background-clip: padding-box;
     }
     
@@ -500,6 +407,7 @@
       text-align: right;
     }
     
+    /* 动态光效背景 */
     .edge-tab::before {
       content: '';
       position: absolute;
@@ -515,6 +423,7 @@
       z-index: 1;
     }
     
+    /* 发光效果 */
     .edge-tab::after {
       content: '';
       position: absolute;
@@ -574,6 +483,7 @@
       letter-spacing: 0.3px;
     }
     
+    /* 添加图标装饰 */
     .edge-tab .tab-icon {
       display: inline-block;
       margin-right: 8px;
@@ -590,6 +500,7 @@
       transform: scale(1.2) rotate(10deg);
     }
     
+    /* 脉冲动画效果 */
     .edge-tab {
       animation: tabPulse 4s ease-in-out infinite;
     }
@@ -607,7 +518,81 @@
       }
     }
     
-    /* 主要内容区域 */
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+      .edge-tab {
+        min-width: 200px;
+        font-size: 0.88rem;
+        padding: 14px 24px 14px 16px;
+      }
+      
+      .right-tabs .edge-tab {
+        padding: 14px 16px 14px 24px;
+      }
+      
+      .tab-text {
+        font-size: 0.88rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .edge-tabs {
+        position: relative;
+        top: auto;
+        transform: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 25px 0;
+        gap: 12px;
+        padding: 0 15px;
+      }
+      
+      .left-tabs, .right-tabs {
+        left: auto;
+        right: auto;
+      }
+      
+      .edge-tab, .right-tabs .edge-tab {
+        border-radius: 20px;
+        min-width: 180px;
+        padding: 14px 18px;
+        text-align: center;
+        margin: 8px;
+        transform: none;
+      }
+      
+      .edge-tab:hover, .right-tabs .edge-tab:hover {
+        transform: translateY(-3px) scale(1.03);
+      }
+      
+      .tab-text {
+        font-size: 0.85rem;
+      }
+      
+      .edge-tab .tab-icon, .right-tabs .edge-tab .tab-icon {
+        margin: 0 4px 0 0;
+        display: inline-block;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .edge-tab {
+        min-width: 160px;
+        font-size: 0.8rem;
+        padding: 12px 15px;
+      }
+      
+      .tab-text {
+        font-size: 0.8rem;
+      }
+      
+      .edge-tab .tab-icon {
+        font-size: 1rem;
+      }
+    }
+    
+    /* 主要内容区域调整 */
     section {
       max-width: 1200px;
       margin: 40px auto;
@@ -625,7 +610,7 @@
       margin: 40px 0 30px 0;
     }
     
-    /* 问题卡片布局 */
+    /* 对称设计的问题卡片布局 - 3-3-1 排列 */
     .question-grid {
       display: flex;
       flex-direction: column;
@@ -665,7 +650,7 @@
       flex-shrink: 0;
     }
     
-    /* 动画延迟设置 */
+    /* 重新设置动画延迟 */
     .question-row:nth-child(1) .question-card:nth-child(1) { --i: 1; }
     .question-row:nth-child(1) .question-card:nth-child(2) { --i: 2; }
     .question-row:nth-child(1) .question-card:nth-child(3) { --i: 3; }
@@ -674,15 +659,16 @@
     .question-row:nth-child(2) .question-card:nth-child(3) { --i: 6; }
     .question-row:nth-child(3) .question-card:nth-child(1) { --i: 7; }
     
-    /* 第7张卡片特殊样式 */
+   /* 最后一张卡片（第7张）特殊样式 - 稍大且居中 */
     .question-row:nth-child(3) .question-card {
       width: 340px;
       min-height: 200px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
       box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
       border: 3px solid rgba(255,255,255,0.3);
     }
     
+    /* 确保第7张卡片的悬停效果正常工作 */
     .question-row:nth-child(3) .question-card:hover {
       transform: translateY(-8px) scale(1.02);
       box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4);
@@ -698,6 +684,14 @@
     .question-row:nth-child(3) .question-card .question-icon {
       font-size: 1.8rem;
     }
+    
+    .question-card:nth-child(1) { --i: 1; }
+    .question-card:nth-child(2) { --i: 2; }
+    .question-card:nth-child(3) { --i: 3; }
+    .question-card:nth-child(4) { --i: 4; }
+    .question-card:nth-child(5) { --i: 5; }
+    .question-card:nth-child(6) { --i: 6; }
+    .question-card:nth-child(7) { --i: 7; }
     
     @keyframes cardSlideIn {
       to {
@@ -733,17 +727,7 @@
       transform: translateY(-5px) scale(1.01);
       border-color: rgba(255,255,255,0.5);
       box-shadow: 0 20px 50px rgba(79, 172, 254, 0.5);
-      min-height: auto;
-    }
-    
-    .question-content {
-      position: relative;
-      cursor: pointer;
-      padding: 5px 0;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      min-height: auto; /* 活跃状态时允许高度自适应 */
     }
     
     .question-text {
@@ -752,7 +736,7 @@
       line-height: 1.4;
       margin-bottom: 10px;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-      flex: 1;
+      flex: 1; /* 让文本区域占据可用空间 */
       display: flex;
       align-items: center;
     }
@@ -762,27 +746,6 @@
       margin-bottom: 10px;
       display: block;
       text-align: center;
-    }
-    
-    .click-hint {
-      font-size: 0.75rem;
-      opacity: 0.8;
-      text-align: center;
-      margin-top: 10px;
-      font-style: italic;
-    }
-    
-    .dropdown-arrow {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      font-size: 1.2rem;
-      transition: transform 0.3s ease;
-      color: rgba(255,255,255,0.8);
-    }
-    
-    .question-card.active .dropdown-arrow {
-      transform: rotate(180deg);
     }
     
     .answer-text {
@@ -809,7 +772,40 @@
       transform: translateY(0);
     }
     
-    /* 横向流动图片样式 */
+    /* 下拉箭头指示器 */
+    .dropdown-arrow {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .question-card.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+    
+    /* 改进卡片点击区域 */
+    .question-content {
+      position: relative;
+      cursor: pointer;
+      padding: 5px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .click-hint {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    
+    /* 修复后的横向流动图片样式 - 确保无缝循环 */
     .flowing-images {
       width: 100%;
       overflow: hidden;
@@ -845,7 +841,7 @@
       gap: 20px;
       padding: 0 20px;
       will-change: transform;
-      width: max-content;
+      width: max-content; /* 让容器适应内容宽度 */
     }
     
     .work-image {
@@ -868,7 +864,135 @@
       z-index: 10;
     }
     
-    /* 炫彩底部文字效果 */
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .question-grid {
+        gap: 20px;
+        padding: 0 10px;
+      }
+      
+      .question-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      
+      .question-card {
+        width: 100%;
+        max-width: 350px;
+        min-height: 160px;
+        padding: 20px;
+      }
+      
+      /* 移动端第7张卡片不需要特殊大小 */
+      .question-row:nth-child(3) .question-card {
+        width: 100%;
+        max-width: 340px;
+        min-height: 160px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
+        border: 2px solid transparent;
+      }
+      
+      .question-row:nth-child(3) .question-card .question-text {
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+      
+      .question-row:nth-child(3) .question-card .question-icon {
+        font-size: 1.3rem;
+      }
+      
+      .question-text {
+        font-size: 0.95rem;
+      }
+      
+      .question-icon {
+        font-size: 1.3rem;
+      }
+      
+      .work-image {
+        width: 200px;
+        height: 120px;
+      }
+      
+      .flowing-images {
+        padding: 15px 0;
+        margin: 30px 0;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .question-card {
+        padding: 18px;
+        min-height: 140px;
+      }
+      
+      .question-text {
+        font-size: 0.9rem;
+      }
+      
+      .question-icon {
+        font-size: 1.2rem;
+      }
+      
+      .work-image {
+        width: 180px;
+        height: 110px;
+      }
+    }
+
+    /* CTA 模块样式 */
+    .cta {
+      text-align: center;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      padding: 50px 20px;
+      border-radius: 20px;
+      margin: 60px auto;
+      max-width: 900px;
+      box-shadow: 0 15px 40px rgba(79, 172, 254, 0.3);
+    }
+
+    .cta h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .cta p {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+    }
+
+    .cta-button {
+      //display: inline-block;
+      display: block;
+      margin: 15px auto 0; 
+      background: white;
+      color: #4facfe;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      width: fit-content;
+    }
+
+    .cta-button:hover {
+      background: #f0f8ff;
+      transform: scale(1.08);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(44, 62, 80, 0.9);
+      color: white;
+      margin-top: 40px;
+    }
+    
+    /* 优化的底部文字效果 */
     .highlight-text {
       text-align: center;
       font-size: 2rem;
@@ -948,238 +1072,8 @@
       100% { filter: hue-rotate(360deg) brightness(1); }
     }
     
-    /* CTA按钮样式 */
-    .cta-button {
-      display: block;
-      margin: 15px auto 0; 
-      background: white;
-      color: #4facfe;
-      padding: 15px 30px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 1.1rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      width: fit-content;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    .cta-button:hover {
-      background: #f0f8ff;
-      transform: scale(1.08);
-      box-shadow: 0 6px 20px rgba(79,172,254,0.4);
-    }
-    
-    /* 页脚样式 */
-    footer {
-      background: linear-gradient(135deg, rgba(26, 35, 126, 0.95) 0%, rgba(48, 63, 159, 0.95) 100%);
-      color: white;
-      text-align: center;
-      padding: 40px 20px;
-      margin-top: 60px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 -8px 32px rgba(0,0,0,0.1);
-    }
-    
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      align-items: start;
-    }
-    
-    .footer-section h3 {
-      color: rgba(255,255,255,0.9);
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      font-weight: 600;
-    }
-    
-    .footer-section p, .footer-section a {
-      color: rgba(255,255,255,0.8);
-      line-height: 1.6;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    
-    .footer-section a:hover {
-      color: white;
-      text-decoration: underline;
-    }
-    
-    .copyright {
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.2);
-      color: rgba(255,255,255,0.7);
-      font-size: 0.8rem;
-    }
-    
-    /* 联系信息样式 */
-    .contact-info {
-      background: rgba(255,255,255,0.05);
-      padding: 30px;
-      border-radius: 15px;
-      margin: 30px 0;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-    
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: rgba(255,255,255,0.8);
-    }
-    
-    .contact-icon {
-      font-size: 1.2rem;
-      color: #4facfe;
-    }
-    
-    /* 响应式设计 */
-    @media (max-width: 1024px) {
-      .edge-tab {
-        min-width: 200px;
-        font-size: 0.88rem;
-        padding: 14px 24px 14px 16px;
-      }
-      
-      .right-tabs .edge-tab {
-        padding: 14px 16px 14px 24px;
-      }
-      
-      .tab-text {
-        font-size: 0.88rem;
-      }
-      
-      .question-card {
-        width: 300px;
-        min-height: 160px;
-      }
-      
-      .question-row:nth-child(3) .question-card {
-        width: 300px;
-      }
-    }
-    
+    /* 响应式调整 */
     @media (max-width: 768px) {
-      .blinds-controller {
-        bottom: 60px;
-        right: 20px;
-        gap: 10px;
-      }
-      
-      .blind-control {
-        width: 50px;
-        height: 50px;
-        font-size: 14px;
-      }
-      
-      .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
-        display: none;
-      }
-      
-      .edge-tabs {
-        position: relative;
-        top: auto;
-        transform: none;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 25px 0;
-        gap: 12px;
-        padding: 0 15px;
-      }
-      
-      .left-tabs, .right-tabs {
-        left: auto;
-        right: auto;
-      }
-      
-      .edge-tab, .right-tabs .edge-tab {
-        border-radius: 20px;
-        min-width: 180px;
-        padding: 14px 18px;
-        text-align: center;
-        margin: 8px;
-        transform: none;
-      }
-      
-      .edge-tab:hover, .right-tabs .edge-tab:hover {
-        transform: translateY(-3px) scale(1.03);
-      }
-      
-      .tab-text {
-        font-size: 0.85rem;
-      }
-      
-      .edge-tab .tab-icon, .right-tabs .edge-tab .tab-icon {
-        margin: 0 4px 0 0;
-        display: inline-block;
-      }
-      
-      .question-grid {
-        gap: 20px;
-        padding: 0 10px;
-      }
-      
-      .question-row {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
-      
-      .question-card {
-        width: 100%;
-        max-width: 350px;
-        min-height: 160px;
-        padding: 20px;
-      }
-      
-      .question-row:nth-child(3) .question-card {
-        width: 100%;
-        max-width: 340px;
-        min-height: 160px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
-        border: 2px solid transparent;
-      }
-      
-      .question-row:nth-child(3) .question-card .question-text {
-        font-size: 0.95rem;
-        font-weight: 600;
-      }
-      
-      .question-row:nth-child(3) .question-card .question-icon {
-        font-size: 1.3rem;
-      }
-      
-      .question-text {
-        font-size: 0.95rem;
-      }
-      
-      .question-icon {
-        font-size: 1.3rem;
-      }
-      
-      .work-image {
-        width: 200px;
-        height: 120px;
-      }
-      
-      .flowing-images {
-        padding: 15px 0;
-        margin: 30px 0;
-      }
-      
       .highlight-text {
         font-size: 1.6rem;
         padding: 25px 15px;
@@ -1189,723 +1083,394 @@
       .highlight-text:hover {
         transform: perspective(300px) rotateX(0deg) scale(1.03);
       }
-      
-      /* 移动端下拉菜单 */
-      .dropdown-content {
-        position: relative;
-        display: none;
-        min-width: auto;
-        background: rgba(255,255,255,0.9);
-        border-radius: 10px;
-        margin-top: 10px;
-      }
-      
-      .dropdown-content a {
-        color: #333;
-        padding: 10px 15px;
-        font-size: 0.85rem;
-      }
-      
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
     }
     
     @media (max-width: 480px) {
-      .edge-tab {
-        min-width: 160px;
-        font-size: 0.8rem;
-        padding: 12px 15px;
-      }
-      
-      .tab-text {
-        font-size: 0.8rem;
-      }
-      
-      .edge-tab .tab-icon {
-        font-size: 1rem;
-      }
-      
-      .question-card {
-        padding: 18px;
-        min-height: 140px;
-      }
-      
-      .question-text {
-        font-size: 0.9rem;
-      }
-      
-      .question-icon {
-        font-size: 1.2rem;
-      }
-      
-      .work-image {
-        width: 180px;
-        height: 110px;
-      }
-      
       .highlight-text {
         font-size: 1.3rem;
         padding: 20px 10px;
       }
     }
+    
   </style>
 </head>
 <body>
-  <!-- 加载动画 -->
-  <div class="loading-overlay" id="loadingOverlay">
-    <div>
-      <div class="loader"></div>
-      <div class="loading-text">広昌会協同組合へようこそ</div>
-    </div>
-  </div>
+<!-- 百叶窗背景切换系统 -->
+<div class="blinds-container" id="blindsContainer">
+  <!-- 百叶窗片将通过JavaScript动态生成 -->
+</div>
 
-  <!-- 动态背景 -->
-  <div class="background-images" id="backgroundImages">
-    <div class="bg-image active" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM0ZmFjZmUiLz4KICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjMDBmMmZlIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM0ZmFjZmUiLz4KICA8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIxOTIwIiBoZWlnaHQ9IjEwODAiIGZpbGw9InVybCgjZ3JhZGllbnQpIi8+Cjwvc3ZnPgo=')"></div>
-  </div>
+<!-- 百叶窗控制器 -->
+<div class="blinds-controller">
+  <div class="blind-control active" data-image="1">1</div>
+  <div class="blind-control" data-image="2">2</div>
+  <div class="blind-control" data-image="3">3</div>
+</div>
 
-  <!-- 百叶窗背景容器 -->
-  <div class="blinds-container" id="blindsContainer">
-    <!-- 百叶窗片将通过JavaScript动态生成 -->
-  </div>
+<!-- 和平主题装饰 -->
+<div class="peace-symbol"></div>
+<div class="earth-icon"></div>
+<div class="unity-hands"></div>
+<div class="peace-dove"></div>
+<div class="warm-glow"></div>
 
-  <!-- 和平主题装饰 -->
-  <div class="peace-symbol"></div>
-  <div class="earth-icon"></div>
-  <div class="unity-hands"></div>
-  <div class="peace-dove"></div>
-  <div class="warm-glow"></div>
+<header>
+  <h1>広昌会協同組合</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="overview.html">組合概要</a></li>
+      <li><a href="ginou.html">技能実習</a></li>
+      <li><a href="tokutei.html">特定技能</a></li>
+      <li><a href="sending.html">送り出し紹介</a></li>
+      <li><a href="training.html">研修センター紹介</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+    </ul>
+  </nav>
+</header>
 
-  <!-- 百叶窗控制器 -->
-  <div class="blinds-controller">
-    <div class="blind-control active" data-image="1">1</div>
-    <div class="blind-control" data-image="2">2</div>
-    <div class="blind-control" data-image="3">3</div>
-  </div>
+<!-- 左侧边缘标签 - 添加图标 -->
+<div class="edge-tabs left-tabs">
+  <a href="interview.html" class="edge-tab">
+    <span class="tab-icon">🎤</span>
+    <span class="tab-text">専門家にインタビュー</span>
+  </a>
+  <a href="jinzai.html" class="edge-tab">
+    <span class="tab-icon">👥</span>
+    <span class="tab-text">人材情報一覧</span>
+  </a>
+  <a href="kyujin.html" class="edge-tab">
+    <span class="tab-icon">📝</span>
+    <span class="tab-text">求人掲載のお申し込み</span>
+  </a>
+  <a href="qa.html" class="edge-tab">
+    <span class="tab-icon">❓</span>
+    <span class="tab-text">外国人雇用Q＆A一覧</span>
+  </a>
+</div>
 
-  <!-- 边缘标签 -->
-  <div class="edge-tabs left-tabs">
-    <a href="#services" class="edge-tab">
-      <span class="tab-icon">🏢</span>
-      <span class="tab-text">組合サービス<br>事業案内</span>
-    </a>
-    <a href="#membership" class="edge-tab">
-      <span class="tab-icon">👥</span>
-      <span class="tab-text">組合員募集<br>加入案内</span>
-    </a>
-    <a href="#benefits" class="edge-tab">
-      <span class="tab-icon">💎</span>
-      <span class="tab-text">組合員特典<br>優待制度</span>
-    </a>
-  </div>
+<!-- 右侧边缘标签 - 添加图标 -->
+<div class="edge-tabs right-tabs">
+  <a href="denryoku.html" class="edge-tab">
+    <span class="tab-text">企業様に電力及び社員寮提供</span>
+    <span class="tab-icon">⚡</span>
+  </a>
+  <a href="solar.html" class="edge-tab">
+    <span class="tab-text">太陽光発電及び蓄電提供</span>
+    <span class="tab-icon">☀️</span>
+  </a>
+  <a href="denki.html" class="edge-tab">
+    <span class="tab-text">企業様に電気及び寮提供</span>
+    <span class="tab-icon">🏠</span>
+  </a>
+  <a href="sendingzy.html" class="edge-tab">
+    <span class="tab-text">送り出し機関を探す</span>
+    <span class="tab-icon">🔍</span>
+  </a>
+</div>
 
-  <div class="edge-tabs right-tabs">
-    <a href="#news" class="edge-tab">
-      <span class="tab-text">最新情報<br>お知らせ</span>
-      <span class="tab-icon">📢</span>
-    </a>
-    <a href="#contact" class="edge-tab">
-      <span class="tab-text">お問い合わせ<br>相談窓口</span>
-      <span class="tab-icon">📞</span>
-    </a>
-    <a href="#support" class="edge-tab">
-      <span class="tab-text">サポート<br>支援制度</span>
-      <span class="tab-icon">🤝</span>
-    </a>
-  </div>
-
-  <header>
-    <h1>広昌会協同組合</h1>
-    <nav>
-      <ul>
-        <li><a href="#home">ホーム</a></li>
-        <li class="dropdown">
-          <a href="#about">組合について</a>
-          <div class="dropdown-content">
-            <a href="#history">組合の歴史</a>
-            <a href="#mission">理念・目的</a>
-            <a href="#leadership">理事会</a>
-          </div>
-        </li>
-        <li class="dropdown">
-          <a href="#services">サービス</a>
-          <div class="dropdown-content">
-            <a href="#business">事業案内</a>
-            <a href="#consulting">経営相談</a>
-            <a href="#training">研修制度</a>
-          </div>
-        </li>
-        <li><a href="#membership">組合員</a></li>
-        <li><a href="#news">お知らせ</a></li>
-        <li><a href="#contact">お問い合わせ</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section id="home">
-      <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
-      <div class="question-grid">
-        <div class="question-row">
-          <div class="question-card" data-card="1">
-            <div class="question-content">
-              <span class="question-icon">🤔</span>
-              <div class="question-text">外国人スタッフを雇用したいけど、どうしたらいいかわからない</div>
-              <div class="click-hint">クリックして回答を見る</div>
-              <span class="dropdown-arrow">▼</span>
-            </div>
-            <div class="answer-text">
-              広昌会協同組合が、雇用手続きから入国サポートまで、すべての段階でお手伝いします。まずは無料相談からお気軽にお問い合わせください。
-            </div>
-          </div>
-          
-          <div class="question-card" data-card="2">
-            <div class="question-content">
-              <span class="question-icon">💬</span>
-              <div class="question-text">言葉は、通じるの・・・</div>
-              <div class="click-hint">クリックして回答を見る</div>
-              <span class="dropdown-arrow">▼</span>
-            </div>
-            <div class="answer-text">
-              当組合では日本語研修を徹底的に行います。基本的な日常会話から専門用語まで、職場で必要なコミュニケーション能力を身につけてもらいます。
-            </div>
-          </div>
-          
-          <div class="question-card" data-card="3">
-            <div class="question-content">
-              <span class="question-icon">🔧</span>
-              <div class="question-text">仕事の内容は伝わるの</div>
-              <div class="click-hint">クリックして回答を見る</div>
-              <span class="dropdown-arrow">▼</span>
-            </div>
-            <div class="answer-text">
-              実習生には事前に職種別の専門研修を実施。図解やデモンストレーションを交えた分かりやすい指導で、確実に業務内容を理解してもらいます。
-            </div>
-          </div>
-        </div>   
-        
-        <div class="question-row">
-          <div class="question-card" data-card="4">
-            <div class="question-content">
-              <span class="question-icon">🌍</span>
-              <div class="question-text">習慣や文化は大丈夫なの</div>
-              <div class="click-hint">クリックして回答を見る</div>
-              <span class="dropdown-arrow">▼</span>
-            </div>
-            <div class="answer-text">
-              来日前に日本の生活習慣や文化、職場のマナーについて丁寧に指導します。また、来日後も継続的にサポートを行います。
-            </div>
-          </div>
-          
-          <div class="question-card" data-card="5">
-            <div class="question-content">
-              <span class="question-icon">📋</span>
-              <div class="question-text">ビザの更新とか手続きが面倒じゃないの</div>
-              <div class="click-hint">クリックして回答を見る</div>
-              <span class="dropdown-arrow">▼</span>
-            </div>
-            <div class="answer-text">
-              ビザ申請・更新等の複雑な手続きはすべて当組合が代行いたします。企業様には面倒な手続きの負担をかけません。
-            </div>
-          </div>
-          
-          <div class="question-card" data-card="6">
-            <div class="question-content">
-              <span class="question-icon">⚡</span>
-              <div class="question-text">外国人はいい加減なんじゃないの</div>
-              <div class="click-hint">クリックして回答を見る</div>
-              <span class="dropdown-arrow">▼</span>
-            </div>
-            <div class="answer-text">
-              当組合では厳格な選考基準で人材を選抜。真面目で責任感の強い実習生のみを紹介いたします。来日後も定期的にフォローアップを行います。
-            </div>
-          </div>
-        </div>
-        
-        <div class="question-row"> 
-          <div class="question-card" data-card="7">
-            <div class="question-content">
-              <span class="question-icon">❌</span>
-              <div class="question-text">過去に失敗した経験がある</div>
-              <div class="click-hint">クリックして回答を見る</div>
-              <span class="dropdown-arrow">▼</span>
-            </div>
-            <div class="answer-text">
-              失敗の原因を詳しく分析し、同じ問題が起こらないよう万全の対策を講じます。豊富な経験とノウハウで、必ず成功に導きます。
-            </div>
-          </div>
-        </div>
-        
-        <!-- 横向流动工作图片 -->
-        <div class="flowing-images">
-          <div class="image-track" id="imageTrack">
-            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
-            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
-            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
-            <!-- 重复图片以确保无缝循环 -->
-            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
-            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
-            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
-          </div>
-        </div>
-        
-        <h2>
-          今すぐご相談ください<br>
-          <span class="sub-text">無料相談で御社に最適な人材をご提案します!</span>
-        </h2>
-        
-        <div class="highlight-text">このお悩み広昌会協同組合が解決します!
-          <a href="#contact" class="cta-button">お問い合わせはこちら</a>
-        </div>
+<!-- 主要内容区域 -->
+<div class="main-content">
+  <section>
+  <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
+  <div class="question-grid">
+   <div class="question-row">
+    <div class="question-card" data-card="1">
+      <div class="question-content">
+        <span class="question-icon">🤔</span>
+        <div class="question-text">外国人スタッフを雇用したいけど、どうしたらいいかわからない</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
       </div>
-    </section>
-
-    <section id="about" style="display:none;">
-      <h2>組合について</h2>
-      <div style="text-align: center; padding: 60px 20px; color: #666;">
-        <h3>組合の理念</h3>
-        <p style="max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem;">
-          広昌会協同組合は、相互扶助の精神に基づき、組合員企業の経営安定と発展を支援し、
-          地域経済の活性化と社会貢献を通じて、持続可能な社会の実現を目指します。
-        </p>
-        <div style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
-          <div style="padding: 20px; background: rgba(79,172,254,0.1); border-radius: 10px;">
-            <h4 style="color: #1A237E;">相互扶助</h4>
-            <p>組合員同士の協力と支援</p>
-          </div>
-          <div style="padding: 20px; background: rgba(79,172,254,0.1); border-radius: 10px;">
-            <h4 style="color: #1A237E;">経営支援</h4>
-            <p>専門的な経営指導とサポート</p>
-          </div>
-          <div style="padding: 20px; background: rgba(79,172,254,0.1); border-radius: 10px;">
-            <h4 style="color: #1A237E;">地域貢献</h4>
-            <p>地域経済の発展への寄与</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="services" style="display:none;">
-      <h2>組合サービス</h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 20px 0;">
-        <div style="padding: 30px; background: linear-gradient(135deg, #1A237E, #303F9F); color: white; border-radius: 15px;">
-          <h3>共同購買事業</h3>
-          <p>原材料や商品の共同購入により、スケールメリットを活かした仕入れコスト削減を実現します。</p>
-        </div>
-        <div style="padding: 30px; background: linear-gradient(135deg, #1A237E, #303F9F); color: white; border-radius: 15px;">
-          <h3>経営指導事業</h3>
-          <p>専門コンサルタントによる経営診断、財務分析、経営改善提案を行います。</p>
-        </div>
-        <div style="padding: 30px; background: linear-gradient(135deg, #1A237E, #303F9F); color: white; border-radius: 15px;">
-          <h3>金融事業</h3>
-          <p>組合員向けの優遇金利での融資制度や、事業資金調達のサポートを提供します。</p>
-        </div>
-        <div style="padding: 30px; background: linear-gradient(135deg, #1A237E, #303F9F); color: white; border-radius: 15px;">
-          <h3>福利厚生事業</h3>
-          <p>従業員の福利厚生制度や健康管理プログラムの充実をサポートします。</p>
-        </div>
-        <div style="padding: 30px; background: linear-gradient(135deg, #1A237E, #303F9F); color: white; border-radius: 15px;">
-          <h3>研修制度</h3>
-          <p>経営者・従業員向けの各種研修プログラムや勉強会を定期開催しています。</p>
-        </div>
-        <div style="padding: 30px; background: linear-gradient(135deg, #1A237E, #303F9F); color: white; border-radius: 15px;">
-          <h3>情報提供事業</h3>
-          <p>業界動向、法改正情報、補助金情報など、経営に役立つ情報を定期的に提供します。</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" style="display:none;">
-      <h2>お問い合わせ</h2>
-      <div class="contact-info">
-        <h3>広昌会協同組合 事務局</h3>
-        <div class="contact-grid">
-          <div class="contact-item">
-            <span class="contact-icon">📍</span>
-            <span>〒530-0001 大阪府大阪市北区梅田1-1-1</span>
-          </div>
-          <div class="contact-item">
-            <span class="contact-icon">📞</span>
-            <span>TEL: 06-1234-5678</span>
-          </div>
-          <div class="contact-item">
-            <span class="contact-icon">📠</span>
-            <span>FAX: 06-1234-5679</span>
-          </div>
-          <div class="contact-item">
-            <span class="contact-icon">✉️</span>
-            <span>info@koshokai.or.jp</span>
-          </div>
-        </div>
-        <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-          <h4 style="color: rgba(255,255,255,0.9); margin-bottom: 15px;">受付時間</h4>
-          <p style="color: rgba(255,255,255,0.8); margin: 5px 0;">平日：9:00〜17:00</p>
-          <p style="color: rgba(255,255,255,0.8); margin: 5px 0;">土日祝：休業</p>
-          <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 15px;">
-            ※緊急時は24時間対応いたします。まずはお電話でご相談ください。
-          </p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>広昌会協同組合</h3>
-        <p>中小企業の経営支援と相互扶助を通じて、地域経済の発展に貢献する事業協同組合です。</p>
-      </div>
-      <div class="footer-section">
-        <h3>主な事業</h3>
-        <p>共同購買事業<br>経営指導事業<br>金融事業<br>福利厚生事業</p>
-      </div>
-      <div class="footer-section">
-        <h3>お問い合わせ</h3>
-        <p>TEL: 06-1234-5678<br>
-        Email: info@koshokai.or.jp<br>
-        受付時間: 平日9:00-17:00</p>
+      <div class="answer-text">
+        広昌会協同組合が、雇用手続きから入国サポートまで、すべての段階でお手伝いします。まずは無料相談からお気軽にお問い合わせください。
       </div>
     </div>
-    <div class="copyright">
-      <p>&copy; 2024 広昌会協同組合. All rights reserved.</p>
+    
+    <div class="question-card" data-card="2">
+      <div class="question-content">
+        <span class="question-icon">💬</span>
+        <div class="question-text">言葉は、通じるの・・・</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        当組合では日本語研修を徹底的に行います。基本的な日常会話から専門用語まで、職場で必要なコミュニケーション能力を身につけてもらいます。
+      </div>
     </div>
-  </footer>
+    
+    <div class="question-card" data-card="3">
+      <div class="question-content">
+        <span class="question-icon">🔧</span>
+        <div class="question-text">仕事の内容は伝わるの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        実習生には事前に職種別の専門研修を実施。図解やデモンストレーションを交えた分かりやすい指導で、確実に業務内容を理解してもらいます。
+      </div>
+    </div>
+   </div>   
+   <div class="question-row">
+    <div class="question-card" data-card="4">
+      <div class="question-content">
+        <span class="question-icon">🌍</span>
+        <div class="question-text">習慣や文化は大丈夫なの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        来日前に日本の生活習慣や文化、職場のマナーについて丁寧に指導します。また、来日後も継続的にサポートを行います。
+      </div>
+    </div>
+    
+    <div class="question-card" data-card="5">
+      <div class="question-content">
+        <span class="question-icon">📋</span>
+        <div class="question-text">ビザの更新とか手続きが面倒じゃないの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        ビザ申請・更新等の複雑な手続きはすべて当組合が代行いたします。企業様には面倒な手続きの負担をかけません。
+      </div>
+    </div>
+    
+    <div class="question-card" data-card="6">
+      <div class="question-content">
+        <span class="question-icon">⚡</span>
+        <div class="question-text">外国人はいい加減なんじゃないの</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        当組合では厳格な選考基準で人材を選抜。真面目で責任感の強い実習生のみを紹介いたします。来日後も定期的にフォローアップを行います。
+      </div>
+    </div>
+   </div>
+   <div class="question-row"> 
+    <div class="question-card" data-card="7">
+      <div class="question-content">
+        <span class="question-icon">❌</span>
+        <div class="question-text">過去に失敗した経験がある</div>
+        <div class="click-hint">クリックして回答を見る</div>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="answer-text">
+        失敗の原因を詳しく分析し、同じ問題が起こらないよう万全の対策を講じます。豊富な経験とノウハウで、必ず成功に導きます。
+      </div>
+    </div>
+   </div>
+  
+  <!-- 修复后的横向流动工作图片 -->
+  <div class="flowing-images">
+    <div class="image-track" id="imageTrack">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
+      <!-- 重复图片以确保无缝循环 -->
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
+    </div>
+  </div>
+  <h2>
+    今すぐご相談ください<br>
+    <span class="sub-text">無料相談で御社に最適な人材をご提案します!</span></h2>
+  <div class="highlight-text">このお悩み広昌会協同組合が解決します!
+   <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
+  </div>
+ </section>
+</div>
 
-  <script>
-    // 加载完成后隐藏加载动画
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        document.getElementById('loadingOverlay').classList.add('hidden');
-      }, 1500);
-    });
+<footer>
+  <p>&copy; 2025 広昌会協同組合</p>
+</footer>
 
-    // 页面加载完成后执行
-    document.addEventListener('DOMContentLoaded', function() {
+<script>
+// 页面加载完成后执行
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // 百叶窗背景切换功能
+  const blindsContainer = document.getElementById('blindsContainer');
+  const blindControls = document.querySelectorAll('.blind-control');
+  const numberOfSlats = 15;
+  let currentImage = 1;
+  let isAnimating = false;
+  
+  // 世界和平主题图片
+  const peaceImages = {
+    1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
+  };
+  
+  // 创建百叶窗片
+  function createBlindSlats() {
+    blindsContainer.innerHTML = '';
+    const slatHeight = 100 / numberOfSlats;
+    
+    for (let i = 0; i < numberOfSlats; i++) {
+      const slat = document.createElement('div');
+      slat.className = 'blind-slat';
       
-      // 百叶窗背景切换功能
-      const blindsContainer = document.getElementById('blindsContainer');
-      const blindControls = document.querySelectorAll('.blind-control');
-      const numberOfSlats = 15;
-      let currentImage = 1;
-      let isAnimating = false;
+      slat.style.top = `${i * slatHeight}%`;
+      slat.style.height = `${slatHeight + 0.1}%`;
       
-      // 世界和平主题图片
-      const peaceImages = {
-        1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
-        2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
-        3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
-      };
+      slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
+      slat.style.backgroundSize = '100% 100vh';
+      slat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
+      slat.style.backgroundRepeat = 'no-repeat';
       
-      // 创建百叶窗片
-      function createBlindSlats() {
-        blindsContainer.innerHTML = '';
-        const slatHeight = 100 / numberOfSlats;
-        
-        for (let i = 0; i < numberOfSlats; i++) {
-          const slat = document.createElement('div');
-          slat.className = 'blind-slat';
-          
-          slat.style.top = `${i * slatHeight}%`;
-          slat.style.height = `${slatHeight + 0.1}%`;
-          
-          slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
-          slat.style.backgroundSize = '100% 100vh';
-          slat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
-          slat.style.backgroundRepeat = 'no-repeat';
-          
-          blindsContainer.appendChild(slat);
-        }
-      }
-      
-      // 百叶窗翻转切换效果
-      function switchBlindsImage(newImageIndex) {
-        if (isAnimating || newImageIndex === currentImage) return;
-        
-        isAnimating = true;
-        const oldSlats = document.querySelectorAll('.blind-slat');
-        const slatHeight = 100 / numberOfSlats;
+      blindsContainer.appendChild(slat);
+    }
+  }
+  
+  // 百叶窗翻转切换效果
+  function switchBlindsImage(newImageIndex) {
+    if (isAnimating || newImageIndex === currentImage) return;
+    
+    isAnimating = true;
+    const oldSlats = document.querySelectorAll('.blind-slat');
+    const slatHeight = 100 / numberOfSlats;
 
-        // 创建新的百叶窗片
-        for (let i = 0; i < numberOfSlats; i++) {
-          const newSlat = document.createElement('div');
-          newSlat.className = 'blind-slat';
-          
-          newSlat.style.top = `${i * slatHeight}%`;
-          newSlat.style.height = `${slatHeight + 0.1}%`;
-          
-          newSlat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
-          newSlat.style.backgroundSize = '100% 100vh';
-          newSlat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
-          newSlat.style.backgroundRepeat = 'no-repeat';
-          
-          newSlat.style.transform = 'rotateX(90deg)';
-          newSlat.style.backfaceVisibility = 'hidden';
-          
-          blindsContainer.appendChild(newSlat);
-        }
-
-        const newSlats = Array.from(document.querySelectorAll('.blind-slat')).slice(numberOfSlats);
-
-        // 动画序列
-        oldSlats.forEach((slat, index) => {
-          setTimeout(() => {
-            slat.style.transform = 'rotateX(-90deg)';
-          }, index * 40);
-        });
-
-        newSlats.forEach((slat, index) => {
-          setTimeout(() => {
-            slat.style.transform = 'rotateX(0deg)';
-          }, index * 40 + 200);
-        });
-
-        setTimeout(() => {
-          oldSlats.forEach(slat => slat.remove());
-          currentImage = newImageIndex;
-          blindControls.forEach(control => control.classList.remove('active'));
-          document.querySelector(`[data-image="${newImageIndex}"]`).classList.add('active');
-          isAnimating = false;
-        }, numberOfSlats * 40 + 1400);
-      }
+    // 创建新的百叶窗片
+    for (let i = 0; i < numberOfSlats; i++) {
+      const newSlat = document.createElement('div');
+      newSlat.className = 'blind-slat';
       
-      // 自动切换
-      function autoSwitchBlinds() {
-        if (!isAnimating) {
-          const nextImage = (currentImage % 3) + 1;
-          switchBlindsImage(nextImage);
-        }
-      }
+      newSlat.style.top = `${i * slatHeight}%`;
+      newSlat.style.height = `${slatHeight + 0.1}%`;
       
-      // 问题卡片交互功能
-      const questionGrid = document.querySelector('.question-grid');
+      newSlat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
+      newSlat.style.backgroundSize = '100% 100vh';
+      newSlat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
+      newSlat.style.backgroundRepeat = 'no-repeat';
       
-      if (questionGrid) {
-        questionGrid.addEventListener('click', function(e) {
-          const questionCard = e.target.closest('.question-card');
-          if (questionCard) {
-            // 移除其他卡片的active状态
-            document.querySelectorAll('.question-card').forEach(otherCard => {
-              if (otherCard !== questionCard) {
-                otherCard.classList.remove('active');
-              }
-            });
-            
-            // 切换当前卡片的active状态
-            questionCard.classList.toggle('active');
-          }
-        });
-      }
+      newSlat.style.transform = 'rotateX(90deg)';
+      newSlat.style.backfaceVisibility = 'hidden';
       
-      // 横向图片流动效果 - 真正的无缝循环
-      const imageTrack = document.getElementById('imageTrack');
-      if (imageTrack) {
-        let scrollPosition = 0;
-        const scrollSpeed = 1.2;
-        let animationId;
-        let isPaused = false;
-        
-        // 计算单个图片组的宽度（包括间距）
-        function getImageGroupWidth() {
-          const images = imageTrack.querySelectorAll('.work-image');
-          const totalImages = images.length / 2; // 因为图片是重复的
-          const imageWidth = 250 + 20; // 图片宽度 + gap
-          return totalImages * imageWidth;
-        }
-        
-        function animateImages() {
-          if (!isPaused) {
-            scrollPosition -= scrollSpeed;
-            
-            const groupWidth = getImageGroupWidth();
-            
-            // 当第一组图片完全滑出视野时，重置位置
-            if (Math.abs(scrollPosition) >= groupWidth) {
-              scrollPosition = 0;
-            }
-            
-            imageTrack.style.transform = `translateX(${scrollPosition}px)`;
-          }
-          
-          animationId = requestAnimationFrame(animateImages);
-        }
-        
-        // 鼠标悬停时暂停
-        imageTrack.addEventListener('mouseenter', () => {
-          isPaused = true;
-        });
-        
-        imageTrack.addEventListener('mouseleave', () => {
-          isPaused = false;
-        });
-        
-        // 启动动画
-        animateImages();
-      }
-      
-      // 导航功能
-      function showSection(sectionId) {
-        // 隐藏所有section
-        document.querySelectorAll('section').forEach(section => {
-          section.style.display = 'none';
-        });
-        
-        // 显示指定section
-        const targetSection = document.getElementById(sectionId);
-        if (targetSection) {
-          targetSection.style.display = 'block';
-        }
-      }
-
-      // 导航点击事件
-      document.querySelectorAll('nav a, .edge-tab').forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const href = this.getAttribute('href');
-          if (href && href.startsWith('#')) {
-            const sectionId = href.substring(1);
-            showSection(sectionId);
-            
-            // 更新URL hash
-            window.location.hash = href;
-          }
-        });
-      });
-
-      // 平滑滚动到顶部
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        });
-      });
-
-      // 检查URL hash并显示相应section
-      const hash = window.location.hash;
-      if (hash) {
-        const sectionId = hash.substring(1);
-        showSection(sectionId);
-      }
-      
-      // 初始化百叶窗
-      createBlindSlats();
-      
-      // 控制器点击事件
-      blindControls.forEach(control => {
-        control.addEventListener('click', () => {
-          const imageIndex = parseInt(control.dataset.image);
-          switchBlindsImage(imageIndex);
-        });
-      });
-      
-      // 每12秒自动切换
-      setInterval(autoSwitchBlinds, 12000);
-      
-      // 为边缘标签添加随机延迟动画
-      const edgeTabs = document.querySelectorAll('.edge-tab');
-      edgeTabs.forEach((tab, index) => {
-        tab.style.animationDelay = `${index * 0.2}s`;
-      });
-
-      // 为问题卡片添加交互反馈
-      const questionCards = document.querySelectorAll('.question-card');
-      questionCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-8px) scale(1.02)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-          if (!this.classList.contains('active')) {
-            this.style.transform = 'translateY(0) scale(1)';
-          }
-        });
-      });
-      
-    });
-
-    // 键盘快捷键
-    document.addEventListener('keydown', function(e) {
-      // 按 B 键切换百叶窗
-      if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.altKey) {
-        const nextImage = (parseInt(document.querySelector('.blind-control.active').dataset.image) % 3) + 1;
-        document.querySelector(`[data-image="${nextImage}"]`).click();
-      }
-      // 按 H 键回到首页
-      if (e.key.toLowerCase() === 'h' && !e.ctrlKey && !e.altKey) {
-        document.querySelector('a[href="#home"]').click();
-      }
-    });
-
-    // 窗口调整大小时重新初始化百叶窗
-    let resizeTimer;
-    window.addEventListener('resize', function() {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function() {
-        // 重新生成百叶窗
-        const container = document.getElementById('blindsContainer');
-        container.innerHTML = '';
-        document.dispatchEvent(new Event('DOMContentLoaded'));
-      }, 250);
-    });
-
-    // 性能优化：减少不必要的重绘
-    let ticking = false;
-    function updateAnimations() {
-      // 更新动画相关的计算
-      ticking = false;
+      blindsContainer.appendChild(newSlat);
     }
 
-    function requestTick() {
-      if (!ticking) {
-        requestAnimationFrame(updateAnimations);
-        ticking = true;
-      }
+    const newSlats = Array.from(document.querySelectorAll('.blind-slat')).slice(numberOfSlats);
+
+    // 动画序列
+    oldSlats.forEach((slat, index) => {
+      setTimeout(() => {
+        slat.style.transform = 'rotateX(-90deg)';
+      }, index * 40);
+    });
+
+    newSlats.forEach((slat, index) => {
+      setTimeout(() => {
+        slat.style.transform = 'rotateX(0deg)';
+      }, index * 40 + 200);
+    });
+
+    setTimeout(() => {
+      oldSlats.forEach(slat => slat.remove());
+      currentImage = newImageIndex;
+      blindControls.forEach(control => control.classList.remove('active'));
+      document.querySelector(`[data-image="${newImageIndex}"]`).classList.add('active');
+      isAnimating = false;
+    }, numberOfSlats * 40 + 1400);
+  }
+  
+  // 自动切换
+  function autoSwitchBlinds() {
+    if (!isAnimating) {
+      const nextImage = (currentImage % 3) + 1;
+      switchBlindsImage(nextImage);
     }
-
-    // 添加页面可见性API支持
-    document.addEventListener('visibilitychange', function() {
-      if (document.hidden) {
-        // 页面不可见时暂停动画
-        document.body.style.animationPlayState = 'paused';
-      } else {
-        // 页面可见时恢复动画
-        document.body.style.animationPlayState = 'running';
-      }
-    });
-
-    // 错误处理
-    window.addEventListener('error', function(e) {
-      console.error('页面错误:', e.error);
-    });
-
-    // 现代浏览器特性检测
-    if ('IntersectionObserver' in window) {
-      // 使用 Intersection Observer 优化动画性能
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.style.animationPlayState = 'running';
-          } else {
-            entry.target.style.animationPlayState = 'paused';
+  }
+  
+  // 问题卡片交互功能
+  const questionGrid = document.querySelector('.question-grid');
+  
+  if (questionGrid) {
+    questionGrid.addEventListener('click', function(e) {
+      const questionCard = e.target.closest('.question-card');
+      if (questionCard) {
+        // 移除其他卡片的active状态
+        document.querySelectorAll('.question-card').forEach(otherCard => {
+          if (otherCard !== questionCard) {
+            otherCard.classList.remove('active');
           }
         });
-      });
-
-      // 观察所有动画元素
-      document.querySelectorAll('.question-card, .edge-tab').forEach(el => {
-        observer.observe(el);
-      });
+        
+        // 切换当前卡片的active状态
+        questionCard.classList.toggle('active');
+      }
+    });
+  }
+  
+  // 修复后的横向图片流动效果 - 真正的无缝循环
+  const imageTrack = document.getElementById('imageTrack');
+  if (imageTrack) {
+    let scrollPosition = 0;
+    const scrollSpeed = 1.2;
+    let animationId;
+    let isPaused = false;
+    
+    // 计算单个图片组的宽度（包括间距）
+    function getImageGroupWidth() {
+      const images = imageTrack.querySelectorAll('.work-image');
+      const totalImages = images.length / 2; // 因为图片是重复的
+      const imageWidth = 250 + 20; // 图片宽度 + gap
+      return totalImages * imageWidth;
     }
-  </script>
+    
+    function animateImages() {
+      if (!isPaused) {
+        scrollPosition -= scrollSpeed;
+        
+        const groupWidth = getImageGroupWidth();
+        
+        // 当第一组图片完全滑出视野时，重置位置
+        if (Math.abs(scrollPosition) >= groupWidth) {
+          scrollPosition = 0;
+        }
+        
+        imageTrack.style.transform = `translateX(${scrollPosition}px)`;
+      }
+      
+      animationId = requestAnimationFrame(animateImages);
+    }
+    
+    // 鼠标悬停时暂停
+    imageTrack.addEventListener('mouseenter', () => {
+      isPaused = true;
+    });
+    
+    imageTrack.addEventListener('mouseleave', () => {
+      isPaused = false;
+    });
+    
+    // 启动动画
+    animateImages();
+  }
+  
+  // 初始化百叶窗
+  createBlindSlats();
+  
+  // 控制器点击事件
+  blindControls.forEach(control => {
+    control.addEventListener('click', () => {
+      const imageIndex = parseInt(control.dataset.image);
+      switchBlindsImage(imageIndex);
+    });
+  });
+  
+  // 每12秒自动切换
+  setInterval(autoSwitchBlinds, 12000);
+  
+});
+</script>
+
 </body>
 </html>
