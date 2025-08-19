@@ -10,256 +10,7 @@
       padding: 0;
       line-height: 1.6;
       color: #333;
-      position: relative;
-      overflow-x: hidden;
-    }
-    
-    /* 百叶窗背景容器 */
-    .blinds-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: -10;
-      overflow: hidden;
-    }
-    .blinds-container::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.35);
-      pointer-events: none;
-    }
-    
-    /* 百叶窗片 - 修复裂缝问题 */
-    .blind-slat {
-      position: absolute;
-      width: 100%;
-      height: calc(100vh / 15 + 2px);
-      background-size: 100% 100vh;
-      background-repeat: no-repeat;
-      transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
-      transform-origin: center center;
-      border: none;
-      backface-visibility: hidden;
-      margin-top: -1px;
-    }
-    
-    .blind-slat:first-child {
-      margin-top: 0;
-    }
-    
-    .blind-slat.flip-out {
-      transform: rotateX(-90deg);
-    }
-    
-    .blind-slat.flip-in {
-      transform: rotateX(0deg);
-    }
-    
-    /* 百叶窗控制器 */
-    .blinds-controller {
-      position: fixed;
-      bottom: 80px;
-      right: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      z-index: 20;
-    }
-    
-    .blind-control {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.5);
-      border: 2px solid rgba(79,172,254,0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      backdrop-filter: blur(10px);
-    }
-    
-    .blind-control:hover {
-      background: rgba(79,172,254,0.9);
-      color: white;
-      transform: scale(1.1);
-      box-shadow: 0 6px 20px rgba(79,172,254,0.4);
-    }
-    
-    .blind-control.active {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      color: white;
-      box-shadow: 0 6px 20px rgba(79,172,254,0.5);
-    }
-    
-    /* 和平主题装饰 */
-    .peace-symbol {
-      position: fixed;
-      top: 20%;
-      left: 5%;
-      width: 80px;
-      height: 80px;
-      opacity: 0.3;
-      z-index: -5;
-      animation: peacePulse 4s ease-in-out infinite;
-    }
-    
-    .peace-symbol::before {
-      content: '☮';
-      font-size: 60px;
-      color: rgba(255,255,255,0.8);
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    
-    @keyframes peacePulse {
-      0%, 100% { 
-        opacity: 0.3;
-        transform: scale(1);
-      }
-      50% { 
-        opacity: 0.6;
-        transform: scale(1.1);
-      }
-    }
-    
-    /* 地球图标装饰 */
-    .earth-icon {
-      position: fixed;
-      top: 25%;
-      right: 8%;
-      width: 60px;
-      height: 60px;
-      opacity: 0.4;
-      z-index: -5;
-      animation: earthRotate 20s linear infinite;
-    }
-    
-    .earth-icon::before {
-      content: '🌍';
-      font-size: 50px;
-      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-    }
-    
-    @keyframes earthRotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    /* 团结之手装饰 */
-    .unity-hands {
-      position: fixed;
-      bottom: 20%;
-      left: 8%;
-      width: 70px;
-      height: 70px;
-      opacity: 0.4;
-      z-index: -5;
-      animation: unityPulse 6s ease-in-out infinite;
-    }
-    
-    .unity-hands::before {
-      content: '🤝';
-      font-size: 55px;
-      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-    }
-    
-    @keyframes unityPulse {
-      0%, 100% { 
-        opacity: 0.4;
-        transform: scale(1);
-      }
-      50% { 
-        opacity: 0.7;
-        transform: scale(1.15);
-      }
-    }
-    
-    /* 和平鸽装饰 */
-    .peace-dove {
-      position: fixed;
-      top: 25%;
-      right: 25%;
-      width: 50px;
-      height: 50px;
-      opacity: 0.5;
-      z-index: -5;
-      animation: doveFloat 8s ease-in-out infinite;
-    }
-    
-    .peace-dove::before {
-      content: '🕊';
-      font-size: 40px;
-      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-    }
-    
-    @keyframes doveFloat {
-      0%, 100% { 
-        transform: translateY(0px) rotate(0deg);
-        opacity: 0.5;
-      }
-      25% { 
-        transform: translateY(-8px) rotate(2deg);
-        opacity: 0.7;
-      }
-      50% { 
-        transform: translateY(-5px) rotate(-1deg);
-        opacity: 0.8;
-      }
-      75% { 
-        transform: translateY(-10px) rotate(1deg);
-        opacity: 0.6;
-      }
-    }
-    
-    /* 温暖光晕效果 */
-    .warm-glow {
-      position: fixed;
-      top: 10%;
-      left: 10%;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, rgba(255,165,0,0.05) 50%, transparent 70%);
-      z-index: -6;
-      animation: glowPulse 12s ease-in-out infinite;
-      border-radius: 50%;
-    }
-    
-    @keyframes glowPulse {
-      0%, 100% { 
-        opacity: 0.3;
-        transform: scale(1);
-      }
-      50% { 
-        opacity: 0.6;
-        transform: scale(1.3);
-      }
-    }
-    
-    /* 响应式设计 */
-    @media (max-width: 768px) {
-      .blinds-controller {
-        bottom: 60px;
-        right: 20px;
-        gap: 10px;
-      }
-      
-      .blind-control {
-        width: 50px;
-        height: 50px;
-        font-size: 14px;
-      }
-      
-      .peace-symbol, .earth-icon, .unity-hands, .peace-dove {
-        display: none;
-      }
+      background: #f5f5f5;
     }
     
     header {
@@ -273,24 +24,88 @@
       z-index: 1000;
     }
     
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 20px 10px 20px;
+    }
+    
     header h1 {
-      text-align: center;
+      text-align: left;
       margin: 0;
       color: #2c3e50;
       font-size: 2.8rem;
       font-weight: 700;
-      padding: 20px 0 10px 0;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #191970, #191970);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      flex: 1;
+    }
+    
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .search-input {
+      padding: 10px 40px 10px 15px;
+      border: 2px solid #191970;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      width: 200px;
+      outline: none;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+    }
+    
+    .search-input:focus {
+      width: 250px;
+      box-shadow: 0 4px 15px rgba(25,25,112,0.3);
+      background: white;
+    }
+    
+    .search-btn {
+      position: absolute;
+      right: 5px;
+      background: #191970;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .search-btn:hover {
+      background: #667eea;
+      transform: scale(1.05);
+    }
+    
+    .search-label {
+      font-size: 0.85rem;
+      color: #191970;
+      font-weight: 600;
+      white-space: nowrap;
     }
     
     nav {
-      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 30%, #4facfe 80%);
+      background: linear-gradient(90deg, #191970 0%, #191970 30%, #191970 80%);
       padding: 0;
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
     }
     
     nav ul {
@@ -310,29 +125,13 @@
       text-align: center;
       border-right: 1px solid rgba(255,255,255,0.2);
       position: relative;
-      overflow: hidden;
+      overflow: visible; /* 修正: visible に変更 */
       display: flex;
       align-items: center;
     }
     
     nav li:last-child {
       border-right: none;
-    }
-    
-    nav li::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: left 0.6s ease;
-      z-index: 1;
-    }
-    
-    nav li:hover::before {
-      left: 100%;
     }
     
     nav a {
@@ -352,247 +151,134 @@
     }
     
     nav a:hover {
-      color: #4facfe;
+      color: #191970;
       background: rgba(255,255,255,0.95);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     
-    /* ==================== 改进的边缘标签样式 ==================== */
-    .edge-tabs {
-      position: fixed;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    
-    .left-tabs {
-      left: -5px;
-    }
-    
-    .right-tabs {
-      right: -5px;
-    }
-    
-    /* 现代化的边缘标签设计 */
-    .edge-tab {
+    /* 修正されたドロップダウンメニュー */
+    .dropdown {
       position: relative;
-      background: linear-gradient(135deg, 
-        rgba(79, 172, 254, 0.95) 0%, 
-        rgba(0, 242, 254, 0.95) 50%, 
-        rgba(79, 172, 254, 0.95) 100%);
+    }
+    
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       color: white;
-      text-decoration: none;
-      padding: 16px 28px 16px 18px;
-      border-radius: 0 30px 30px 0;
-      box-shadow: 
-        0 8px 32px rgba(79, 172, 254, 0.4),
-        0 4px 16px rgba(0, 0, 0, 0.2);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      min-width: 220px;
-      overflow: hidden;
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      
-      /* 添加渐变边框效果 */
-      background-clip: padding-box;
+      font-weight: 600;
+      padding: 18px 20px;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      width: 100%;
+      box-sizing: border-box;
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      height: 100%;
+      min-height: 60px;
     }
     
-    .right-tabs .edge-tab {
-      border-radius: 30px 0 0 30px;
-      padding: 16px 18px 16px 28px;
-      text-align: right;
+    .dropdown-btn::after {
+      content: '▼';
+      font-size: 0.7rem;
+      transition: transform 0.3s ease;
+      margin-left: 5px;
     }
     
-    /* 动态光效背景 */
-    .edge-tab::before {
-      content: '';
+    .dropdown.active .dropdown-btn::after {
+      transform: rotate(180deg);
+    }
+    
+    .dropdown-btn:hover {
+      color: #1A237E;
+      background: rgba(255,255,255,0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .dropdown-menu {
       position: absolute;
-      top: 0;
-      left: -100%;
+      top: 100%;
+      left: -100%; /* 修正: 左端から開始して4つのボタン幅をカバー */
+      width: calc(400% + 3px); /* 修正: メイン4つのボタン幅と同じに */
+      background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(240,248,255,0.98) 100%);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      border-radius: 0 0 15px 15px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-top: none;
+      overflow: hidden;
+    }
+    
+    .dropdown.active .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .dropdown-content {
+      display: flex;
+      flex-direction: row; /* 修正: 横方向に戻す */
+      padding: 0;
+      gap: 0;
+      height: 60px; /* メインボタンと同じ高さ */
+    }
+    
+    .dropdown-item {
+      flex: 1; /* 各項目が等幅になる */
+      border-right: 1px solid rgba(26, 35, 126, 0.2);
+      display: flex;
+      align-items: center;
+    }
+    
+    .dropdown-item:last-child {
+      border-right: none;
+    }
+    
+    .dropdown-item a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1A237E;
+      text-decoration: none;
+      padding: 18px 15px; /* メインボタンと同じパディング */
+      font-weight: 600;
+      font-size: 0.95rem; /* メインボタンと同じサイズ */
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      text-align: center;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.3), 
-        transparent);
-      transition: left 0.8s ease;
-      z-index: 1;
+      letter-spacing: 0.5px; /* メインボタンと同じ文字間隔 */
+      text-shadow: none; /* 初期状態では影なし */
     }
     
-    /* 发光效果 */
-    .edge-tab::after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, 
-        #ff6b6b 0%, 
-        #4facfe 25%, 
-        #00f2fe 50%, 
-        #764ba2 75%, 
-        #ff6b6b 100%);
-      border-radius: inherit;
-      z-index: -1;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      animation: borderRotate 3s linear infinite;
+    .dropdown-item a:hover {
+      background: linear-gradient(135deg, #1A237E 0%, #667eea 100%);
+      color: white;
+      transform: translateY(-2px); /* メインボタンと同じ上移動 */
+      box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* ホバー時に影を追加 */
     }
     
-    @keyframes borderRotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    /* 主要内容区域 */
+    .main-content {
+      min-height: 100vh;
+      padding: 20px 0;
     }
     
-    .edge-tab:hover::before {
-      left: 100%;
-    }
-    
-    .edge-tab:hover::after {
-      opacity: 0.8;
-    }
-    
-    .edge-tab:hover {
-      transform: translateX(8px) scale(1.05);
-      box-shadow: 
-        0 15px 50px rgba(79, 172, 254, 0.6),
-        0 8px 25px rgba(0, 0, 0, 0.3);
-      background: linear-gradient(135deg, 
-        rgba(102, 126, 234, 0.95) 0%, 
-        rgba(118, 75, 162, 0.95) 50%, 
-        rgba(102, 126, 234, 0.95) 100%);
-    }
-    
-    .right-tabs .edge-tab:hover {
-      transform: translateX(-8px) scale(1.05);
-    }
-    
-    .tab-text {
-      font-weight: 700;
-      font-size: 0.92rem;
-      line-height: 1.4;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-      display: block;
-      position: relative;
-      z-index: 2;
-      letter-spacing: 0.3px;
-    }
-    
-    /* 添加图标装饰 */
-    .edge-tab .tab-icon {
-      display: inline-block;
-      margin-right: 8px;
-      font-size: 1.1rem;
-      transition: transform 0.3s ease;
-    }
-    
-    .right-tabs .edge-tab .tab-icon {
-      margin-right: 0;
-      margin-left: 8px;
-    }
-    
-    .edge-tab:hover .tab-icon {
-      transform: scale(1.2) rotate(10deg);
-    }
-    
-    /* 脉冲动画效果 */
-    .edge-tab {
-      animation: tabPulse 4s ease-in-out infinite;
-    }
-    
-    @keyframes tabPulse {
-      0%, 100% { 
-        box-shadow: 
-          0 8px 32px rgba(79, 172, 254, 0.4),
-          0 4px 16px rgba(0, 0, 0, 0.2);
-      }
-      50% { 
-        box-shadow: 
-          0 10px 40px rgba(79, 172, 254, 0.5),
-          0 6px 20px rgba(0, 0, 0, 0.25);
-      }
-    }
-    
-    /* 响应式设计 */
-    @media (max-width: 1024px) {
-      .edge-tab {
-        min-width: 200px;
-        font-size: 0.88rem;
-        padding: 14px 24px 14px 16px;
-      }
-      
-      .right-tabs .edge-tab {
-        padding: 14px 16px 14px 24px;
-      }
-      
-      .tab-text {
-        font-size: 0.88rem;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .edge-tabs {
-        position: relative;
-        top: auto;
-        transform: none;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 25px 0;
-        gap: 12px;
-        padding: 0 15px;
-      }
-      
-      .left-tabs, .right-tabs {
-        left: auto;
-        right: auto;
-      }
-      
-      .edge-tab, .right-tabs .edge-tab {
-        border-radius: 20px;
-        min-width: 180px;
-        padding: 14px 18px;
-        text-align: center;
-        margin: 8px;
-        transform: none;
-      }
-      
-      .edge-tab:hover, .right-tabs .edge-tab:hover {
-        transform: translateY(-3px) scale(1.03);
-      }
-      
-      .tab-text {
-        font-size: 0.85rem;
-      }
-      
-      .edge-tab .tab-icon, .right-tabs .edge-tab .tab-icon {
-        margin: 0 4px 0 0;
-        display: inline-block;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .edge-tab {
-        min-width: 160px;
-        font-size: 0.8rem;
-        padding: 12px 15px;
-      }
-      
-      .tab-text {
-        font-size: 0.8rem;
-      }
-      
-      .edge-tab .tab-icon {
-        font-size: 1rem;
-      }
-    }
-    
-    /* 主要内容区域调整 */
     section {
       max-width: 1200px;
       margin: 40px auto;
@@ -610,7 +296,13 @@
       margin: 40px 0 30px 0;
     }
     
-    /* 对称设计的问题卡片布局 - 3-3-1 排列 */
+    .sub-text {
+      font-size: 1.2rem;
+      color: #1A237E;
+      font-weight: 600;
+    }
+    
+    /* 问题卡片布局 - 3-3-1 排列 */
     .question-grid {
       display: flex;
       flex-direction: column;
@@ -628,7 +320,7 @@
     }
     
     .question-card {
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 80%);
+      background: linear-gradient(135deg, #191970 0%, #191970 80%);
       color: white;
       padding: 25px;
       border-radius: 15px;
@@ -650,7 +342,6 @@
       flex-shrink: 0;
     }
     
-    /* 重新设置动画延迟 */
     .question-row:nth-child(1) .question-card:nth-child(1) { --i: 1; }
     .question-row:nth-child(1) .question-card:nth-child(2) { --i: 2; }
     .question-row:nth-child(1) .question-card:nth-child(3) { --i: 3; }
@@ -659,60 +350,19 @@
     .question-row:nth-child(2) .question-card:nth-child(3) { --i: 6; }
     .question-row:nth-child(3) .question-card:nth-child(1) { --i: 7; }
     
-   /* 最后一张卡片（第7张）特殊样式 - 稍大且居中 */
     .question-row:nth-child(3) .question-card {
       width: 340px;
       min-height: 200px;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      background: linear-gradient(135deg, #191970 0%, #191970 100%);
       box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
       border: 3px solid rgba(255,255,255,0.3);
     }
-    
-    /* 确保第7张卡片的悬停效果正常工作 */
-    .question-row:nth-child(3) .question-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4);
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
-      border-color: rgba(255,255,255,0.3);
-    }
-    
-    .question-row:nth-child(3) .question-card .question-text {
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-    
-    .question-row:nth-child(3) .question-card .question-icon {
-      font-size: 1.8rem;
-    }
-    
-    .question-card:nth-child(1) { --i: 1; }
-    .question-card:nth-child(2) { --i: 2; }
-    .question-card:nth-child(3) { --i: 3; }
-    .question-card:nth-child(4) { --i: 4; }
-    .question-card:nth-child(5) { --i: 5; }
-    .question-card:nth-child(6) { --i: 6; }
-    .question-card:nth-child(7) { --i: 7; }
     
     @keyframes cardSlideIn {
       to {
         transform: translateY(0);
         opacity: 1;
       }
-    }
-    
-    .question-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.6s ease;
-    }
-    
-    .question-card:hover::before {
-      left: 100%;
     }
     
     .question-card:hover {
@@ -727,7 +377,7 @@
       transform: translateY(-5px) scale(1.01);
       border-color: rgba(255,255,255,0.5);
       box-shadow: 0 20px 50px rgba(79, 172, 254, 0.5);
-      min-height: auto; /* 活跃状态时允许高度自适应 */
+      min-height: auto;
     }
     
     .question-text {
@@ -736,7 +386,7 @@
       line-height: 1.4;
       margin-bottom: 10px;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-      flex: 1; /* 让文本区域占据可用空间 */
+      flex: 1;
       display: flex;
       align-items: center;
     }
@@ -772,7 +422,6 @@
       transform: translateY(0);
     }
     
-    /* 下拉箭头指示器 */
     .dropdown-arrow {
       position: absolute;
       top: 15px;
@@ -786,7 +435,6 @@
       transform: rotate(180deg);
     }
     
-    /* 改进卡片点击区域 */
     .question-content {
       position: relative;
       cursor: pointer;
@@ -805,7 +453,7 @@
       font-style: italic;
     }
     
-    /* 修复后的横向流动图片样式 - 确保无缝循环 */
+    /* 横向流动图片 */
     .flowing-images {
       width: 100%;
       overflow: hidden;
@@ -815,25 +463,6 @@
       padding: 20px 0;
       box-shadow: 0 8px 25px rgba(0,0,0,0.1);
       backdrop-filter: blur(10px);
-      position: relative;
-    }
-    
-    .flowing-images::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -20%;
-      width: 40%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      animation: shimmer 3s ease-in-out infinite;
-      z-index: 1;
-    }
-    
-    @keyframes shimmer {
-      0% { left: -20%; }
-      50% { left: 120%; }
-      100% { left: -20%; }
     }
     
     .image-track {
@@ -841,7 +470,7 @@
       gap: 20px;
       padding: 0 20px;
       will-change: transform;
-      width: max-content; /* 让容器适应内容宽度 */
+      width: max-content;
     }
     
     .work-image {
@@ -853,98 +482,18 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       flex-shrink: 0;
       border: 3px solid rgba(255,255,255,0.5);
-      position: relative;
-      z-index: 2;
     }
     
     .work-image:hover {
       transform: scale(1.05) translateY(-5px);
       box-shadow: 0 15px 30px rgba(79,172,254,0.3);
       border-color: rgba(79,172,254,0.8);
-      z-index: 10;
     }
     
-    /* 响应式调整 */
-    @media (max-width: 768px) {
-      .question-grid {
-        gap: 20px;
-        padding: 0 10px;
-      }
-      
-      .question-row {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
-      
-      .question-card {
-        width: 100%;
-        max-width: 350px;
-        min-height: 160px;
-        padding: 20px;
-      }
-      
-      /* 移动端第7张卡片不需要特殊大小 */
-      .question-row:nth-child(3) .question-card {
-        width: 100%;
-        max-width: 340px;
-        min-height: 160px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 80%);
-        border: 2px solid transparent;
-      }
-      
-      .question-row:nth-child(3) .question-card .question-text {
-        font-size: 0.95rem;
-        font-weight: 600;
-      }
-      
-      .question-row:nth-child(3) .question-card .question-icon {
-        font-size: 1.3rem;
-      }
-      
-      .question-text {
-        font-size: 0.95rem;
-      }
-      
-      .question-icon {
-        font-size: 1.3rem;
-      }
-      
-      .work-image {
-        width: 200px;
-        height: 120px;
-      }
-      
-      .flowing-images {
-        padding: 15px 0;
-        margin: 30px 0;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .question-card {
-        padding: 18px;
-        min-height: 140px;
-      }
-      
-      .question-text {
-        font-size: 0.9rem;
-      }
-      
-      .question-icon {
-        font-size: 1.2rem;
-      }
-      
-      .work-image {
-        width: 180px;
-        height: 110px;
-      }
-    }
-
-    /* CTA 模块样式 */
+    /* CTA 模块 */
     .cta {
       text-align: center;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #191970, #191970);
       color: white;
       padding: 50px 20px;
       border-radius: 20px;
@@ -965,11 +514,10 @@
     }
 
     .cta-button {
-      //display: inline-block;
       display: block;
       margin: 15px auto 0; 
       background: white;
-      color: #4facfe;
+      color: #191970;
       padding: 10px 20px;
       border-radius: 30px;
       font-weight: bold;
@@ -992,7 +540,6 @@
       margin-top: 40px;
     }
     
-    /* 优化的底部文字效果 */
     .highlight-text {
       text-align: center;
       font-size: 2rem;
@@ -1002,41 +549,28 @@
       border-radius: 20px;
       position: relative;
       overflow: hidden;
-      
-      /* 炫彩渐变背景 */
-      background: linear-gradient(135deg, 
-        #4facfe, 
-        #00f2fe);
-      background-size: 300% 300%;
-      animation: gradientShift 3s ease-in-out infinite;
-      
-      /* 霓虹发光文字 */
+      background: linear-gradient(135deg, #191970, #191970);
+      background-size: 200% 200%;
       color: #ffffff;
       text-shadow: 
         0 0 10px rgba(255,255,255,0.8),
         0 0 20px rgba(255,105,180,0.6),
         0 0 30px rgba(255,105,180,0.4),
         0 0 40px rgba(255,105,180,0.2);
-      
-      /* 3D立体效果 */
       transform: perspective(500px) rotateX(10deg);
       box-shadow: 
         0 15px 30px rgba(0,0,0,0.3),
         0 0 50px rgba(255,105,180,0.2),
         inset 0 2px 10px rgba(255,255,255,0.2);
-      
-      /* 动画过渡 */
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    /* 悬停效果 */
     .highlight-text:hover {
       transform: perspective(500px) rotateX(0deg) scale(1.05);
       box-shadow: 
         0 25px 50px rgba(0,0,0,0.4),
         0 0 100px rgba(255,105,180,0.4),
         inset 0 2px 15px rgba(255,255,255,0.3);
-      
       text-shadow: 
         0 0 15px rgba(255,255,255,1),
         0 0 30px rgba(255,20,147,0.8),
@@ -1044,132 +578,149 @@
         0 0 60px rgba(255,20,147,0.4);
     }
     
-    /* 背景渐变动画 */
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
-    /* 闪烁边框效果 */
-    .highlight-text::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, #ff6b6b, #ffa500, #32cd32, #1e90ff, #9370db);
-      border-radius: 22px;
-      z-index: -1;
-      animation: borderGlow 2s linear infinite;
-      opacity: 0.8;
-    }
-    
-    @keyframes borderGlow {
-      0% { filter: hue-rotate(0deg) brightness(1); }
-      50% { filter: hue-rotate(180deg) brightness(1.2); }
-      100% { filter: hue-rotate(360deg) brightness(1); }
-    }
-    
-    /* 响应式调整 */
+    /* レスポンシブデザイン */
     @media (max-width: 768px) {
-      .highlight-text {
-        font-size: 1.6rem;
-        padding: 25px 15px;
-        transform: perspective(300px) rotateX(5deg);
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
       }
       
-      .highlight-text:hover {
-        transform: perspective(300px) rotateX(0deg) scale(1.03);
+      header h1 {
+        text-align: center;
+        font-size: 2.2rem;
+      }
+      
+      .search-container {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .search-input {
+        width: 180px;
+      }
+      
+      .search-input:focus {
+        width: 220px;
+      }
+      
+      nav ul {
+        flex-direction: column;
+      }
+      
+      nav li {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        overflow: visible;
+      }
+      
+      nav li:last-child {
+        border-bottom: none;
+      }
+      
+      .dropdown-menu {
+        position: static; /* モバイルでは静的配置 */
+        left: 0;
+        width: 100%;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+        border-radius: 0;
+        border: none;
+        background: rgba(240,248,255,0.95);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      
+      .dropdown.active .dropdown-menu {
+        max-height: 300px;
+      }
+      
+      .dropdown-content {
+        flex-direction: column; /* モバイルでは縦方向 */
+        height: auto;
+        padding: 10px 0;
+      }
+      
+      .dropdown-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(26, 35, 126, 0.2);
+        height: auto;
+      }
+      
+      .dropdown-item:last-child {
+        border-bottom: none;
+      }
+      
+      .dropdown-item a {
+        padding: 12px 20px;
+        text-align: left;
+        height: auto;
+      }
+      
+      .question-grid {
+        gap: 20px;
+        padding: 0 10px;
+      }
+      
+      .question-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      
+      .question-card {
+        width: 100%;
+        max-width: 350px;
+        min-height: 160px;
+        padding: 20px;
       }
     }
-    
-    @media (max-width: 480px) {
-      .highlight-text {
-        font-size: 1.3rem;
-        padding: 20px 10px;
-      }
-    }
-    
   </style>
 </head>
 <body>
-<!-- 百叶窗背景切换系统 -->
-<div class="blinds-container" id="blindsContainer">
-  <!-- 百叶窗片将通过JavaScript动态生成 -->
-</div>
-
-<!-- 百叶窗控制器 -->
-<div class="blinds-controller">
-  <div class="blind-control active" data-image="1">1</div>
-  <div class="blind-control" data-image="2">2</div>
-  <div class="blind-control" data-image="3">3</div>
-</div>
-
-<!-- 和平主题装饰 -->
-<div class="peace-symbol"></div>
-<div class="earth-icon"></div>
-<div class="unity-hands"></div>
-<div class="peace-dove"></div>
-<div class="warm-glow"></div>
 
 <header>
-  <h1>広昌会協同組合</h1>
+  <div class="header-content">
+    <h1>広昌会協同組合</h1>
+    <div class="search-container">
+      <span class="search-label">サイト内検索</span>
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="キーワードを入力..." id="searchInput">
+        <button class="search-btn" type="button" id="searchBtn">🔍</button>
+      </div>
+    </div>
+  </div>
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
+      <li class="dropdown">
+        <button class="dropdown-btn" type="button">専門家を探す</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-content">
+            <div class="dropdown-item">
+              <a href="ginou.html">技能実習</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="tokutei.html">特定技能</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="sending.html">送り出し紹介</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="training.html">研修センター紹介</a>
+            </div>
+          </div>
+        </div>
+      </li>
       <li><a href="overview.html">組合概要</a></li>
-      <li><a href="ginou.html">技能実習</a></li>
-      <li><a href="tokutei.html">特定技能</a></li>
-      <li><a href="sending.html">送り出し紹介</a></li>
-      <li><a href="training.html">研修センター紹介</a></li>
       <li><a href="contact.html">お問い合わせ</a></li>
     </ul>
   </nav>
 </header>
 
-<!-- 左侧边缘标签 - 添加图标 -->
-<div class="edge-tabs left-tabs">
-  <a href="interview.html" class="edge-tab">
-    <span class="tab-icon">🎤</span>
-    <span class="tab-text">専門家にインタビュー</span>
-  </a>
-  <a href="jinzai.html" class="edge-tab">
-    <span class="tab-icon">👥</span>
-    <span class="tab-text">人材情報一覧</span>
-  </a>
-  <a href="kyujin.html" class="edge-tab">
-    <span class="tab-icon">📝</span>
-    <span class="tab-text">求人掲載のお申し込み</span>
-  </a>
-  <a href="qa.html" class="edge-tab">
-    <span class="tab-icon">❓</span>
-    <span class="tab-text">外国人雇用Q＆A一覧</span>
-  </a>
-</div>
-
-<!-- 右侧边缘标签 - 添加图标 -->
-<div class="edge-tabs right-tabs">
-  <a href="denryoku.html" class="edge-tab">
-    <span class="tab-text">企業様に電力及び社員寮提供</span>
-    <span class="tab-icon">⚡</span>
-  </a>
-  <a href="solar.html" class="edge-tab">
-    <span class="tab-text">太陽光発電及び蓄電提供</span>
-    <span class="tab-icon">☀️</span>
-  </a>
-  <a href="denki.html" class="edge-tab">
-    <span class="tab-text">企業様に電気及び寮提供</span>
-    <span class="tab-icon">🏠</span>
-  </a>
-  <a href="sendingzy.html" class="edge-tab">
-    <span class="tab-text">送り出し機関を探す</span>
-    <span class="tab-icon">🔍</span>
-  </a>
-</div>
-
-<!-- 主要内容区域 -->
 <div class="main-content">
   <section>
   <h2>今のような疑問や不安をお持ちではないでしょうか？</h2>
@@ -1261,8 +812,8 @@
       </div>
     </div>
    </div>
+  </div>
   
-  <!-- 修复后的横向流动工作图片 -->
   <div class="flowing-images">
     <div class="image-track" id="imageTrack">
       <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
@@ -1270,7 +821,6 @@
       <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
       <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=250&h=150&fit=crop" alt="日本語研修の様子" class="work-image">
       <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=250&h=150&fit=crop" alt="チームワークの様子" class="work-image">
-      <!-- 重复图片以确保无缝循环 -->
       <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=150&fit=crop" alt="外国人技能実習生の職場風景" class="work-image">
       <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=250&h=150&fit=crop" alt="研修センターでの学習風景" class="work-image">
       <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=250&h=150&fit=crop" alt="工場での作業風景" class="work-image">
@@ -1280,7 +830,8 @@
   </div>
   <h2>
     今すぐご相談ください<br>
-    <span class="sub-text">無料相談で御社に最適な人材をご提案します!</span></h2>
+    <span class="sub-text">無料相談で御社に最適な人材をご提案します!</span>
+  </h2>
   <div class="highlight-text">このお悩み広昌会協同組合が解決します!
    <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
   </div>
@@ -1292,157 +843,167 @@
 </footer>
 
 <script>
-// 页面加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
+  // 検索機能
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
   
-  // 百叶窗背景切换功能
-  const blindsContainer = document.getElementById('blindsContainer');
-  const blindControls = document.querySelectorAll('.blind-control');
-  const numberOfSlats = 15;
-  let currentImage = 1;
-  let isAnimating = false;
+  function performSearch() {
+    const query = searchInput.value.trim();
+    if (query) {
+      // 实际实现中可以根据需要修改搜索逻辑
+      alert(`"${query}" の検索結果を表示します。\n（実際の実装では検索結果ページに遷移します）`);
+      // 实际应用中可以跳转到搜索结果页面
+      // window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+    }
+  }
   
-  // 世界和平主题图片
-  const peaceImages = {
-    1: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
-    2: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
-    3: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
-  };
-  
-  // 创建百叶窗片
-  function createBlindSlats() {
-    blindsContainer.innerHTML = '';
-    const slatHeight = 100 / numberOfSlats;
+  if (searchBtn && searchInput) {
+    searchBtn.addEventListener('click', performSearch);
     
-    for (let i = 0; i < numberOfSlats; i++) {
-      const slat = document.createElement('div');
-      slat.className = 'blind-slat';
-      
-      slat.style.top = `${i * slatHeight}%`;
-      slat.style.height = `${slatHeight + 0.1}%`;
-      
-      slat.style.backgroundImage = `url(${peaceImages[currentImage]})`;
-      slat.style.backgroundSize = '100% 100vh';
-      slat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
-      slat.style.backgroundRepeat = 'no-repeat';
-      
-      blindsContainer.appendChild(slat);
-    }
-  }
-  
-  // 百叶窗翻转切换效果
-  function switchBlindsImage(newImageIndex) {
-    if (isAnimating || newImageIndex === currentImage) return;
-    
-    isAnimating = true;
-    const oldSlats = document.querySelectorAll('.blind-slat');
-    const slatHeight = 100 / numberOfSlats;
-
-    // 创建新的百叶窗片
-    for (let i = 0; i < numberOfSlats; i++) {
-      const newSlat = document.createElement('div');
-      newSlat.className = 'blind-slat';
-      
-      newSlat.style.top = `${i * slatHeight}%`;
-      newSlat.style.height = `${slatHeight + 0.1}%`;
-      
-      newSlat.style.backgroundImage = `url(${peaceImages[newImageIndex]})`;
-      newSlat.style.backgroundSize = '100% 100vh';
-      newSlat.style.backgroundPosition = `0% ${(i / (numberOfSlats - 1)) * 100}%`;
-      newSlat.style.backgroundRepeat = 'no-repeat';
-      
-      newSlat.style.transform = 'rotateX(90deg)';
-      newSlat.style.backfaceVisibility = 'hidden';
-      
-      blindsContainer.appendChild(newSlat);
-    }
-
-    const newSlats = Array.from(document.querySelectorAll('.blind-slat')).slice(numberOfSlats);
-
-    // 动画序列
-    oldSlats.forEach((slat, index) => {
-      setTimeout(() => {
-        slat.style.transform = 'rotateX(-90deg)';
-      }, index * 40);
-    });
-
-    newSlats.forEach((slat, index) => {
-      setTimeout(() => {
-        slat.style.transform = 'rotateX(0deg)';
-      }, index * 40 + 200);
-    });
-
-    setTimeout(() => {
-      oldSlats.forEach(slat => slat.remove());
-      currentImage = newImageIndex;
-      blindControls.forEach(control => control.classList.remove('active'));
-      document.querySelector(`[data-image="${newImageIndex}"]`).classList.add('active');
-      isAnimating = false;
-    }, numberOfSlats * 40 + 1400);
-  }
-  
-  // 自动切换
-  function autoSwitchBlinds() {
-    if (!isAnimating) {
-      const nextImage = (currentImage % 3) + 1;
-      switchBlindsImage(nextImage);
-    }
-  }
-  
-  // 问题卡片交互功能
-  const questionGrid = document.querySelector('.question-grid');
-  
-  if (questionGrid) {
-    questionGrid.addEventListener('click', function(e) {
-      const questionCard = e.target.closest('.question-card');
-      if (questionCard) {
-        // 移除其他卡片的active状态
-        document.querySelectorAll('.question-card').forEach(otherCard => {
-          if (otherCard !== questionCard) {
-            otherCard.classList.remove('active');
-          }
-        });
-        
-        // 切换当前卡片的active状态
-        questionCard.classList.toggle('active');
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        performSearch();
       }
     });
   }
   
-  // 修复后的横向图片流动效果 - 真正的无缝循环
+  // 修正されたドロップダウンメニュー機能
+  const dropdown = document.querySelector('.dropdown');
+  const dropdownBtn = document.querySelector('.dropdown-btn');
+  
+  if (dropdown && dropdownBtn) {
+    // ボタンクリックでメニュー切り替え
+    dropdownBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropdown.classList.toggle('active');
+    });
+    
+    // 外部クリックでメニューを閉じる
+    document.addEventListener('click', function(e) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
+    
+    // Escキーでメニューを閉じる
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && dropdown.classList.contains('active')) {
+        dropdown.classList.remove('active');
+        dropdownBtn.focus(); // フォーカスをボタンに戻す
+      }
+    });
+    
+    // メニュー項目クリック時にメニューを閉じる
+    const dropdownLinks = dropdown.querySelectorAll('.dropdown-item a');
+    dropdownLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        dropdown.classList.remove('active');
+      });
+    });
+    
+    // キーボード操作対応
+    dropdownBtn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        dropdown.classList.toggle('active');
+      } else if (e.key === 'ArrowDown' && dropdown.classList.contains('active')) {
+        e.preventDefault();
+        const firstLink = dropdown.querySelector('.dropdown-item a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+    
+    // ドロップダウン内のキーボード操作
+    dropdownLinks.forEach((link, index) => {
+      link.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          const nextLink = dropdownLinks[index + 1];
+          if (nextLink) {
+            nextLink.focus();
+          } else {
+            dropdownLinks[0].focus(); // 最初に戻る
+          }
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prevLink = dropdownLinks[index - 1];
+          if (prevLink) {
+            prevLink.focus();
+          } else {
+            dropdownLinks[dropdownLinks.length - 1].focus(); // 最後に移動
+          }
+        } else if (e.key === 'Escape') {
+          dropdown.classList.remove('active');
+          dropdownBtn.focus();
+        }
+      });
+    });
+  }
+  
+  // 質問カードの交互作用機能
+  const questionCards = document.querySelectorAll('.question-card');
+  questionCards.forEach(card => {
+    card.addEventListener('click', function() {
+      // 他のカードのactiveクラスを削除
+      questionCards.forEach(otherCard => {
+        if (otherCard !== card) {
+          otherCard.classList.remove('active');
+        }
+      });
+      // 現在のカードのactiveクラスを切り替え
+      card.classList.toggle('active');
+    });
+    
+    // キーボード操作対応
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        questionCards.forEach(otherCard => {
+          if (otherCard !== card) {
+            otherCard.classList.remove('active');
+          }
+        });
+        card.classList.toggle('active');
+      }
+    });
+    
+    // フォーカス可能にする
+    card.setAttribute('tabindex', '0');
+  });
+  
+  // 画像スクロールアニメーション
   const imageTrack = document.getElementById('imageTrack');
   if (imageTrack) {
     let scrollPosition = 0;
     const scrollSpeed = 1.2;
-    let animationId;
     let isPaused = false;
+    let animationId;
     
-    // 计算单个图片组的宽度（包括间距）
     function getImageGroupWidth() {
       const images = imageTrack.querySelectorAll('.work-image');
-      const totalImages = images.length / 2; // 因为图片是重复的
-      const imageWidth = 250 + 20; // 图片宽度 + gap
+      const totalImages = images.length / 2;
+      const imageWidth = 270; // 250px + 20px gap
       return totalImages * imageWidth;
     }
     
     function animateImages() {
       if (!isPaused) {
         scrollPosition -= scrollSpeed;
-        
         const groupWidth = getImageGroupWidth();
         
-        // 当第一组图片完全滑出视野时，重置位置
         if (Math.abs(scrollPosition) >= groupWidth) {
           scrollPosition = 0;
         }
         
         imageTrack.style.transform = `translateX(${scrollPosition}px)`;
       }
-      
       animationId = requestAnimationFrame(animateImages);
     }
     
-    // 鼠标悬停时暂停
+    // マウスホバー時にアニメーション一時停止
     imageTrack.addEventListener('mouseenter', () => {
       isPaused = true;
     });
@@ -1451,24 +1012,42 @@ document.addEventListener('DOMContentLoaded', function() {
       isPaused = false;
     });
     
-    // 启动动画
-    animateImages();
-  }
-  
-  // 初始化百叶窗
-  createBlindSlats();
-  
-  // 控制器点击事件
-  blindControls.forEach(control => {
-    control.addEventListener('click', () => {
-      const imageIndex = parseInt(control.dataset.image);
-      switchBlindsImage(imageIndex);
+    // フォーカス時も一時停止（アクセシビリティ対応）
+    const images = imageTrack.querySelectorAll('.work-image');
+    images.forEach(image => {
+      image.addEventListener('focus', () => {
+        isPaused = true;
+      });
+      
+      image.addEventListener('blur', () => {
+        isPaused = false;
+      });
+      
+      // 画像をフォーカス可能にする
+      image.setAttribute('tabindex', '0');
     });
-  });
-  
-  // 每12秒自动切换
-  setInterval(autoSwitchBlinds, 12000);
-  
+    
+    // ページの可視性変更時にアニメーションを制御
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+      } else {
+        animateImages();
+      }
+    });
+    
+    // アニメーション開始
+    animateImages();
+    
+    // ページを離れる時にアニメーションを停止
+    window.addEventListener('beforeunload', function() {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    });
+  }
 });
 </script>
 
