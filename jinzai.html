@@ -12,110 +12,252 @@
     }
 
     body {
-      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
       color: #333;
-      overflow-x: hidden;
+      background: #f5f5f5;
     }
-
-    /* 动态背景装饰 */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
-      animation: backgroundFloat 15s ease-in-out infinite;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    @keyframes backgroundFloat {
-      0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-      50% { transform: scale(1.1) rotate(3deg); opacity: 0.7; }
-    }
-
+    
     header {
-      background: rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,248,255,0.95) 100%);
+      padding: 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
-
-    header h1 {
-      text-align: center;
-      color: white;
-      font-size: 2.5rem;
-      font-weight: 800;
-      padding: 25px 0 15px 0;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-      letter-spacing: 2px;
-    }
-
-    nav ul {
-      list-style: none;
+    
+    .header-content {
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 70px;
+      justify-content: space-between;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 20px 20px 10px 20px;
     }
-
+    
+    header h1 {
+      text-align: left;
+      margin: 0;
+      color: #2c3e50;
+      font-size: 2.8rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #191970, #191970);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      flex: 1;
+    }
+    
+    .search-container-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .search-box-header {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .search-input-header {
+      padding: 10px 40px 10px 15px;
+      border: 2px solid #191970;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      width: 200px;
+      outline: none;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+    }
+    
+    .search-input-header:focus {
+      width: 250px;
+      box-shadow: 0 4px 15px rgba(25,25,112,0.3);
+      background: white;
+    }
+    
+    .search-btn-header {
+      position: absolute;
+      right: 5px;
+      background: #191970;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .search-btn-header:hover {
+      background: #667eea;
+      transform: scale(1.05);
+    }
+    
+    .search-label {
+      font-size: 0.85rem;
+      color: #191970;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    nav {
+      background: linear-gradient(90deg, #191970 0%, #191970 30%, #191970 80%);
+      padding: 0;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      min-height: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
     nav li {
       flex: 1;
       text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+      display: flex;
+      align-items: center;
     }
-
-    nav a {
+    
+    nav li:last-child {
+      border-right: none;
+    }
+    
+    nav a, nav button {
       display: block;
       text-decoration: none;
-      color: rgba(255, 255, 255, 0.9);
+      color: white;
       font-weight: 600;
-      padding: 15px 20px;
-      border-radius: 12px;
+      padding: 18px 20px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
-      overflow: hidden;
-      margin: 0 5px;
+      z-index: 2;
       font-size: 0.95rem;
-    }
-
-    nav a::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
       width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.6s ease;
+      box-sizing: border-box;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    
+    nav a:hover, nav button:hover {
+      color: #191970;
+      background: rgba(255,255,255,0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
-    nav a:hover::before {
-      left: 100%;
+    .dropdown {
+      position: relative;
     }
 
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      color: white;
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
     }
 
+    .dropdown-btn::after {
+      content: "▼";
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-btn::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: -100%; /* 修正: 左端から開始して4つのボタン幅をカバー */
+      width: calc(400% + 3px); /* 修正: メイン4つのボタン幅と同じに */
+      background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(240,248,255,0.98) 100%);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      border-radius: 0 0 15px 15px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-top: none;
+      overflow: hidden;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-content {
+      padding: 10px 0;
+      display: flex;
+      flex-direction: row;
+      white-space: nowrap;
+
+    }
+
+    .dropdown-item {
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      flex: 1;
+    }
+
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-item a {
+      color: #2c3e50;
+      padding: 12px 20px;
+      text-shadow: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .dropdown-item a:hover {
+      background: #f8f9fa;
+      color: #191970;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .main-content {
+      min-height: 100vh;
+      padding: 20px 0;
+    }
+    
     section {
-      max-width: 1400px;
+      max-width: 1200px;
       margin: 40px auto;
-      padding: 0 20px;
+      padding: 60px 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
     }
 
     .page-header {
@@ -124,44 +266,25 @@
     }
 
     .main-title {
-      font-size: 3.2rem;
-      font-weight: 800;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #2c3e50;
       margin-bottom: 20px;
-      background: linear-gradient(135deg, #ffffff, #00f2fe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
-    }
-
-    .main-title::after {
-      content: '';
-      position: absolute;
-      bottom: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 4px;
-      background: linear-gradient(90deg, #4facfe, #00f2fe);
-      border-radius: 2px;
     }
 
     .page-subtitle {
       font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 300;
-      margin-top: 25px;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      color: #1A237E;
+      font-weight: 600;
     }
 
-    /* 筛选和搜索区域 */
     .filter-section {
       background: rgba(255, 255, 255, 0.95);
-      border-radius: 25px;
+      border-radius: 15px;
       padding: 30px;
       margin-bottom: 40px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      border: 2px solid rgba(25, 25, 112, 0.1);
     }
 
     .filter-grid {
@@ -178,24 +301,25 @@
 
     .filter-label {
       font-weight: 600;
-      color: #2c3e50;
+      color: #1A237E;
       margin-bottom: 8px;
       font-size: 0.9rem;
     }
 
     .filter-select, .search-input {
       padding: 12px 15px;
-      border: 2px solid rgba(79, 172, 254, 0.2);
+      border: 2px solid #191970;
       border-radius: 10px;
       font-size: 1rem;
       transition: all 0.3s ease;
-      background: white;
+      background: rgba(255,255,255,0.9);
+      outline: none;
     }
 
     .filter-select:focus, .search-input:focus {
-      border-color: #4facfe;
-      box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 4px 15px rgba(25,25,112,0.3);
+      background: white;
     }
 
     .search-container {
@@ -213,11 +337,10 @@
       left: 15px;
       top: 50%;
       transform: translateY(-50%);
-      color: #4facfe;
+      color: #191970;
       font-size: 1.2rem;
     }
 
-    /* Clear filters button */
     .clear-filters-btn {
       background: linear-gradient(135deg, #ff6b6b, #ff5252);
       color: white;
@@ -235,7 +358,6 @@
       box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
     }
 
-    /* 统计信息面板 */
     .stats-panel {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -244,40 +366,27 @@
     }
 
     .stat-card {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
       padding: 25px 20px;
       text-align: center;
       transition: all 0.3s ease;
-      border: 1px solid rgba(79, 172, 254, 0.2);
+      border: 2px solid rgba(25, 25, 112, 0.2);
       position: relative;
       overflow: hidden;
-    }
-
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(79, 172, 254, 0.1), transparent);
-      transition: left 0.6s ease;
-    }
-
-    .stat-card:hover::before {
-      left: 100%;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
     .stat-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(79, 172, 254, 0.2);
+      box-shadow: 0 15px 30px rgba(25, 25, 112, 0.2);
+      border-color: #191970;
     }
 
     .stat-number {
       font-size: 2.2rem;
       font-weight: 800;
-      color: #4facfe;
+      color: #191970;
       margin-bottom: 8px;
     }
 
@@ -289,34 +398,17 @@
 
     .jinzai-container {
       background: rgba(255, 255, 255, 0.95);
-      border-radius: 30px;
-      padding: 50px 40px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
       backdrop-filter: blur(10px);
       position: relative;
       overflow: hidden;
     }
 
-    .jinzai-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: linear-gradient(90deg, #4facfe, #00f2fe, #4ecdc4, #ff6b6b, #4facfe);
-      background-size: 400% 100%;
-      animation: gradientFlow 10s ease infinite;
-    }
-
-    @keyframes gradientFlow {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
     .container-title {
       text-align: center;
-      font-size: 2.2rem;
+      font-size: 2.0rem;
       font-weight: 700;
       color: #2c3e50;
       margin-bottom: 40px;
@@ -329,37 +421,22 @@
     }
 
     .jinzai-card {
-      background: linear-gradient(135deg, rgba(79,172,254,0.05), rgba(0,242,254,0.05));
-      border: 2px solid rgba(79,172,254,0.2);
-      border-radius: 25px;
+      background: rgba(255,255,255,0.95);
+      border: 2px solid rgba(25,25,112,0.2);
+      border-radius: 20px;
       padding: 30px 25px;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       text-align: center;
       position: relative;
       overflow: hidden;
       cursor: pointer;
-    }
-
-    .jinzai-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #4facfe, #00f2fe);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-
-    .jinzai-card:hover::before {
-      transform: scaleX(1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
     .jinzai-card:hover {
-      transform: translateY(-12px) scale(1.02);
-      box-shadow: 0 20px 50px rgba(79,172,254,0.3);
-      border-color: #4facfe;
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(25,25,112,0.3);
+      border-color: #191970;
     }
 
     .card-header {
@@ -368,31 +445,31 @@
     }
 
     .jinzai-card img {
-      width: 140px;
-      height: 140px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #4facfe;
+      border: 4px solid #191970;
       transition: all 0.3s ease;
       position: relative;
       z-index: 2;
     }
 
     .jinzai-card:hover img {
-      transform: scale(1.1);
-      border-color: #00f2fe;
-      box-shadow: 0 15px 30px rgba(79, 172, 254, 0.4);
+      transform: scale(1.05);
+      border-color: #667eea;
+      box-shadow: 0 10px 25px rgba(25, 25, 112, 0.4);
     }
 
     .availability-badge {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 5px;
+      right: 5px;
       background: linear-gradient(135deg, #4ecdc4, #44a08d);
       color: white;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 0.75rem;
       font-weight: 600;
       z-index: 3;
     }
@@ -407,15 +484,15 @@
 
     .nationality-flag {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 2rem;
+      top: 5px;
+      left: 5px;
+      font-size: 1.8rem;
       z-index: 3;
     }
 
     .jinzai-card h3 {
       margin: 15px 0 20px 0;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       color: #2c3e50;
       font-weight: 700;
     }
@@ -464,7 +541,7 @@
     }
 
     .skill-tag {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #191970, #667eea);
       color: white;
       padding: 4px 12px;
       border-radius: 15px;
@@ -475,7 +552,7 @@
 
     .skill-tag:hover {
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+      box-shadow: 0 5px 15px rgba(25, 25, 112, 0.4);
     }
 
     .experience-bar {
@@ -494,21 +571,21 @@
     .progress-bar {
       width: 100%;
       height: 8px;
-      background: rgba(79, 172, 254, 0.1);
+      background: rgba(25, 25, 112, 0.1);
       border-radius: 10px;
       overflow: hidden;
     }
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      background: linear-gradient(90deg, #191970, #667eea);
       border-radius: 10px;
       transition: width 0.6s ease;
     }
 
     .contact-button {
       width: 100%;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #191970, #667eea);
       color: white;
       border: none;
       padding: 12px 20px;
@@ -521,12 +598,11 @@
     }
 
     .contact-button:hover {
-      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      background: linear-gradient(135deg, #667eea, #191970);
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
+      box-shadow: 0 10px 25px rgba(25, 25, 112, 0.4);
     }
 
-    /* No results message */
     .no-results {
       text-align: center;
       padding: 60px 20px;
@@ -541,7 +617,6 @@
       color: #ccc;
     }
 
-    /* 分页组件 */
     .pagination {
       display: flex;
       justify-content: center;
@@ -553,17 +628,16 @@
     .page-btn {
       padding: 10px 15px;
       background: rgba(255, 255, 255, 0.9);
-      border: 2px solid rgba(79, 172, 254, 0.3);
+      border: 2px solid rgba(25, 25, 112, 0.3);
       border-radius: 10px;
-      color: #4facfe;
+      color: #191970;
       cursor: pointer;
       transition: all 0.3s ease;
       font-weight: 600;
-      border: none;
     }
 
     .page-btn:hover, .page-btn.active {
-      background: #4facfe;
+      background: #191970;
       color: white;
       transform: translateY(-2px);
     }
@@ -574,54 +648,6 @@
       transform: none;
     }
 
-    /* 优化的页脚样式 */
-    footer {
-      text-align: center;
-      padding: 50px 20px;
-      margin-top: 80px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      position: relative;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .footer-text {
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 500;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-      margin-bottom: 20px;
-    }
-
-    .footer-contact {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 30px;
-      flex-wrap: wrap;
-    }
-
-    .footer-contact-item {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 15px 25px;
-      border-radius: 25px;
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .footer-contact-item:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-3px);
-    }
-
-    /* 模态框样式 */
     .modal {
       display: none;
       position: fixed;
@@ -640,12 +666,13 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: white;
-      border-radius: 25px;
+      border-radius: 20px;
       padding: 40px;
       max-width: 600px;
       width: 90%;
       max-height: 80vh;
       overflow-y: auto;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
     }
 
     .close-btn {
@@ -661,13 +688,69 @@
     }
 
     .close-btn:hover {
-      color: #4facfe;
+      color: #191970;
     }
 
-    /* 响应式设计 */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 50px;
+      background: linear-gradient(135deg, rgba(25,25,112,0.9), rgba(102,126,234,0.9));
+      color: white;
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-text {
+      font-size: 1rem;
+      font-weight: 500;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
     @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+      
+      header h1 {
+        text-align: center;
+        font-size: 2.2rem;
+      }
+      
+      .search-container-header {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .search-input-header {
+        width: 180px;
+      }
+      
+      .search-input-header:focus {
+        width: 220px;
+      }
+      
+      nav ul {
+        flex-direction: column;
+      }
+      
+      nav li {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+      }
+      
+      nav li:last-child {
+        border-bottom: none;
+      }
+
       .main-title {
-        font-size: 2.5rem;
+        font-size: 1.8rem;
       }
 
       .jinzai-grid {
@@ -693,22 +776,6 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      nav ul {
-        flex-wrap: wrap;
-        height: auto;
-        padding: 10px;
-      }
-
-      nav li {
-        flex: none;
-        margin: 5px;
-      }
-
-      .footer-contact {
-        flex-direction: column;
-        gap: 15px;
-      }
-
       .modal-content {
         padding: 30px 20px;
         width: 95%;
@@ -718,28 +785,56 @@
   </style>
 </head>
 <body>
+
 <header>
-  <h1>広昌会協同組合</h1>
+  <div class="header-content">
+    <h1>広昌会協同組合</h1>
+    <div class="search-container-header">
+      <span class="search-label">サイト内検索</span>
+      <div class="search-box-header">
+        <input type="text" class="search-input-header" placeholder="キーワードを入力..." id="searchInputHeader">
+        <button class="search-btn-header" type="button" id="searchBtnHeader">🔍</button>
+      </div>
+    </div>
+  </div>
   <nav>
     <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#overview">組合概要</a></li>
-      <li><a href="#ginou">技能実習</a></li>
-      <li><a href="#tokutei">特定技能</a></li>
-      <li><a href="#sending">送り出し紹介</a></li>
-      <li><a href="#training">研修センター紹介</a></li>
-      <li><a href="#contact">お問い合わせ</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li class="dropdown">
+        <button class="dropdown-btn" type="button">専門家を探す</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-content">
+            <div class="dropdown-item">
+              <a href="ginou.html">技能実習</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="tokutei.html">特定技能</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="sending.html">送り出し紹介</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="training.html">研修センター紹介</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="mutumori.html">一括見積サービス</a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="overview.html">組合概要</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
     </ul>
   </nav>
 </header>
 
+<div class="main-content">
 <section>
   <div class="page-header">
     <h2 class="main-title">人材情報一覧</h2>
     <p class="page-subtitle">優秀な国際人材をご紹介いたします</p>
   </div>
 
-  <!-- 筛选区域 -->
   <div class="filter-section">
     <div class="filter-grid">
       <div class="filter-group">
@@ -797,7 +892,6 @@
     <button class="clear-filters-btn" onclick="clearAllFilters()">フィルターをクリア</button>
   </div>
 
-  <!-- 统计面板 -->
   <div class="stats-panel">
     <div class="stat-card">
       <div class="stat-number" id="total-count">12</div>
@@ -821,7 +915,7 @@
     <h3 class="container-title">候補者一覧</h3>
     <div class="jinzai-grid" id="jinzai-grid">
       
-      <div class="jinzai-card" data-nationality="ベトナム" data-job="介護" data-japanese="N3" data-age="24" data-name="グエン・バン・ア">
+      <div class="jinzai-card" data-nationality="ベトナム" data-job="製造業" data-japanese="N4" data-age="24" data-name="グエン・バン・ア">
         <div class="card-header">
           <div class="nationality-flag">🇻🇳</div>
           <div class="availability-badge">就職可能</div>
@@ -836,11 +930,11 @@
           </div>
           <div class="info-item">
             <span class="info-label">年齢</span>
-            <span class="info-value">24歳</span>
+            <span class="info-value">27歳</span>
           </div>
           <div class="info-item">
             <span class="info-label">希望職種</span>
-            <span class="info-value">介護</span>
+            <span class="info-value">建設業</span>
           </div>
           <div class="info-item">
             <span class="info-label">日本語</span>
@@ -851,32 +945,32 @@
         <div class="skills-section">
           <div class="skills-title">スキル・資格</div>
           <div class="skills-list">
-            <span class="skill-tag">介護福祉士候補</span>
-            <span class="skill-tag">チームワーク</span>
-            <span class="skill-tag">コミュニケーション</span>
+            <span class="skill-tag">鉄筋施工</span>
+            <span class="skill-tag">コンクリート工</span>
+            <span class="skill-tag">現場安全</span>
           </div>
         </div>
 
         <div class="experience-bar">
           <div class="experience-label">
             <span>関連経験</span>
-            <span>2年</span>
+            <span>4年</span>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill" style="width: 60%"></div>
+            <div class="progress-fill" style="width: 80%"></div>
           </div>
         </div>
 
-        <button class="contact-button" onclick="openModal('グエン・バン・ア')">詳細を見る</button>
+        <button class="contact-button" onclick="openModal('プラカシュ・シュレスタ')">詳細を見る</button>
       </div>
 
-      <div class="jinzai-card" data-nationality="インドネシア" data-job="製造業" data-japanese="N4" data-age="22" data-name="スリ・ラトナ">
+      <div class="jinzai-card" data-nationality="インドネシア" data-job="介護" data-japanese="N2" data-age="29" data-name="スリ・ワヒュニ">
         <div class="card-header">
           <div class="nationality-flag">🇮🇩</div>
           <div class="availability-badge">就職可能</div>
-          <img src="https://randomuser.me/api/portraits/women/34.jpg" alt="スリ・ラトナ">
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="スリ・ワヒュニ">
         </div>
-        <h3>スリ・ラトナ</h3>
+        <h3>スリ・ワヒュニ</h3>
         
         <div class="info-grid">
           <div class="info-item">
@@ -885,44 +979,44 @@
           </div>
           <div class="info-item">
             <span class="info-label">年齢</span>
-            <span class="info-value">22歳</span>
+            <span class="info-value">29歳</span>
           </div>
           <div class="info-item">
             <span class="info-label">希望職種</span>
-            <span class="info-value">製造業</span>
+            <span class="info-value">介護</span>
           </div>
           <div class="info-item">
             <span class="info-label">日本語</span>
-            <span class="info-value">N4</span>
+            <span class="info-value">N2</span>
           </div>
         </div>
 
         <div class="skills-section">
           <div class="skills-title">スキル・資格</div>
           <div class="skills-list">
-            <span class="skill-tag">食品製造</span>
-            <span class="skill-tag">品質管理</span>
-            <span class="skill-tag">機械操作</span>
+            <span class="skill-tag">介護福祉士</span>
+            <span class="skill-tag">認知症ケア</span>
+            <span class="skill-tag">医療的ケア</span>
           </div>
         </div>
 
         <div class="experience-bar">
           <div class="experience-label">
             <span>関連経験</span>
-            <span>1年</span>
+            <span>5年</span>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill" style="width: 30%"></div>
+            <div class="progress-fill" style="width: 90%"></div>
           </div>
         </div>
 
-        <button class="contact-button" onclick="openModal('スリ・ラトナ')">詳細を見る</button>
+        <button class="contact-button" onclick="openModal('スリ・ワヒュニ')">詳細を見る</button>
       </div>
 
-      <div class="jinzai-card" data-nationality="ミャンマー" data-job="建設業" data-japanese="N2" data-age="26" data-name="ミン・トゥ">
+      <div class="jinzai-card" data-nationality="ミャンマー" data-job="農業" data-japanese="N4" data-age="22" data-name="ミン・トゥ">
         <div class="card-header">
           <div class="nationality-flag">🇲🇲</div>
-          <div class="availability-badge">就職可能</div>
+          <div class="availability-badge interviewing">面接中</div>
           <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="ミン・トゥ">
         </div>
         <h3>ミン・トゥ</h3>
@@ -934,56 +1028,7 @@
           </div>
           <div class="info-item">
             <span class="info-label">年齢</span>
-            <span class="info-value">26歳</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">希望職種</span>
-            <span class="info-value">建設業</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">日本語</span>
-            <span class="info-value">N2</span>
-          </div>
-        </div>
-
-        <div class="skills-section">
-          <div class="skills-title">スキル・資格</div>
-          <div class="skills-list">
-            <span class="skill-tag">鉄筋工</span>
-            <span class="skill-tag">型枠工</span>
-            <span class="skill-tag">安全管理</span>
-          </div>
-        </div>
-
-        <div class="experience-bar">
-          <div class="experience-label">
-            <span>関連経験</span>
-            <span>3年</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 80%"></div>
-          </div>
-        </div>
-
-        <button class="contact-button" onclick="openModal('ミン・トゥ')">詳細を見る</button>
-      </div>
-
-      <div class="jinzai-card" data-nationality="カンボジア" data-job="農業" data-japanese="N4" data-age="23" data-name="チャン・ソフィア">
-        <div class="card-header">
-          <div class="nationality-flag">🇰🇭</div>
-          <div class="availability-badge">就職可能</div>
-          <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="チャン・ソフィア">
-        </div>
-        <h3>チャン・ソフィア</h3>
-        
-        <div class="info-grid">
-          <div class="info-item">
-            <span class="info-label">国籍</span>
-            <span class="info-value">カンボジア</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">年齢</span>
-            <span class="info-value">23歳</span>
+            <span class="info-value">22歳</span>
           </div>
           <div class="info-item">
             <span class="info-label">希望職種</span>
@@ -999,8 +1044,8 @@
           <div class="skills-title">スキル・資格</div>
           <div class="skills-list">
             <span class="skill-tag">野菜栽培</span>
-            <span class="skill-tag">農業機械</span>
-            <span class="skill-tag">有機栽培</span>
+            <span class="skill-tag">農機具操作</span>
+            <span class="skill-tag">収穫作業</span>
           </div>
         </div>
 
@@ -1010,78 +1055,29 @@
             <span>2年</span>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill" style="width: 55%"></div>
+            <div class="progress-fill" style="width: 50%"></div>
           </div>
         </div>
 
-        <button class="contact-button" onclick="openModal('チャン・ソフィア')">詳細を見る</button>
+        <button class="contact-button" onclick="openModal('ミン・トゥ')">詳細を見る</button>
       </div>
 
-      <div class="jinzai-card" data-nationality="中国" data-job="製造業" data-japanese="N2" data-age="28" data-name="リー・ウェイ">
+      <div class="jinzai-card" data-nationality="カンボジア" data-job="飲食業" data-japanese="N3" data-age="26" data-name="ソピア・チャン">
         <div class="card-header">
-          <div class="nationality-flag">🇨🇳</div>
+          <div class="nationality-flag">🇰🇭</div>
           <div class="availability-badge">就職可能</div>
-          <img src="https://randomuser.me/api/portraits/men/89.jpg" alt="リー・ウェイ">
+          <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="ソピア・チャン">
         </div>
-        <h3>リー・ウェイ</h3>
+        <h3>ソピア・チャン</h3>
         
         <div class="info-grid">
           <div class="info-item">
             <span class="info-label">国籍</span>
-            <span class="info-value">中国</span>
+            <span class="info-value">カンボジア</span>
           </div>
           <div class="info-item">
             <span class="info-label">年齢</span>
-            <span class="info-value">28歳</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">希望職種</span>
-            <span class="info-value">製造業</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">日本語</span>
-            <span class="info-value">N2</span>
-          </div>
-        </div>
-
-        <div class="skills-section">
-          <div class="skills-title">スキル・資格</div>
-          <div class="skills-list">
-            <span class="skill-tag">機械操作</span>
-            <span class="skill-tag">プラスチック成形</span>
-            <span class="skill-tag">品質検査</span>
-          </div>
-        </div>
-
-        <div class="experience-bar">
-          <div class="experience-label">
-            <span>関連経験</span>
-            <span>4年</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 90%"></div>
-          </div>
-        </div>
-
-        <button class="contact-button" onclick="openModal('リー・ウェイ')">詳細を見る</button>
-      </div>
-
-      <div class="jinzai-card" data-nationality="ネパール" data-job="飲食業" data-japanese="N3" data-age="25" data-name="ラム・バハドゥール">
-        <div class="card-header">
-          <div class="nationality-flag">🇳🇵</div>
-          <div class="availability-badge interviewing">面接中</div>
-          <img src="https://randomuser.me/api/portraits/men/73.jpg" alt="ラム・バハドゥール">
-        </div>
-        <h3>ラム・バハドゥール</h3>
-        
-        <div class="info-grid">
-          <div class="info-item">
-            <span class="info-label">国籍</span>
-            <span class="info-value">ネパール</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">年齢</span>
-            <span class="info-value">25歳</span>
+            <span class="info-value">26歳</span>
           </div>
           <div class="info-item">
             <span class="info-label">希望職種</span>
@@ -1090,6 +1086,55 @@
           <div class="info-item">
             <span class="info-label">日本語</span>
             <span class="info-value">N3</span>
+          </div>
+        </div>
+
+        <div class="skills-section">
+          <div class="skills-title">スキル・資格</div>
+          <div class="skills-list">
+            <span class="skill-tag">調理技術</span>
+            <span class="skill-tag">接客サービス</span>
+            <span class="skill-tag">食品衛生</span>
+          </div>
+        </div>
+
+        <div class="experience-bar">
+          <div class="experience-label">
+            <span>関連経験</span>
+            <span>3年</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 70%"></div>
+          </div>
+        </div>
+
+        <button class="contact-button" onclick="openModal('ソピア・チャン')">詳細を見る</button>
+      </div>
+
+      <div class="jinzai-card" data-nationality="中国" data-job="製造業" data-japanese="N1" data-age="31" data-name="王・明華">
+        <div class="card-header">
+          <div class="nationality-flag">🇨🇳</div>
+          <div class="availability-badge training">研修中</div>
+          <img src="https://randomuser.me/api/portraits/women/78.jpg" alt="王・明華">
+        </div>
+        <h3>王・明華</h3>
+        
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">国籍</span>
+            <span class="info-value">中国</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">年齢</span>
+            <span class="info-value">31歳</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">希望職種</span>
+            <span class="info-value">製造業</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">日本語</span>
+            <span class="info-value">N1</span>
           </div>
         </div>
 
@@ -1213,104 +1258,6 @@
         <button class="contact-button" onclick="openModal('アフマド・サプトラ')">詳細を見る</button>
       </div>
 
-      <div class="jinzai-card" data-nationality="ミャンマー" data-job="農業" data-japanese="N4" data-age="24" data-name="ゾー・ミン・トゥン">
-        <div class="card-header">
-          <div class="nationality-flag">🇲🇲</div>
-          <div class="availability-badge training">研修中</div>
-          <img src="https://randomuser.me/api/portraits/men/38.jpg" alt="ゾー・ミン・トゥン">
-        </div>
-        <h3>ゾー・ミン・トゥン</h3>
-        
-        <div class="info-grid">
-          <div class="info-item">
-            <span class="info-label">国籍</span>
-            <span class="info-value">ミャンマー</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">年齢</span>
-            <span class="info-value">24歳</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">希望職種</span>
-            <span class="info-value">農業</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">日本語</span>
-            <span class="info-value">N4</span>
-          </div>
-        </div>
-
-        <div class="skills-section">
-          <div class="skills-title">スキル・資格</div>
-          <div class="skills-list">
-            <span class="skill-tag">施設園芸</span>
-            <span class="skill-tag">果樹栽培</span>
-            <span class="skill-tag">農業機械</span>
-          </div>
-        </div>
-
-        <div class="experience-bar">
-          <div class="experience-label">
-            <span>関連経験</span>
-            <span>1.5年</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 40%"></div>
-          </div>
-        </div>
-
-        <button class="contact-button" onclick="openModal('ゾー・ミン・トゥン')">詳細を見る</button>
-      </div>
-
-      <div class="jinzai-card" data-nationality="カンボジア" data-job="製造業" data-japanese="N3" data-age="26" data-name="ソク・チャンタ">
-        <div class="card-header">
-          <div class="nationality-flag">🇰🇭</div>
-          <div class="availability-badge">就職可能</div>
-          <img src="https://randomuser.me/api/portraits/women/91.jpg" alt="ソク・チャンタ">
-        </div>
-        <h3>ソク・チャンタ</h3>
-        
-        <div class="info-grid">
-          <div class="info-item">
-            <span class="info-label">国籍</span>
-            <span class="info-value">カンボジア</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">年齢</span>
-            <span class="info-value">26歳</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">希望職種</span>
-            <span class="info-value">製造業</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">日本語</span>
-            <span class="info-value">N3</span>
-          </div>
-        </div>
-
-        <div class="skills-section">
-          <div class="skills-title">スキル・資格</div>
-          <div class="skills-list">
-            <span class="skill-tag">繊維製造</span>
-            <span class="skill-tag">縫製技術</span>
-            <span class="skill-tag">パターン作成</span>
-          </div>
-        </div>
-
-        <div class="experience-bar">
-          <div class="experience-label">
-            <span>関連経験</span>
-            <span>3年</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%"></div>
-          </div>
-        </div>
-
-        <button class="contact-button" onclick="openModal('ソク・チャンタ')">詳細を見る</button>
-      </div>
-
       <div class="jinzai-card" data-nationality="中国" data-job="介護" data-japanese="N1" data-age="30" data-name="ワン・シャオミン">
         <div class="card-header">
           <div class="nationality-flag">🇨🇳</div>
@@ -1360,65 +1307,15 @@
         <button class="contact-button" onclick="openModal('ワン・シャオミン')">詳細を見る</button>
       </div>
 
-      <div class="jinzai-card" data-nationality="ネパール" data-job="建設業" data-japanese="N3" data-age="27" data-name="プラカシュ・シュレスタ">
-        <div class="card-header">
-          <div class="nationality-flag">🇳🇵</div>
-          <div class="availability-badge">就職可能</div>
-          <img src="https://randomuser.me/api/portraits/men/92.jpg" alt="プラカシュ・シュレスタ">
-        </div>
-        <h3>プラカシュ・シュレスタ</h3>
-        
-        <div class="info-grid">
-          <div class="info-item">
-            <span class="info-label">国籍</span>
-            <span class="info-value">ネパール</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">年齢</span>
-            <span class="info-value">27歳</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">希望職種</span>
-            <span class="info-value">建設業</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">日本語</span>
-            <span class="info-value">N3</span>
-          </div>
-        </div>
-
-        <div class="skills-section">
-          <div class="skills-title">スキル・資格</div>
-          <div class="skills-list">
-            <span class="skill-tag">鉄筋施工</span>
-            <span class="skill-tag">コンクリート工</span>
-            <span class="skill-tag">現場安全</span>
-          </div>
-        </div>
-
-        <div class="experience-bar">
-          <div class="experience-label">
-            <span>関連経験</span>
-            <span>4年</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 80%"></div>
-          </div>
-        </div>
-
-        <button class="contact-button" onclick="openModal('プラカシュ・シュレスタ')">詳細を見る</button>
-      </div>
-
     </div>
+    
 
-    <!-- No results message -->
     <div class="no-results" id="no-results">
       <div class="no-results-icon">😔</div>
       <h3>検索条件に合致する人材が見つかりません</h3>
       <p>フィルター条件を変更してお試しください。</p>
     </div>
 
-    <!-- 分页 -->
     <div class="pagination">
       <button class="page-btn" id="prev-btn" onclick="changePage(-1)">«</button>
       <button class="page-btn active" onclick="goToPage(1)">1</button>
@@ -1428,8 +1325,8 @@
     </div>
   </div>
 </section>
+</div>
 
-<!-- 模态框 -->
 <div class="modal" id="candidate-modal">
   <div class="modal-content">
     <button class="close-btn" onclick="closeModal()">&times;</button>
@@ -1439,7 +1336,6 @@
   </div>
 </div>
 
-<!-- 优化的页脚 -->
 <footer>
   <div class="footer-content">
     <div class="footer-text">
@@ -1447,10 +1343,10 @@
     </div>
     <div class="footer-contact">
       <div class="footer-contact-item">
-        📞 お電話でのお問い合わせ: 03-1234-5678
+        📞 お電話: 03-1234-5678
       </div>
       <div class="footer-contact-item">
-        📧 メールでのお問い合わせ: info@koshokai.jp
+        📧 メール: info@koshokai.jp
       </div>
       <div class="footer-contact-item">
         🏢 営業時間: 平日 9:00-18:00
@@ -1458,6 +1354,216 @@
     </div>
   </div>
 </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 头部搜索功能
+  const searchInputHeader = document.getElementById('searchInputHeader');
+  const searchBtnHeader = document.getElementById('searchBtnHeader');
+  
+  function performHeaderSearch() {
+    const query = searchInputHeader.value.trim();
+    if (query) {
+      alert(`"${query}" の検索結果を表示します。\n（実際の実装では検索結果ページに遷移します）`);
+    }
+  }
+  
+  if (searchBtnHeader && searchInputHeader) {
+    searchBtnHeader.addEventListener('click', performHeaderSearch);
+    
+    searchInputHeader.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        performHeaderSearch();
+      }
+    });
+  }
+
+  // 页面搜索和筛选功能
+  const searchInput = document.getElementById('search-input');
+  const nationalityFilter = document.getElementById('nationality-filter');
+  const jobFilter = document.getElementById('job-filter');
+  const japaneseFilter = document.getElementById('japanese-filter');
+  const ageFilter = document.getElementById('age-filter');
+  const jinzaiGrid = document.getElementById('jinzai-grid');
+  const noResults = document.getElementById('no-results');
+  const totalCountEl = document.getElementById('total-count');
+  const availableCountEl = document.getElementById('available-count');
+  
+  function filterCards() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const nationalityValue = nationalityFilter.value;
+    const jobValue = jobFilter.value;
+    const japaneseValue = japaneseFilter.value;
+    const ageValue = ageFilter.value;
+    
+    const cards = document.querySelectorAll('.jinzai-card');
+    let visibleCount = 0;
+    let availableCount = 0;
+    
+    cards.forEach(card => {
+      const name = card.dataset.name.toLowerCase();
+      const nationality = card.dataset.nationality;
+      const job = card.dataset.job;
+      const japanese = card.dataset.japanese;
+      const age = parseInt(card.dataset.age);
+      const badge = card.querySelector('.availability-badge');
+      const isAvailable = badge && badge.textContent === '就職可能';
+      
+      let ageMatch = true;
+      if (ageValue) {
+        const [minAge, maxAge] = ageValue.split('-').map(Number);
+        ageMatch = age >= minAge && age <= maxAge;
+      }
+      
+      const matches = 
+        name.includes(searchTerm) &&
+        (nationalityValue === '' || nationality === nationalityValue) &&
+        (jobValue === '' || job === jobValue) &&
+        (japaneseValue === '' || japanese === japaneseValue) &&
+        ageMatch;
+      
+      if (matches) {
+        card.style.display = 'block';
+        visibleCount++;
+        if (isAvailable) availableCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    
+    // 更新统计数据
+    totalCountEl.textContent = visibleCount;
+    availableCountEl.textContent = availableCount;
+    
+    // 显示/隐藏无结果消息
+    if (visibleCount === 0) {
+      jinzaiGrid.style.display = 'none';
+      noResults.style.display = 'block';
+    } else {
+      jinzaiGrid.style.display = 'grid';
+      noResults.style.display = 'none';
+    }
+  }
+  
+  // 添加事件监听器
+  searchInput.addEventListener('input', filterCards);
+  nationalityFilter.addEventListener('change', filterCards);
+  jobFilter.addEventListener('change', filterCards);
+  japaneseFilter.addEventListener('change', filterCards);
+  ageFilter.addEventListener('change', filterCards);
+});
+
+// 清除所有筛选器
+function clearAllFilters() {
+  document.getElementById('search-input').value = '';
+  document.getElementById('nationality-filter').value = '';
+  document.getElementById('job-filter').value = '';
+  document.getElementById('japanese-filter').value = '';
+  document.getElementById('age-filter').value = '';
+  
+  // 重新显示所有卡片
+  const cards = document.querySelectorAll('.jinzai-card');
+  let totalCount = 0;
+  let availableCount = 0;
+  
+  cards.forEach(card => {
+    card.style.display = 'block';
+    totalCount++;
+    const badge = card.querySelector('.availability-badge');
+    if (badge && badge.textContent === '就職可能') {
+      availableCount++;
+    }
+  });
+  
+  // 重置统计
+  document.getElementById('total-count').textContent = totalCount;
+  document.getElementById('available-count').textContent = availableCount;
+  document.getElementById('jinzai-grid').style.display = 'grid';
+  document.getElementById('no-results').style.display = 'none';
+}
+
+// 模态框功能
+function openModal(name) {
+  const modal = document.getElementById('candidate-modal');
+  const modalBody = document.getElementById('modal-body');
+  
+  modalBody.innerHTML = `
+    <div style="text-align: center; padding: 20px;">
+      <h2 style="color: #2c3e50; margin-bottom: 20px;">${name}さんの詳細情報</h2>
+      <img src="https://randomuser.me/api/portraits/men/21.jpg" 
+           style="width: 150px; height: 150px; border-radius: 50%; border: 4px solid #191970; margin-bottom: 20px;" 
+           alt="${name}">
+      <div style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+        <h3 style="color: #191970; margin-bottom: 15px;">基本情報</h3>
+        <p><strong>名前:</strong> ${name}</p>
+        <p><strong>出身国:</strong> ベトナム</p>
+        <p><strong>年齢:</strong> 24歳</p>
+        <p><strong>性別:</strong> 男性</p>
+        <p><strong>日本語能力:</strong> N4レベル</p>
+        <p><strong>希望職種:</strong> 製造業</p>
+        <p><strong>経験年数:</strong> 1年</p>
+      </div>
+      <div style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+        <h3 style="color: #191970; margin-bottom: 15px;">スキル詳細</h3>
+        <ul style="margin-left: 20px;">
+          <li>食品製造ラインでの作業経験</li>
+          <li>品質管理チェック業務</li>
+          <li>基本的な機械操作</li>
+          <li>チームワークを重視した作業</li>
+        </ul>
+      </div>
+      <div style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+        <h3 style="color: #191970; margin-bottom: 15px;">自己PR</h3>
+        <p>真面目で責任感が強く、日本での就職を強く希望しています。現在日本語の勉強を継続しており、将来的にはN3レベルの取得を目指しています。</p>
+      </div>
+      <button onclick="contactCandidate('${name}')" 
+              style="background: linear-gradient(135deg, #191970, #667eea); color: white; border: none; padding: 15px 30px; border-radius: 15px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px;">
+        この候補者にお問い合わせ
+      </button>
+    </div>
+  `;
+  
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const modal = document.getElementById('candidate-modal');
+  modal.style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+
+function contactCandidate(name) {
+  alert(`${name}さんへのお問い合わせフォームを開きます。\n実際の実装では、お問い合わせページまたはメール送信機能に遷移します。`);
+}
+
+// 分页功能
+function changePage(direction) {
+  const currentPage = document.querySelector('.page-btn.active');
+  const pageButtons = document.querySelectorAll('.page-btn:not(#prev-btn):not(#next-btn)');
+  let currentIndex = Array.from(pageButtons).indexOf(currentPage);
+  let newIndex = currentIndex + direction;
+  
+  if (newIndex >= 0 && newIndex < pageButtons.length) {
+    currentPage.classList.remove('active');
+    pageButtons[newIndex].classList.add('active');
+  }
+}
+
+function goToPage(page) {
+  const buttons = document.querySelectorAll('.page-btn:not(#prev-btn):not(#next-btn)');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// 点击模态框外部关闭
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('candidate-modal');
+  if (event.target === modal) {
+    closeModal();
+  }
+});
+</script>
 </body>
 </html>
-
