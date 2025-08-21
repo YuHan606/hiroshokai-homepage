@@ -4,155 +4,301 @@
   <meta charset="UTF-8">
   <title>技能実習 - 広昌会協同組合</title>
   <style>
-    * {
+    body {
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      min-height: 100vh;
+      line-height: 1.6;
       color: #333;
-      overflow-x: hidden;
+      background: #f5f5f5;
     }
-
-    /* 动态背景 */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
-      animation: backgroundFloat 15s ease-in-out infinite;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    @keyframes backgroundFloat {
-      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
-      50% { transform: translateY(-15px) rotate(3deg); opacity: 0.8; }
-    }
-
+    
     header {
-      background: rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,248,255,0.95) 100%);
+      padding: 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
-
-    header h1 {
-      text-align: center;
-      color: white;
-      font-size: 2.5rem;
-      font-weight: 800;
-      padding: 25px 0 15px 0;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-      letter-spacing: 2px;
-    }
-
-    nav ul {
-      list-style: none;
+    
+    .header-content {
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 70px;
+      justify-content: space-between;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 20px 20px 10px 20px;
     }
-
+    
+    header h1 {
+      text-align: left;
+      margin: 0;
+      color: #2c3e50;
+      font-size: 2.8rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #191970, #191970);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      flex: 1;
+    }
+    
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .search-input {
+      padding: 10px 40px 10px 15px;
+      border: 2px solid #191970;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      width: 200px;
+      outline: none;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+    }
+    
+    .search-input:focus {
+      width: 250px;
+      box-shadow: 0 4px 15px rgba(25,25,112,0.3);
+      background: white;
+    }
+    
+    .search-btn {
+      position: absolute;
+      right: 5px;
+      background: #191970;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .search-btn:hover {
+      background: #667eea;
+      transform: scale(1.05);
+    }
+    
+    .search-label {
+      font-size: 0.85rem;
+      color: #191970;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    nav {
+      background: linear-gradient(90deg, #191970 0%, #191970 30%, #191970 80%);
+      padding: 0;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      min-height: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
     nav li {
       flex: 1;
       text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.2);
       position: relative;
+      overflow: visible;
+      display: flex;
+      align-items: center;
     }
-
+    
+    nav li:last-child {
+      border-right: none;
+    }
+    
     nav a {
       display: block;
       text-decoration: none;
-      color: rgba(255, 255, 255, 0.9);
+      color: white;
       font-weight: 600;
-      padding: 15px 20px;
-      border-radius: 12px;
+      padding: 18px 20px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
-      overflow: hidden;
-      margin: 0 5px;
+      z-index: 2;
       font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    nav a:hover {
+      color: #191970;
+      background: rgba(255,255,255,0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* 当前页面高亮 */
+    nav a[href="ginou.html"] {
+      background: rgba(255,255,255,0.9);
+      color: #191970;
+      font-weight: 700;
+      text-shadow: none;
     }
 
-    nav a::before {
-      content: '';
+    .dropdown {
+      position: relative;
+    }
+    
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: white;
+      font-weight: 600;
+      padding: 18px 20px;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      width: 100%;
+      box-sizing: border-box;
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      height: 100%;
+      min-height: 60px;
+    }
+    
+    .dropdown-btn::after {
+      content: '▼';
+      font-size: 0.7rem;
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+    
+    .dropdown.active .dropdown-btn::after {
+      transform: rotate(180deg);
+    }
+    
+    .dropdown-btn:hover {
+      color: #1A237E;
+      background: rgba(255,255,255,0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .dropdown-menu {
       position: absolute;
-      top: 0;
+      top: 100%;
       left: -100%;
+      width: calc(400% + 3px);
+      background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(240,248,255,0.98) 100%);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      border-radius: 0 0 15px 15px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-top: none;
+      overflow: hidden;
+    }
+    
+    .dropdown.active .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .dropdown-content {
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+      gap: 0;
+      height: 60px;
+    }
+    
+    .dropdown-item {
+      flex: 1;
+      border-right: 1px solid rgba(26, 35, 126, 0.2);
+      display: flex;
+      align-items: center;
+    }
+    
+    .dropdown-item:last-child {
+      border-right: none;
+    }
+    
+    .dropdown-item a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1A237E;
+      text-decoration: none;
+      padding: 18px 15px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      text-align: center;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.6s ease;
+      letter-spacing: 0.5px;
+      text-shadow: none;
     }
-
-    nav a:hover::before {
-      left: 100%;
-    }
-
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    
+    .dropdown-item a:hover {
+      background: linear-gradient(135deg, #1A237E 0%, #667eea 100%);
       color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     }
-
-    nav a[href="ginou.html"] {
-      background: rgba(255, 255, 255, 0.25);
-      color: white;
-      font-weight: 700;
+    
+    /* 主要内容区域 */
+    .main-content {
+      min-height: 100vh;
+      padding: 20px 0;
     }
-
+    
     section {
       max-width: 1200px;
       margin: 40px auto;
-      padding: 0 20px;
+      padding: 60px 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
     }
 
     .hero-section {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 30px;
-      padding: 60px 50px;
-      margin-bottom: 40px;
-      box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      position: relative;
-      overflow: hidden;
       text-align: center;
-    }
-
-    .hero-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: linear-gradient(90deg, #4facfe, #00f2fe, #4ecdc4, #ff6b6b);
-      background-size: 300% 100%;
-      animation: gradientShift 8s ease infinite;
-    }
-
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+      margin-bottom: 60px;
     }
 
     .main-title {
@@ -160,7 +306,7 @@
       font-size: 3.5rem;
       font-weight: 800;
       margin-bottom: 20px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #191970, #191970);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -174,11 +320,18 @@
       margin: 0 auto 40px;
     }
 
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 1.8rem;
+      margin: 40px 0 30px 0;
+    }
+
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 30px;
-      margin-top: 50px;
+      margin: 50px 0;
     }
 
     .feature-card {
@@ -199,7 +352,7 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      background: linear-gradient(90deg, #191970, #191970);
       transform: scaleX(0);
       transition: transform 0.4s ease;
     }
@@ -217,7 +370,7 @@
     .feature-icon {
       width: 80px;
       height: 80px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #191970, #191970);
       border-radius: 20px;
       display: flex;
       align-items: center;
@@ -225,7 +378,7 @@
       font-size: 2rem;
       color: white;
       margin: 0 auto 25px;
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 10px 25px rgba(25,25,112,0.3);
     }
 
     .feature-title {
@@ -243,14 +396,9 @@
       font-size: 1.05rem;
     }
 
-    /* 技能実習の特徴部分样式 */
+    /* 技能実習の特徴部分 */
     .benefits-section {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 30px;
-      padding: 50px;
       margin-top: 40px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
     }
 
     .benefits-title {
@@ -259,7 +407,7 @@
       font-weight: 700;
       text-align: center;
       margin-bottom: 40px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #191970, #191970);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -267,26 +415,27 @@
 
     .benefits-list {
       list-style: none;
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
+      padding: 0;
     }
 
     .benefits-item {
       margin: 20px 0;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+      box-shadow: 0 10px 25px rgba(25,25,112,0.15);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid rgba(79, 172, 254, 0.2);
+      border: 1px solid rgba(25,25,112,0.2);
     }
 
     .benefits-item:hover {
       transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.25);
+      box-shadow: 0 15px 35px rgba(25,25,112,0.25);
     }
 
     .benefits-header {
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      background: linear-gradient(135deg, #191970 0%, #191970 100%);
       color: white;
       padding: 25px 30px;
       cursor: pointer;
@@ -330,13 +479,13 @@
       margin-right: 15px;
     }
 
-    .dropdown-arrow {
+    .dropdown-arrow-benefit {
       font-size: 1.3rem;
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       color: rgba(255, 255, 255, 0.9);
     }
 
-    .benefits-item.active .dropdown-arrow {
+    .benefits-item.active .dropdown-arrow-benefit {
       transform: rotate(180deg);
     }
 
@@ -362,7 +511,7 @@
       font-size: 1.3rem;
       font-weight: 700;
       margin-bottom: 15px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #191970, #191970);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -392,17 +541,17 @@
       content: '✓';
       position: absolute;
       left: 0;
-      color: #4facfe;
+      color: #191970;
       font-weight: bold;
       font-size: 1.2rem;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #191970, #191970);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .highlight-box {
-      background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 254, 0.1));
-      border: 1px solid rgba(79, 172, 254, 0.3);
+      background: linear-gradient(135deg, rgba(25,25,112, 0.1), rgba(25,25,112, 0.05));
+      border: 1px solid rgba(25,25,112, 0.3);
       border-radius: 15px;
       padding: 20px;
       margin-top: 20px;
@@ -422,35 +571,33 @@
       font-style: italic;
     }
 
-    .cta-section {
+    /* CTA 模块 */
+    .cta {
       text-align: center;
-      margin-top: 60px;
-      padding: 50px 30px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 25px;
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .cta-title {
+      background: linear-gradient(135deg, #191970, #191970);
       color: white;
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      padding: 50px 20px;
+      border-radius: 20px;
+      margin: 60px auto;
+      max-width: 900px;
+      box-shadow: 0 15px 40px rgba(25,25,112, 0.3);
     }
 
-    .cta-text {
-      color: rgba(255, 255, 255, 0.9);
+    .cta h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .cta p {
       font-size: 1.2rem;
-      margin-bottom: 30px;
-      line-height: 1.6;
+      margin-bottom: 25px;
     }
 
     .cta-button {
       display: inline-block;
-      background: rgba(255, 255, 255, 0.9);
-      color: #4facfe;
+      background: white;
+      color: #191970;
       padding: 18px 40px;
       border-radius: 50px;
       text-decoration: none;
@@ -469,7 +616,7 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      background: linear-gradient(90deg, transparent, rgba(25,25,112, 0.1), transparent);
       transition: left 0.6s ease;
     }
 
@@ -480,40 +627,97 @@
     .cta-button:hover {
       transform: translateY(-3px) scale(1.05);
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-      background: white;
+      background: #f0f8ff;
     }
 
     footer {
       text-align: center;
-      padding: 40px 20px;
-      background: rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      color: rgba(255, 255, 255, 0.8);
-      margin-top: 60px;
-      font-size: 1rem;
+      padding: 30px;
+      background: rgba(44, 62, 80, 0.9);
+      color: white;
+      margin-top: 40px;
     }
 
     /* 响应式设计 */
     @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+      
       header h1 {
-        font-size: 2rem;
+        text-align: center;
+        font-size: 2.2rem;
       }
-
+      
+      .search-container {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .search-input {
+        width: 180px;
+      }
+      
+      .search-input:focus {
+        width: 220px;
+      }
+      
       nav ul {
-        flex-wrap: wrap;
-        height: auto;
-        padding: 10px;
+        flex-direction: column;
       }
-
+      
       nav li {
-        flex: none;
-        margin: 5px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        overflow: visible;
       }
-
-      .hero-section,
-      .benefits-section {
-        padding: 40px 25px;
-        margin: 20px;
+      
+      nav li:last-child {
+        border-bottom: none;
+      }
+      
+      .dropdown-menu {
+        position: static;
+        left: 0;
+        width: 100%;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+        border-radius: 0;
+        border: none;
+        background: rgba(240,248,255,0.95);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      
+      .dropdown.active .dropdown-menu {
+        max-height: 300px;
+      }
+      
+      .dropdown-content {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 0;
+      }
+      
+      .dropdown-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(26, 35, 126, 0.2);
+        height: auto;
+      }
+      
+      .dropdown-item:last-child {
+        border-bottom: none;
+      }
+      
+      .dropdown-item a {
+        padding: 12px 20px;
+        text-align: left;
+        height: auto;
       }
 
       .main-title {
@@ -541,221 +745,331 @@
   </style>
 </head>
 <body>
+
 <header>
-  <h1>広昌会協同組合</h1>
+  <div class="header-content">
+    <h1>広昌会協同組合</h1>
+    <div class="search-container">
+      <span class="search-label">サイト内検索</span>
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="キーワードを入力..." id="searchInput">
+        <button class="search-btn" type="button" id="searchBtn">🔍</button>
+      </div>
+    </div>
+  </div>
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
+      <li class="dropdown">
+        <button class="dropdown-btn" type="button">専門家を探す</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-content">
+            <div class="dropdown-item">
+              <a href="ginou.html">技能実習</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="tokutei.html">特定技能</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="sending.html">送り出し紹介</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="training.html">研修センター紹介</a>
+            </div>
+          </div>
+        </div>
+      </li>
       <li><a href="overview.html">組合概要</a></li>
-      <li><a href="ginou.html">技能実習</a></li>
-      <li><a href="tokutei.html">特定技能</a></li>
-      <li><a href="sending.html">送り出し紹介</a></li>
-      <li><a href="training.html">研修センター紹介</a></li>
       <li><a href="contact.html">お問い合わせ</a></li>
     </ul>
   </nav>
 </header>
 
-<section>
-  <div class="hero-section">
-    <h2 class="main-title">技能実習</h2>
-    <p class="subtitle">
-      外国人技能実習制度は、技能移転を目的として、外国人が日本の企業で働きながら学ぶ制度です。<br>
-      実践的な技術習得と文化交流を通じて、グローバルな人材育成を支援します。
-    </p>
-  </div>
-
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">🔧</div>
-      <h3 class="feature-title">実務経験による技術習得</h3>
-      <p class="feature-description">
-        現場での実践的な作業を通じて、専門技術を身につけながら、日本の高品質な技術基準を学びます。理論と実践を組み合わせた効果的な学習環境を提供します。
+<div class="main-content">
+  <section>
+    <div class="hero-section">
+      <h2 class="main-title">技能実習</h2>
+      <p class="subtitle">
+        外国人技能実習制度は、技能移転を目的として、外国人が日本の企業で働きながら学ぶ制度です。<br>
+        実践的な技術習得と文化交流を通じて、グローバルな人材育成を支援します。
       </p>
     </div>
 
-    <div class="feature-card">
-      <div class="feature-icon">🌸</div>
-      <h3 class="feature-title">日本語・文化適応支援</h3>
-      <p class="feature-description">
-        日本語学習サポートから日常生活指導まで、包括的なサポート体系を整備。日本の文化や習慣を理解し、スムーズな職場適応を実現します。
-      </p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔧</div>
+        <h3 class="feature-title">実務経験による技術習得</h3>
+        <p class="feature-description">
+          現場での実践的な作業を通じて、専門技術を身につけながら、日本の高品質な技術基準を学びます。理論と実践を組み合わせた効果的な学習環境を提供します。
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌸</div>
+        <h3 class="feature-title">日本語・文化適応支援</h3>
+        <p class="feature-description">
+          日本語学習サポートから日常生活指導まで、包括的なサポート体系を整備。日本の文化や習慣を理解し、スムーズな職場適応を実現します。
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3 class="feature-title">企業の業務効率化</h3>
+        <p class="feature-description">
+          意欲的な外国人実習生の受け入れにより、職場の活性化と新しい視点の導入を実現。企業の国際化推進と業務効率の向上を支援します。
+        </p>
+      </div>
     </div>
 
-    <div class="feature-card">
-      <div class="feature-icon">⚡</div>
-      <h3 class="feature-title">企業の業務効率化</h3>
-      <p class="feature-description">
-        意欲的な外国人実習生の受け入れにより、職場の活性化と新しい視点の導入を実現。企業の国際化推進と業務効率の向上を支援します。
-      </p>
+    <div class="benefits-section">
+      <h3 class="benefits-title">技能実習の特徴</h3>
+      <ul class="benefits-list">
+        
+        <li class="benefits-item" onclick="toggleBenefit(this)">
+          <div class="benefits-header">
+            <div class="benefits-header-content">
+              <span class="benefits-icon">📚</span>
+              <span>現場での実務経験を通じた技術習得</span>
+            </div>
+            <span class="dropdown-arrow-benefit">▼</span>
+          </div>
+          <div class="benefits-content">
+            <h4>実践的な技術習得プログラム</h4>
+            <p>日本の先進技術を現場で直接学び、実際の業務を通じて確実なスキルアップを図ります。理論だけでなく、実践に重点を置いた教育システムです。</p>
+            <ul>
+              <li>経験豊富な指導者による直接指導</li>
+              <li>最新設備・機器を使用した実習環境</li>
+              <li>段階的な難易度設定による体系的学習</li>
+              <li>定期的な技能評価と個別フィードバック</li>
+              <li>実習成果の記録・証明書発行</li>
+            </ul>
+            <div class="highlight-box">
+              <h5>技能習得の成果</h5>
+              <p>実習生の98%が目標技能レベルを達成し、帰国後のキャリア向上に大きく貢献しています</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="benefits-item" onclick="toggleBenefit(this)">
+          <div class="benefits-header">
+            <div class="benefits-header-content">
+              <span class="benefits-icon">🗾</span>
+              <span>日本語・文化への適応支援</span>
+            </div>
+            <span class="dropdown-arrow-benefit">▼</span>
+          </div>
+          <div class="benefits-content">
+            <h4>包括的な生活サポート体制</h4>
+            <p>日本語習得から日常生活まで、実習生が安心して学習に集中できる環境を整備。文化的な違いを理解し、スムーズな適応をサポートします。</p>
+            <ul>
+              <li>入国前の日本語教育プログラム</li>
+              <li>日本文化・習慣の理解促進研修</li>
+              <li>24時間対応の母国語相談窓口</li>
+              <li>生活必需品の調達サポート</li>
+              <li>地域コミュニティとの交流機会提供</li>
+              <li>緊急時対応・医療サポート</li>
+            </ul>
+            <div class="highlight-box">
+              <h5>多言語対応</h5>
+              <p>ベトナム語、中国語、インドネシア語、タガログ語など8ヶ国語でのサポートを実施</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="benefits-item" onclick="toggleBenefit(this)">
+          <div class="benefits-header">
+            <div class="benefits-header-content">
+              <span class="benefits-icon">🚀</span>
+              <span>受け入れ企業への業務効率化と職場の活性化</span>
+            </div>
+            <span class="dropdown-arrow-benefit">▼</span>
+          </div>
+          <div class="benefits-content">
+            <h4>企業の国際化と生産性向上</h4>
+            <p>意欲的な外国人実習生の受け入れにより、職場に新しい活力と多様な視点をもたらし、企業の成長と国際競争力の向上に寄与します。</p>
+            <ul>
+              <li>若い労働力による職場活性化</li>
+              <li>多様な文化的背景による新しいアイデア創出</li>
+              <li>語学スキル向上による国際対応力強化</li>
+              <li>生産性向上と品質管理の改善</li>
+              <li>海外展開時の人材ネットワーク構築</li>
+              <li>企業のCSR・国際貢献活動の実現</li>
+            </ul>
+            <div class="highlight-box">
+              <h5>企業満足度</h5>
+              <p>受け入れ企業の95%が「実習生による職場の活性化効果を実感」と高い評価</p>
+            </div>
+          </div>
+        </li>
+        
+      </ul>
     </div>
-  </div>
 
-  <div class="benefits-section">
-    <h3 class="benefits-title">技能実習の特徴</h3>
-    <ul class="benefits-list">
-      
-      <li class="benefits-item" onclick="toggleBenefit(this)">
-        <div class="benefits-header">
-          <div class="benefits-header-content">
-            <span class="benefits-icon">📚</span>
-            <span>現場での実務経験を通じた技術習得</span>
-          </div>
-          <span class="dropdown-arrow">▼</span>
-        </div>
-        <div class="benefits-content">
-          <h4>実践的な技術習得プログラム</h4>
-          <p>日本の先進技術を現場で直接学び、実際の業務を通じて確実なスキルアップを図ります。理論だけでなく、実践に重点を置いた教育システムです。</p>
-          <ul>
-            <li>経験豊富な指導者による直接指導</li>
-            <li>最新設備・機器を使用した実習環境</li>
-            <li>段階的な難易度設定による体系的学習</li>
-            <li>定期的な技能評価と個別フィードバック</li>
-            <li>実習成果の記録・証明書発行</li>
-          </ul>
-          <div class="highlight-box">
-            <h5>技能習得の成果</h5>
-            <p>実習生の98%が目標技能レベルを達成し、帰国後のキャリア向上に大きく貢献しています</p>
-          </div>
-        </div>
-      </li>
-
-      <li class="benefits-item" onclick="toggleBenefit(this)">
-        <div class="benefits-header">
-          <div class="benefits-header-content">
-            <span class="benefits-icon">🗾</span>
-            <span>日本語・文化への適応支援</span>
-          </div>
-          <span class="dropdown-arrow">▼</span>
-        </div>
-        <div class="benefits-content">
-          <h4>包括的な生活サポート体制</h4>
-          <p>日本語習得から日常生活まで、実習生が安心して学習に集中できる環境を整備。文化的な違いを理解し、スムーズな適応をサポートします。</p>
-          <ul>
-            <li>入国前の日本語教育プログラム</li>
-            <li>日本文化・習慣の理解促進研修</li>
-            <li>24時間対応の母国語相談窓口</li>
-            <li>生活必需品の調達サポート</li>
-            <li>地域コミュニティとの交流機会提供</li>
-            <li>緊急時対応・医療サポート</li>
-          </ul>
-          <div class="highlight-box">
-            <h5>多言語対応</h5>
-            <p>ベトナム語、中国語、インドネシア語、タガログ語など8ヶ国語でのサポートを実施</p>
-          </div>
-        </div>
-      </li>
-
-      <li class="benefits-item" onclick="toggleBenefit(this)">
-        <div class="benefits-header">
-          <div class="benefits-header-content">
-            <span class="benefits-icon">🚀</span>
-            <span>受け入れ企業への業務効率化と職場の活性化</span>
-          </div>
-          <span class="dropdown-arrow">▼</span>
-        </div>
-        <div class="benefits-content">
-          <h4>企業の国際化と生産性向上</h4>
-          <p>意欲的な外国人実習生の受け入れにより、職場に新しい活力と多様な視点をもたらし、企業の成長と国際競争力の向上に寄与します。</p>
-          <ul>
-            <li>若い労働力による職場活性化</li>
-            <li>多様な文化的背景による新しいアイデア創出</li>
-            <li>語学スキル向上による国際対応力強化</li>
-            <li>生産性向上と品質管理の改善</li>
-            <li>海外展開時の人材ネットワーク構築</li>
-            <li>企業のCSR・国際貢献活動の実現</li>
-          </ul>
-          <div class="highlight-box">
-            <h5>企業満足度</h5>
-            <p>受け入れ企業の95%が「実習生による職場の活性化効果を実感」と高い評価</p>
-          </div>
-        </div>
-      </li>
-      
-    </ul>
-  </div>
-
-  <div class="cta-section">
-    <h3 class="cta-title">技能実習制度についてもっと知りたい方へ</h3>
-    <p class="cta-text">
-      技能実習生の受け入れや制度の詳細について、<br>
-      専門スタッフが丁寧にご説明いたします。
-    </p>
-    <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
-  </div>
-</section>
+    <div class="cta">
+      <h2>技能実習制度についてもっと知りたい方へ</h2>
+      <p>
+        技能実習生の受け入れや制度の詳細について、<br>
+        専門スタッフが丁寧にご説明いたします。
+      </p>
+      <a href="contact.html" class="cta-button">お問い合わせはこちら</a>
+    </div>
+  </section>
+</div>
 
 <footer>
-  <p>&copy; 2025 広昌会協同組合 - 国際人材育成のパートナー</p>
+  <p>&copy; 2025 広昌会協同組合</p>
 </footer>
 
 <script>
-  // 個別下拉功能
-  function toggleBenefit(item) {
-    const isActive = item.classList.contains('active');
-    
-    // 关闭其他已展开的项目（可选）
-    // document.querySelectorAll('.benefits-item.active').forEach(activeItem => {
-    //   if (activeItem !== item) {
-    //     activeItem.classList.remove('active');
-    //   }
-    // });
-    
-    // 切换当前项目
-    if (isActive) {
-      item.classList.remove('active');
-    } else {
-      item.classList.add('active');
+document.addEventListener('DOMContentLoaded', function() {
+  // 搜索功能
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  
+  function performSearch() {
+    const query = searchInput.value.trim();
+    if (query) {
+      alert(`"${query}" の検索結果を表示します。\n（実際の実装では検索結果ページに遷移します）`);
     }
   }
-
-  // 页面加载动画
-  window.addEventListener('load', () => {
-    const heroSection = document.querySelector('.hero-section');
-    const featureCards = document.querySelectorAll('.feature-card');
-    const benefitsItems = document.querySelectorAll('.benefits-item');
+  
+  if (searchBtn && searchInput) {
+    searchBtn.addEventListener('click', performSearch);
     
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+  }
+  
+  // 下拉菜单功能
+  const dropdown = document.querySelector('.dropdown');
+  const dropdownBtn = document.querySelector('.dropdown-btn');
+  
+  if (dropdown && dropdownBtn) {
+    dropdownBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropdown.classList.toggle('active');
+    });
+    
+    document.addEventListener('click', function(e) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && dropdown.classList.contains('active')) {
+        dropdown.classList.remove('active');
+        dropdownBtn.focus();
+      }
+    });
+    
+    const dropdownLinks = dropdown.querySelectorAll('.dropdown-item a');
+    dropdownLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        dropdown.classList.remove('active');
+      });
+    });
+    
+    dropdownBtn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        dropdown.classList.toggle('active');
+      } else if (e.key === 'ArrowDown' && dropdown.classList.contains('active')) {
+        e.preventDefault();
+        const firstLink = dropdown.querySelector('.dropdown-item a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+    
+    dropdownLinks.forEach((link, index) => {
+      link.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          const nextLink = dropdownLinks[index + 1];
+          if (nextLink) {
+            nextLink.focus();
+          } else {
+            dropdownLinks[0].focus();
+          }
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prevLink = dropdownLinks[index - 1];
+          if (prevLink) {
+            prevLink.focus();
+          } else {
+            dropdownLinks[dropdownLinks.length - 1].focus();
+          }
+        } else if (e.key === 'Escape') {
+          dropdown.classList.remove('active');
+          dropdownBtn.focus();
+        }
+      });
+    });
+  }
+});
+
+// 特征项目下拉功能
+function toggleBenefit(item) {
+  const isActive = item.classList.contains('active');
+  
+  if (isActive) {
+    item.classList.remove('active');
+  } else {
+    item.classList.add('active');
+  }
+}
+
+// 页面加载动画
+window.addEventListener('load', () => {
+  const heroSection = document.querySelector('.hero-section');
+  const featureCards = document.querySelectorAll('.feature-card');
+  const benefitsItems = document.querySelectorAll('.benefits-item');
+  
+  if (heroSection) {
     heroSection.style.opacity = '0';
     heroSection.style.transform = 'translateY(30px)';
-    
-    featureCards.forEach((card, index) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(50px)';
-    });
-    
-    benefitsItems.forEach((item, index) => {
-      item.style.opacity = '0';
-      item.style.transform = 'translateY(30px)';
-    });
-    
-    setTimeout(() => {
+  }
+  
+  featureCards.forEach((card, index) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(50px)';
+  });
+  
+  benefitsItems.forEach((item, index) => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateY(30px)';
+  });
+  
+  setTimeout(() => {
+    if (heroSection) {
       heroSection.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
       heroSection.style.opacity = '1';
       heroSection.style.transform = 'translateY(0)';
-      
-      featureCards.forEach((card, index) => {
-        setTimeout(() => {
-          card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, 200 + index * 150);
-      });
-      
-      benefitsItems.forEach((item, index) => {
-        setTimeout(() => {
-          item.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-          item.style.opacity = '1';
-          item.style.transform = 'translateY(0)';
-        }, 800 + index * 200);
-      });
-    }, 100);
-  });
-
-  // 滚动时的视差效果
-  window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    document.body.style.setProperty('--scroll', scrolled + 'px');
-  });
+    }
+    
+    featureCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, 200 + index * 150);
+    });
+    
+    benefitsItems.forEach((item, index) => {
+      setTimeout(() => {
+        item.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        item.style.opacity = '1';
+        item.style.transform = 'translateY(0)';
+      }, 800 + index * 200);
+    });
+  }, 100);
+});
 </script>
+
 </body>
 </html>
