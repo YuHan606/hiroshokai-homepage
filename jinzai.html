@@ -192,7 +192,7 @@
       position: absolute;
       top: 100%;
       left: -100%; /* 修正: 左端から開始して4つのボタン幅をカバー */
-      width: calc(400% + 3px); /* 修正: メイン4つのボタン幅と同じに */
+      width: calc(500% + 3px); /* 修正: メイン4つのボタン幅と同じに */
       background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(240,248,255,0.98) 100%);
       backdrop-filter: blur(20px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.15);
@@ -224,6 +224,7 @@
     .dropdown-item {
       border-bottom: 1px solid rgba(0,0,0,0.1);
       flex: 1;
+      border-bottom: none; /* 移除底部横线 */
     }
 
     .dropdown-item:last-child {
@@ -822,7 +823,8 @@
           </div>
         </div>
       </li>
-      <li><a href="overview.html">組合概要</a></li>
+      <li><a href="ukeire.html">外国人受け入れ</a></li>
+      <li><a href="jinzai.html">人材情報を見る</a></li>
       <li><a href="contact.html">お問い合わせ</a></li>
     </ul>
   </nav>
@@ -1565,5 +1567,7 @@ window.addEventListener('click', function(event) {
   }
 });
 </script>
+
 </body>
 </html>
+            
