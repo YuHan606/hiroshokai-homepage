@@ -711,13 +711,13 @@
       text-align: center;
       padding: 30px 20px;
       margin-top: 50px;
-      background: rgba(255, 255, 255, 0.95);
+      background: #191970;
       box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
     }
 
     .footer-text {
       font-size: 1rem;
-      color: #2c3e50;
+      color: white;
       font-weight: 500;
     }
 
@@ -1583,8 +1583,9 @@ const itemsPerPage = 6;
 function getVisibleCards() {
   const cards = document.querySelectorAll('.jinzai-card');
   return Array.from(cards).filter(card => {
-    const style = window.getComputedStyle(card);
-    return style.display !== 'none';
+    // 检查卡片是否通过筛选条件（不是被分页隐藏）
+    // 如果卡片有 data-filtered="hidden" 属性，说明被筛选隐藏了
+    return !card.hasAttribute('data-filtered') || card.getAttribute('data-filtered') !== 'hidden';
   });
 }
 
@@ -1594,17 +1595,20 @@ function displayCurrentPage() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   
-  // 先隐藏所有可见卡片
+  console.log(`显示第${currentPage}页: 总卡片${visibleCards.length}, 开始索引${startIndex}, 结束索引${endIndex}`);
+  
+  // 先隐藏所有符合筛选条件的卡片
   visibleCards.forEach(card => {
     card.style.display = 'none';
   });
   
   // 显示当前页的卡片
   for (let i = startIndex; i < endIndex && i < visibleCards.length; i++) {
-    visibleCards[i].style.display = 'block';
+    if (visibleCards[i]) {
+      visibleCards[i].style.display = 'block';
+      console.log(`显示卡片 ${i + 1}: ${visibleCards[i].getAttribute('data-name')}`);
+    }
   }
-  
-  console.log(`显示第${currentPage}页: ${startIndex + 1}-${Math.min(endIndex, visibleCards.length)} / ${visibleCards.length}`);
 }
 
 // 更新分页按钮状态
@@ -1612,7 +1616,7 @@ function updatePaginationButtons() {
   const visibleCards = getVisibleCards();
   const totalPages = Math.ceil(visibleCards.length / itemsPerPage);
   
-  console.log(`更新分页按钮: 总卡片${visibleCards.length}, 总页数${totalPages}, 当前页${currentPage}`);
+  console.log(`更新分页按钮: 总卡片${visibleCards.length}, 每页${itemsPerPage}个, 总页数${totalPages}, 当前页${currentPage}`);
   
   // 更新上一页按钮
   const prevBtn = document.getElementById('prev-btn');
@@ -1637,16 +1641,15 @@ function updatePaginationButtons() {
       btn.style.display = 'inline-flex';
       btn.classList.toggle('active', pageNum === currentPage);
       btn.disabled = false;
-      btn.style.opacity = '1';
     } else {
       btn.style.display = 'none';
     }
   });
   
-  // 控制整个分页容器的显示
+  // 控制整个分页容器的显示 - 只要有内容就显示
   const pagination = document.getElementById('pagination');
   if (pagination) {
-    pagination.style.display = totalPages > 1 ? 'flex' : 'none';
+    pagination.style.display = totalPages > 0 ? 'flex' : 'none';
   }
 }
 
@@ -1686,6 +1689,12 @@ function changePage(direction) {
 // 初始化分页功能
 function initializePagination() {
   console.log('初始化分页功能...');
+  
+  // 确保初始状态下所有卡片都是可见的
+  const cards = document.querySelectorAll('.jinzai-card');
+  cards.forEach(card => {
+    card.removeAttribute('data-filtered');
+  });
   
   // 绑定上一页按钮
   const prevBtn = document.getElementById('prev-btn');
@@ -1729,7 +1738,7 @@ function initializePagination() {
   updatePaginationButtons();
 }
 
-// ============ 筛选功能 ============
+// 修正筛选功能，使用新的标记方式
 function filterCandidates() {
   console.log('开始筛选候选人...');
   
@@ -1773,9 +1782,9 @@ function filterCandidates() {
       }
     }
 
-    // 设置卡片显示状态
+    // 标记卡片是否被筛选
     if (shouldShow) {
-      card.style.display = 'block';
+      card.removeAttribute('data-filtered');
       visibleCount++;
       
       const badge = card.querySelector('.availability-badge');
@@ -1783,7 +1792,7 @@ function filterCandidates() {
         availableCount++;
       }
     } else {
-      card.style.display = 'none';
+      card.setAttribute('data-filtered', 'hidden');
     }
   });
 
@@ -1834,8 +1843,9 @@ function clearAllFilters() {
   
   // 显示所有卡片
   const cards = document.querySelectorAll('.jinzai-card');
-  let totalCount = 0;
-  let availableCount = 0;
+  cards.forEach(card => {
+    card.removeAttribute('data-filtered');
+  });
   
   cards.forEach(card => {
     card.style.display = 'block';
