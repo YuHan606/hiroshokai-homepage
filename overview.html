@@ -1076,9 +1076,16 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'tokutei.html';
       } else if (query.includes('Q&A') || query.includes('質問') || query.includes('qa')) {
         window.location.href = 'qa.html';
+      } else if (query.includes('送り出し') || query.includes('おくりだし') || query.includes('送り')) {
+        window.location.href = 'sending.html';
+      } else if (query.includes('training') || query.includes('研修') || query.includes('研修機関')) {
+        window.location.href = 'training.html';  
+      } else if (query.includes('見積サービス') || query.includes('見積') || query.includes('みつもり')) {
+        window.location.href = 'mitumori.html';   
+      
       } else {
-        // 默认跳转到qa.html
-        window.location.href = 'qa.html';
+        // 默认跳转到contact.html
+        window.location.href = 'contact.html';
       }  
     } else {
       alert('検索キーワードを入力してください');
