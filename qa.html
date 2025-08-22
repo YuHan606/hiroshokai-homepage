@@ -5,74 +5,303 @@
   <title>外国人雇用Q＆A一覧 - 広昌会協同組合</title>
   <style>
     body {
-      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      min-height: 100vh;
-      margin: 0;
-      color: #333;
-      overflow-x: hidden;
-    }
-
-    header {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    header h1 {
-      text-align: center;
-      color: white;
-      font-size: 2.5rem;
-      font-weight: 800;
-      padding: 25px 0;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-    }
-    nav li {
-      margin: 0 10px;
-    }
-    nav a {
-      text-decoration: none;
-      color: white;
-      font-weight: 600;
-      padding: 12px 18px;
-      border-radius: 12px;
-      transition: background 0.3s ease;
-    }
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.2);
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
     }
 
-    section {
+     header {
+       background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,248,255,0.95) 100%);
+       padding: 0;
+       box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+       backdrop-filter: blur(20px);
+       border-bottom: 1px solid rgba(255,255,255,0.2);
+       position: sticky;
+       top: 0;
+       z-index: 1000;
+     }
+     
+     .header-content {
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       max-width: 1200px;
+       margin: 0 auto;
+       padding: 20px 20px 10px 20px;
+     }
+     
+     header h1 {
+       text-align: left;
+       margin: 0;
+       color: #2c3e50;
+       font-size: 2.8rem;
+       font-weight: 700;
+       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+       background: linear-gradient(135deg, #191970, #191970);
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+       background-clip: text;
+       flex: 1;
+     }
+     
+     .search-container {
+       display: flex;
+       align-items: center;
+       gap: 10px;
+     }
+     
+     .search-box {
+       position: relative;
+       display: flex;
+       align-items: center;
+     }
+     
+     .search-input {
+       padding: 10px 40px 10px 15px;
+       border: 2px solid #191970;
+       border-radius: 25px;
+       font-size: 0.9rem;
+       width: 200px;
+       outline: none;
+       transition: all 0.3s ease;
+       background: rgba(255,255,255,0.9);
+       backdrop-filter: blur(10px);
+     }
+     
+     .search-input:focus {
+       width: 250px;
+       box-shadow: 0 4px 15px rgba(25,25,112,0.3);
+       background: white;
+     }
+     
+     .search-btn {
+       position: absolute;
+       right: 5px;
+       background: #191970;
+       border: none;
+       padding: 8px 12px;
+       border-radius: 20px;
+       cursor: pointer;
+       color: white;
+       transition: all 0.3s ease;
+     }
+     
+     .search-btn:hover {
+       background: #667eea;
+       transform: scale(1.05);
+     }
+     
+     .search-label {
+       font-size: 0.85rem;
+       color: #191970;
+       font-weight: 600;
+       white-space: nowrap;
+     }
+     
+     nav {
+       background: linear-gradient(90deg, #191970 0%, #191970 30%, #191970 80%);
+       padding: 0;
+       box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+       position: relative;
+     }
+     
+     nav ul {
+       list-style: none;
+       padding: 0;
+       margin: 0;
+       display: flex;
+       justify-content: center;
+       align-items: stretch;
+       min-height: 60px;
+       max-width: 1200px;
+       margin: 0 auto;
+     }
+     
+     nav li {
+       flex: 1;
+       text-align: center;
+       border-right: 1px solid rgba(255,255,255,0.2);
+       position: relative;
+       overflow: visible;
+       display: flex;
+       align-items: center;
+     }
+     
+     nav li:last-child {
+       border-right: none;
+     }
+     
+     nav a {
+       display: block;
+       text-decoration: none;
+       color: white;
+       font-weight: 600;
+       padding: 18px 20px;
+       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+       position: relative;
+       z-index: 2;
+       font-size: 0.95rem;
+       letter-spacing: 0.5px;
+       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+       width: 100%;
+       box-sizing: border-box;
+     }
+     
+     nav a:hover {
+       color: #191970;
+       background: rgba(255,255,255,0.95);
+       transform: translateY(-2px);
+       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+     }
+
+     /* 当前页面高亮 */
+     nav a[href="overview.html"] {
+      background: rgba(255,255,255,0.9);
+      color: #191970;
+      font-weight: 700;
+      text-shadow: none;
+     }
+
+     .dropdown {
+      position: relative;
+     }
+    
+     .dropdown-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: white;
+      font-weight: 600;
+      padding: 18px 20px;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      width: 100%;
+      box-sizing: border-box;
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      height: 100%;
+      min-height: 60px;
+     }
+    
+     .dropdown-btn::after {
+      content: '▼';
+      font-size: 0.7rem;
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+     }
+    
+     .dropdown.active .dropdown-btn::after {
+      transform: rotate(180deg);
+     }
+    
+     .dropdown-btn:hover {
+      color: #1A237E;
+      background: rgba(255,255,255,0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+     }
+    
+     .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: -100%;
+      width: calc(400% + 3px);
+      background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(240,248,255,0.98) 100%);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      border-radius: 0 0 15px 15px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-top: none;
+      overflow: hidden;
+     }
+    
+     .dropdown.active .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+     }
+    
+     .dropdown-content {
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+      gap: 0;
+      height: 60px;
+     }
+    
+     .dropdown-item {
+      flex: 1;
+      border-right: 1px solid rgba(26, 35, 126, 0.2);
+      display: flex;
+      align-items: center;
+     }
+    
+     .dropdown-item:last-child {
+      border-right: none;
+     }
+    
+     .dropdown-item a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1A237E;
+      text-decoration: none;
+      padding: 18px 15px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      letter-spacing: 0.5px;
+      text-shadow: none;
+     }
+    
+     .dropdown-item a:hover {
+      background: linear-gradient(135deg, #1A237E 0%, #667eea 100%);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+     }
+
+     section {
       max-width: 1000px;
       margin: 40px auto;
       padding: 20px;
-    }
+     }
 
-    .qa-container {
+     .qa-container {
       background: rgba(255, 255, 255, 0.95);
       border-radius: 25px;
       padding: 50px 40px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-    }
+     }
 
-    .main-title {
+     .main-title {
       text-align: center;
       font-size: 2.5rem;
       font-weight: 800;
       margin-bottom: 40px;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #191970, #191970);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-    }
+     }
 
     .qa-item {
       margin-bottom: 25px;
@@ -81,50 +310,94 @@
       border: 1px solid rgba(79,172,254,0.3);
       background: linear-gradient(135deg, rgba(79,172,254,0.08), rgba(0,242,254,0.08));
       transition: all 0.3s ease;
-    }
-    .qa-item:hover {
+     }
+     .qa-item:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 30px rgba(79,172,254,0.2);
-    }
+     }
 
-    .qa-question {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+     .qa-question {
+      background: linear-gradient(135deg, #191970, #191970);
       color: white;
       font-weight: 700;
       padding: 18px 22px;
       cursor: pointer;
       font-size: 1.2rem;
-    }
+     }
 
-    .qa-answer {
+     .qa-answer {
       display: none;
       padding: 20px;
       background: rgba(255, 255, 255, 0.9);
       color: #555;
       line-height: 1.7;
-    }
+     }
 
-    footer {
+     footer {
       text-align: center;
       padding: 30px;
-      background: rgba(0, 0, 0, 0.15);
+      background: #191970;
       backdrop-filter: blur(10px);
       color: white;
       margin-top: 50px;
-    }
+     }
   </style>
 </head>
 <body>
 <header>
-  <h1>広昌会協同組合</h1>
+  <div class="header-content">
+    <h1>広昌会協同組合</h1>
+    <div class="search-container">
+      <span class="search-label">サイト内検索</span>
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="キーワードを入力..." id="searchInput">
+        <button class="search-btn" type="button" id="searchBtn">🔍</button>
+      </div>
+    </div>
+  </div>
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="overview.html">組合概要</a></li>
-      <li><a href="ginou.html">技能実習</a></li>
-      <li><a href="tokutei.html">特定技能</a></li>
-      <li><a href="sending.html">送り出し紹介</a></li>
-      <li><a href="training.html">研修センター紹介</a></li>
+      <li class="dropdown">
+        <button class="dropdown-btn" type="button">専門家を探す</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-content">
+            <div class="dropdown-item">
+              <a href="overview.html">監理団体</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="sending.html">送り出し紹介</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="training.html">研修センター紹介</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="mitumori.html">一括見積サービス</a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="ukeire.html">外国人受け入れ</a></li>
+      <li><a href="jinzai.html">人材情報を見る</a></li>
+      
+      <li class="dropdown">
+        <button class="dropdown-btn" type="button">外国人雇用を知る</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-content">
+            
+            <div class="dropdown-item">
+              <a href="ginou.html">技能実習</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="tokutei.html">特定技能</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="qa.html">雇用Q＆A一覧</a>
+            </div>
+          </div>
+        </div>
+      </li>
+
       <li><a href="contact.html">お問い合わせ</a></li>
     </ul>
   </nav>
@@ -148,6 +421,52 @@
       <div class="qa-question">Q3. 技能実習生と特定技能の違いは何ですか？</div>
       <div class="qa-answer">A. 技能実習生は技能習得を目的とした制度で、最長5年の在留が可能です。一方、特定技能は一定の技能と日本語能力を有する外国人が即戦力として働ける制度です。</div>
     </div>
+    
+    <div class="qa-item">
+      <div class="qa-question">Q4. 雇用するまでの費用や、雇用後の費用について教えてください</div>
+      <div class="qa-answer">A. 高度外国人材、特定技能人材の場合一般的に多いのは，初回紹介料(20％～30％),月額支援費用　20,000円～30,000円　※特定技能の場合のみ
+                                初回ビザ申請費用　100,000円程度　※行政書士にお願いする場合　</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question">Q5. 技能実習生の失踪対策のために行なっていることは何ですか？</div>
+      <div class="qa-answer">A. これまでの経験から、失踪の主な原因は暴力や威圧的な態度など、何かしらの理由で精神的に追い込まれた時に失踪するケースが多く見られます。
+                                弊組合では、いつもと違う雰囲気や行動を実習生がしていないかを企業様に確認し、変化があった場合には実習生との面談を重ね、事前の防止に努めております。
+                                弊組合の母国語スタッフに実習生が個人的に相談してくる事もありますので、企業様にご報告し、対策を話し合ったうえで面談を行っております。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question">Q6. 技能実習生が入国や帰国する際の航空チケット代は誰が負担しますか？</div>
+      <div class="qa-answer">A. 弊社は特定技能専門のため、特定技能の場合で回答します。
+                                弊社は、現地から優秀な人材を招聘するために、基本的には来日時の飛行機チケットは企業様に負担いただきます。
+                                ただし、給与額が多めと判断される場合は、不要としています。尚、現在のインドネシアからの来日時の相場は、
+                                ４５，０００円～９０，０００円程度となっています。。</div>
+    </div>
+    
+    <div class="qa-item">
+      <div class="qa-question">Q7. 外国人が住める住居を探すのは大変ですか？</div>
+      <div class="qa-answer">A. たしかに大家さんによっては技能実習生をお断りするような物件もございますが、そういった例はそこまで多くない印象です。
+                                また、今後の受け入れに備えて、中古の一軒家をご購入される企業様もいらっしゃいます。もし継続して受け入れる予定があり、
+                                ある程度まとまった人数が見込まれる場合は、その方が毎年住居を探す必要もないですし、色々な物件にバラバラと入居する
+                                より管理が楽になるかと思います。どんな物件を探せばいいか、どんな条件の物件ならOKなのか、ご不明等ございましたらお気軽にご相談ください。
+                                はじめてでもよくわかる！技能実習生の受け入れ https://www.toko-alliance.net/jigyou-foreign-technical/ </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question">Q8. 家具・家電は、新品で用意する必要はありますか？また、どの程度のものを用意する必要があるのでしょうか？</div>
+      <div class="qa-answer">A. 必ずしも新品を用意する必要はありません。
+                                家電製品については動性に問題が無いもの、調理器具や寝具は清潔で劣化していないものであれば中古品で問題ありません。
+                                条件としてはすぐに生活を始められる備品を用意すると定められております。
+                                なお、新品・中古それぞれの専門の提携先があるので、ご用意が大変な企業様は一括準備も承っております。
+                                詳しくは https://www.nbc.or.jp/jissyusei/npojhk </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question">Q9. 契約後の書類作成は大変ですか？</div>
+      <div class="qa-answer">A. 申請書類の入力項目は、企業様の社名に始まり作業内容や役員情報など細かな情報に至ります。
+                                実習生においても、一人ずつの詳細を入力しなければならないため、その情報量は膨大になります。
+                                しかし、正式な在留資格を取得するためには避けて通れないため、弊組合の業務としてしっかりと対応させていただいております。。</div>
+    </div>
 
   </div>
 </section>
@@ -157,6 +476,149 @@
 </footer>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 搜索功能
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  
+  function performSearch() {
+    const query = searchInput.value.trim();
+    if (query) {
+      // 根据关键词跳转到不同页面
+      if (query.includes('技能実習') || query.includes('技能')) {
+        window.location.href = 'ginou.html';
+      } else if (query.includes('特定技能') || query.includes('特定')) {
+        window.location.href = 'tokutei.html';
+      } else if (query.includes('Q&A') || query.includes('質問') || query.includes('qa')) {
+        window.location.href = 'qa.html';
+      } else if (query.includes('送り出し') || query.includes('おくりだし') || query.includes('送り')) {
+        window.location.href = 'sending.html';
+      } else if (query.includes('training') || query.includes('研修') || query.includes('研修機関')) {
+        window.location.href = 'training.html';  
+      } else if (query.includes('見積サービス') || query.includes('見積') || query.includes('みつもり')) {
+        window.location.href = 'mitumori.html';   
+      } else if (query.includes('監理') || query.includes('かんり') || query.includes('監理団体')) {
+        window.location.href = 'overview.html';   
+      
+      } else {
+        // 默认跳转到contact.html
+        window.location.href = 'contact.html';
+      }  
+    } else {
+      alert('検索キーワードを入力してください');
+    }
+  }
+  
+  if (searchBtn && searchInput) {
+    searchBtn.addEventListener('click', performSearch);
+    
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+  }
+  
+  // 下拉菜单功能
+  const dropdowns = document.querySelectorAll('.dropdown');
+  
+  dropdowns.forEach(dropdown => {
+    const dropdownBtn = dropdown.querySelector('.dropdown-btn');
+    
+    if (dropdown && dropdownBtn) {
+      dropdownBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // 关闭其他下拉菜单
+        dropdowns.forEach(otherDropdown => {
+          if (otherDropdown !== dropdown) {
+            otherDropdown.classList.remove('active');
+          }
+        });
+        
+        dropdown.classList.toggle('active');
+      });
+      
+      const dropdownLinks = dropdown.querySelectorAll('.dropdown-item a');
+      dropdownLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          dropdown.classList.remove('active');
+        });
+      });
+      
+      dropdownBtn.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          dropdown.classList.toggle('active');
+        } else if (e.key === 'ArrowDown' && dropdown.classList.contains('active')) {
+          e.preventDefault();
+          const firstLink = dropdown.querySelector('.dropdown-item a');
+          if (firstLink) firstLink.focus();
+        }
+      });
+      
+      dropdownLinks.forEach((link, index) => {
+        link.addEventListener('keydown', function(e) {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const nextLink = dropdownLinks[index + 1];
+            if (nextLink) {
+              nextLink.focus();
+            } else {
+              dropdownLinks[0].focus();
+            }
+          } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prevLink = dropdownLinks[index - 1];
+            if (prevLink) {
+              prevLink.focus();
+            } else {
+              dropdownLinks[dropdownLinks.length - 1].focus();
+            }
+          } else if (e.key === 'Escape') {
+            dropdown.classList.remove('active');
+            dropdownBtn.focus();
+          }
+        });
+      });
+    }
+  });
+  
+  
+  // 点击页面其他地方关闭所有下拉菜单
+  document.addEventListener('click', function(e) {
+    dropdowns.forEach(dropdown => {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
+  });
+  
+  // ESC键关闭所有下拉菜单
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      dropdowns.forEach(dropdown => {
+        if (dropdown.classList.contains('active')) {
+          dropdown.classList.remove('active');
+          dropdown.querySelector('.dropdown-btn').focus();
+        }
+      });
+    }
+  });
+});
+
+// 特征项目下拉功能
+function toggleBenefit(item) {
+  const isActive = item.classList.contains('active');
+  
+  if (isActive) {
+    item.classList.remove('active');
+  } else {
+    item.classList.add('active');
+  }
+}
   // Q&A 折り畳み功能
   document.querySelectorAll('.qa-question').forEach(q => {
     q.addEventListener('click', () => {
