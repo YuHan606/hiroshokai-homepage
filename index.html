@@ -905,79 +905,107 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // 修正されたドロップダウンメニュー機能
-  const dropdown = document.querySelector('.dropdown');
-  const dropdownBtn = document.querySelector('.dropdown-btn');
+  // 修正された多重ドロップダウンメニュー機能
+  const dropdowns = document.querySelectorAll('.dropdown');
   
-  if (dropdown && dropdownBtn) {
-    // ボタンクリックでメニュー切り替え
-    dropdownBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      dropdown.classList.toggle('active');
-    });
+  dropdowns.forEach(function(dropdown) {
+    const dropdownBtn = dropdown.querySelector('.dropdown-btn');
     
-    // 外部クリックでメニューを閉じる
-    document.addEventListener('click', function(e) {
-      if (!dropdown.contains(e.target)) {
-        dropdown.classList.remove('active');
-      }
-    });
-    
-    // Escキーでメニューを閉じる
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && dropdown.classList.contains('active')) {
-        dropdown.classList.remove('active');
-        dropdownBtn.focus(); // フォーカスをボタンに戻す
-      }
-    });
-    
-    // メニュー項目クリック時にメニューを閉じる
-    const dropdownLinks = dropdown.querySelectorAll('.dropdown-item a');
-    dropdownLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        dropdown.classList.remove('active');
-      });
-    });
-    
-    // キーボード操作対応
-    dropdownBtn.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ' ') {
+    if (dropdownBtn) {
+      // ボタンクリックでメニュー切り替え
+      dropdownBtn.addEventListener('click', function(e) {
         e.preventDefault();
+        e.stopPropagation();
+        
+        // 他のドロップダウンを閉じる
+        dropdowns.forEach(function(otherDropdown) {
+          if (otherDropdown !== dropdown) {
+            otherDropdown.classList.remove('active');
+          }
+        });
+        
+        // 現在のドロップダウンを切り替え
         dropdown.classList.toggle('active');
-      } else if (e.key === 'ArrowDown' && dropdown.classList.contains('active')) {
-        e.preventDefault();
-        const firstLink = dropdown.querySelector('.dropdown-item a');
-        if (firstLink) firstLink.focus();
-      }
-    });
-    
-    // ドロップダウン内のキーボード操作
-    dropdownLinks.forEach((link, index) => {
-      link.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          e.preventDefault();
-          const nextLink = dropdownLinks[index + 1];
-          if (nextLink) {
-            nextLink.focus();
-          } else {
-            dropdownLinks[0].focus(); // 最初に戻る
-          }
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          e.preventDefault();
-          const prevLink = dropdownLinks[index - 1];
-          if (prevLink) {
-            prevLink.focus();
-          } else {
-            dropdownLinks[dropdownLinks.length - 1].focus(); // 最後に移動
-          }
-        } else if (e.key === 'Escape') {
+      });
+      
+      // メニュー項目クリック時にメニューを閉じる
+      const dropdownLinks = dropdown.querySelectorAll('.dropdown-item a');
+      dropdownLinks.forEach(link => {
+        link.addEventListener('click', function() {
           dropdown.classList.remove('active');
-          dropdownBtn.focus();
+        });
+      });
+      
+      // キーボード操作対応
+      dropdownBtn.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          
+          // 他のドロップダウンを閉じる
+          dropdowns.forEach(function(otherDropdown) {
+            if (otherDropdown !== dropdown) {
+              otherDropdown.classList.remove('active');
+            }
+          });
+          
+          dropdown.classList.toggle('active');
+        } else if (e.key === 'ArrowDown' && dropdown.classList.contains('active')) {
+          e.preventDefault();
+          const firstLink = dropdown.querySelector('.dropdown-item a');
+          if (firstLink) firstLink.focus();
         }
       });
+      
+      // ドロップダウン内のキーボード操作
+      dropdownLinks.forEach((link, index) => {
+        link.addEventListener('keydown', function(e) {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const nextLink = dropdownLinks[index + 1];
+            if (nextLink) {
+              nextLink.focus();
+            } else {
+              dropdownLinks[0].focus(); // 最初に戻る
+            }
+          } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prevLink = dropdownLinks[index - 1];
+            if (prevLink) {
+              prevLink.focus();
+            } else {
+              dropdownLinks[dropdownLinks.length - 1].focus(); // 最後に移動
+            }
+          } else if (e.key === 'Escape') {
+            dropdown.classList.remove('active');
+            dropdownBtn.focus();
+          }
+        });
+      });
+    }
+  });
+  
+  // 外部クリックで全てのメニューを閉じる
+  document.addEventListener('click', function(e) {
+    const clickedDropdown = e.target.closest('.dropdown');
+    dropdowns.forEach(function(dropdown) {
+      if (dropdown !== clickedDropdown) {
+        dropdown.classList.remove('active');
+      }
     });
-  }
+  });
+  
+  // Escキーで全てのメニューを閉じる
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      dropdowns.forEach(function(dropdown) {
+        if (dropdown.classList.contains('active')) {
+          dropdown.classList.remove('active');
+          const dropdownBtn = dropdown.querySelector('.dropdown-btn');
+          if (dropdownBtn) dropdownBtn.focus(); // フォーカスをボタンに戻す
+        }
+      });
+    }
+  });
   
   // 質問カードの交互作用機能
   const questionCards = document.querySelectorAll('.question-card');
