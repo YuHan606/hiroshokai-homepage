@@ -206,7 +206,7 @@
       position: absolute;
       top: 100%;
       left: -100%;
-      width: calc(500% + 3px);
+      width: calc(400% + 3px);
       background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(240,248,255,0.98) 100%);
       backdrop-filter: blur(20px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.15);
@@ -579,10 +579,7 @@
         <div class="dropdown-menu">
           <div class="dropdown-content">
             <div class="dropdown-item">
-              <a href="ginou.html">技能実習</a>
-            </div>
-            <div class="dropdown-item">
-              <a href="tokutei.html">特定技能</a>
+              <a href="overview.html">監理団体</a>
             </div>
             <div class="dropdown-item">
               <a href="sending.html">送り出し紹介</a>
@@ -598,6 +595,25 @@
       </li>
       <li><a href="ukeire.html">外国人受け入れ</a></li>
       <li><a href="jinzai.html">人材情報を見る</a></li>
+      
+      <li class="dropdown">
+        <button class="dropdown-btn" type="button">外国人雇用を知る</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-content">
+            
+            <div class="dropdown-item">
+              <a href="ginou.html">技能実習</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="tokutei.html">特定技能</a>
+            </div>
+            <div class="dropdown-item">
+              <a href="qa.html">雇用Q＆A一覧</a>
+            </div>
+          </div>
+        </div>
+      </li>
+
       <li><a href="contact.html">お問い合わせ</a></li>
     </ul>
   </nav>
@@ -741,14 +757,35 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // 検索機能
+  // 搜索功能
   const searchInput = document.getElementById('searchInput');
   const searchBtn = document.getElementById('searchBtn');
   
   function performSearch() {
     const query = searchInput.value.trim();
     if (query) {
-      alert(`"${query}" の検索結果を表示します。\n（実際の実装では検索結果ページに遷移します）`);
+      // 根据关键词跳转到不同页面
+      if (query.includes('技能実習') || query.includes('技能')) {
+        window.location.href = 'ginou.html';
+      } else if (query.includes('特定技能') || query.includes('特定')) {
+        window.location.href = 'tokutei.html';
+      } else if (query.includes('Q&A') || query.includes('質問') || query.includes('qa')) {
+        window.location.href = 'qa.html';
+      } else if (query.includes('送り出し') || query.includes('おくりだし') || query.includes('送り')) {
+        window.location.href = 'sending.html';
+      } else if (query.includes('training') || query.includes('研修') || query.includes('研修機関')) {
+        window.location.href = 'training.html';  
+      } else if (query.includes('見積サービス') || query.includes('見積') || query.includes('みつもり')) {
+        window.location.href = 'mitumori.html';   
+      } else if (query.includes('監理') || query.includes('かんり') || query.includes('監理団体')) {
+        window.location.href = 'overview.html';   
+      
+      } else {
+        // 默认跳转到contact.html
+        window.location.href = 'contact.html';
+      }  
+    } else {
+      alert('検索キーワードを入力してください');
     }
   }
   
@@ -763,62 +800,93 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // ドロップダウンメニュー機能
-  const dropdown = document.querySelector('.dropdown');
-  const dropdownBtn = document.querySelector('.dropdown-btn');
+  // 下拉菜单功能
+  const dropdowns = document.querySelectorAll('.dropdown');
   
-  if (dropdown && dropdownBtn) {
-    dropdownBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      dropdown.classList.toggle('active');
-    });
+  dropdowns.forEach(dropdown => {
+    const dropdownBtn = dropdown.querySelector('.dropdown-btn');
     
-    document.addEventListener('click', function(e) {
+    if (dropdown && dropdownBtn) {
+      dropdownBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // 关闭其他下拉菜单
+        dropdowns.forEach(otherDropdown => {
+          if (otherDropdown !== dropdown) {
+            otherDropdown.classList.remove('active');
+          }
+        });
+        
+        dropdown.classList.toggle('active');
+      });
+      
+      const dropdownLinks = dropdown.querySelectorAll('.dropdown-item a');
+      dropdownLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          dropdown.classList.remove('active');
+        });
+      });
+      
+      dropdownBtn.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          dropdown.classList.toggle('active');
+        } else if (e.key === 'ArrowDown' && dropdown.classList.contains('active')) {
+          e.preventDefault();
+          const firstLink = dropdown.querySelector('.dropdown-item a');
+          if (firstLink) firstLink.focus();
+        }
+      });
+      
+      dropdownLinks.forEach((link, index) => {
+        link.addEventListener('keydown', function(e) {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const nextLink = dropdownLinks[index + 1];
+            if (nextLink) {
+              nextLink.focus();
+            } else {
+              dropdownLinks[0].focus();
+            }
+          } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prevLink = dropdownLinks[index - 1];
+            if (prevLink) {
+              prevLink.focus();
+            } else {
+              dropdownLinks[dropdownLinks.length - 1].focus();
+            }
+          } else if (e.key === 'Escape') {
+            dropdown.classList.remove('active');
+            dropdownBtn.focus();
+          }
+        });
+      });
+    }
+  });
+  
+  
+  // 点击页面其他地方关闭所有下拉菜单
+  document.addEventListener('click', function(e) {
+    dropdowns.forEach(dropdown => {
       if (!dropdown.contains(e.target)) {
         dropdown.classList.remove('active');
       }
     });
-    
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && dropdown.classList.contains('active')) {
-        dropdown.classList.remove('active');
-        dropdownBtn.focus();
-      }
-    });
-    
-    const dropdownLinks = dropdown.querySelectorAll('.dropdown-item a');
-    dropdownLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        dropdown.classList.remove('active');
-      });
-    });
-    
-    dropdownLinks.forEach((link, index) => {
-      link.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          e.preventDefault();
-          const nextLink = dropdownLinks[index + 1];
-          if (nextLink) {
-            nextLink.focus();
-          } else {
-            dropdownLinks[0].focus();
-          }
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          e.preventDefault();
-          const prevLink = dropdownLinks[index - 1];
-          if (prevLink) {
-            prevLink.focus();
-          } else {
-            dropdownLinks[dropdownLinks.length - 1].focus();
-          }
-        } else if (e.key === 'Escape') {
+  });
+  
+  // ESC键关闭所有下拉菜单
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      dropdowns.forEach(dropdown => {
+        if (dropdown.classList.contains('active')) {
           dropdown.classList.remove('active');
-          dropdownBtn.focus();
+          dropdown.querySelector('.dropdown-btn').focus();
         }
       });
-    });
-  }
+    }
+  });
   
   // スムーズスクロール効果とアニメーション
   const flowSteps = document.querySelectorAll('.flow-step');
