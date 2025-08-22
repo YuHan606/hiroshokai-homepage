@@ -1069,7 +1069,19 @@ document.addEventListener('DOMContentLoaded', function() {
   function performSearch() {
     const query = searchInput.value.trim();
     if (query) {
-      alert(`"${query}" の検索結果を表示します。\n（実際の実装では検索結果ページに遷移します）`);
+      // 根据关键词跳转到不同页面
+      if (query.includes('技能実習') || query.includes('技能')) {
+        window.location.href = 'ginou.html';
+      } else if (query.includes('特定技能') || query.includes('特定')) {
+        window.location.href = 'tokutei.html';
+      } else if (query.includes('Q&A') || query.includes('質問') || query.includes('qa')) {
+        window.location.href = 'qa.html';
+      } else {
+        // 默认跳转到qa.html
+        window.location.href = 'qa.html';
+      }  
+    } else {
+      alert('検索キーワードを入力してください');
     }
   }
   
