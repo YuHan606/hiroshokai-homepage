@@ -1582,11 +1582,15 @@ const itemsPerPage = 6;
 // 获取可见的卡片
 function getVisibleCards() {
   const cards = document.querySelectorAll('.jinzai-card');
-  return Array.from(cards).filter(card => {
-    // 检查卡片是否通过筛选条件（不是被分页隐藏）
-    // 如果卡片有 data-filtered="hidden" 属性，说明被筛选隐藏了
-    return !card.hasAttribute('data-filtered') || card.getAttribute('data-filtered') !== 'hidden';
+  const visibleCards = Array.from(cards).filter(card => {
+    const isVisible = !card.hasAttribute('data-filtered') || card.getAttribute('data-filtered') !== 'hidden';
+    if (isVisible) {
+      console.log(`可见卡片: ${card.getAttribute('data-name')}`);
+    }
+    return isVisible;
   });
+  console.log(`总可见卡片数: ${visibleCards.length}`);
+  return visibleCards;
 }
 
 // 显示当前页的卡片
@@ -1597,12 +1601,13 @@ function displayCurrentPage() {
   
   console.log(`显示第${currentPage}页: 总卡片${visibleCards.length}, 开始索引${startIndex}, 结束索引${endIndex}`);
   
-  // 先隐藏所有符合筛选条件的卡片
-  visibleCards.forEach(card => {
+  // 先隐藏所有卡片（不管是否被筛选）
+  const allCards = document.querySelectorAll('.jinzai-card');
+  allCards.forEach(card => {
     card.style.display = 'none';
   });
   
-  // 显示当前页的卡片
+  // 显示当前页的符合筛选条件的卡片
   for (let i = startIndex; i < endIndex && i < visibleCards.length; i++) {
     if (visibleCards[i]) {
       visibleCards[i].style.display = 'block';
@@ -1742,11 +1747,14 @@ function initializePagination() {
 function filterCandidates() {
   console.log('开始筛选候选人...');
   
-  const nationalityValue = (document.getElementById('nationality-filter')?.value || '').toLowerCase();
-  const jobValue = (document.getElementById('job-filter')?.value || '').toLowerCase();
-  const japaneseValue = (document.getElementById('japanese-filter')?.value || '').toLowerCase();
-  const ageValue = document.getElementById('age-filter')?.value || '';
+  // 获取筛选值并去除首尾空格
+  const nationalityValue = document.getElementById('nationality-filter')?.value.trim() || '';
+  const jobValue = document.getElementById('job-filter')?.value.trim() || '';
+  const japaneseValue = document.getElementById('japanese-filter')?.value.trim() || '';
+  const ageValue = document.getElementById('age-filter')?.value.trim() || '';
   const searchValue = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
+
+  console.log('筛选条件:', { nationalityValue, jobValue, japaneseValue, ageValue, searchValue });
 
   const cards = document.querySelectorAll('.jinzai-card');
   let visibleCount = 0;
@@ -1755,28 +1763,42 @@ function filterCandidates() {
   cards.forEach(card => {
     let shouldShow = true;
 
-    // 获取卡片数据
-    const nationality = (card.getAttribute('data-nationality') || '').toLowerCase();
-    const job = (card.getAttribute('data-job') || '').toLowerCase();
-    const japanese = (card.getAttribute('data-japanese') || '').toLowerCase();
+    // 获取卡片数据并去除首尾空格
+    const nationality = (card.getAttribute('data-nationality') || '').trim();
+    const job = (card.getAttribute('data-job') || '').trim();
+    const japanese = (card.getAttribute('data-japanese') || '').trim();
     const age = parseInt(card.getAttribute('data-age') || '0');
-    const name = (card.getAttribute('data-name') || '').toLowerCase();
-    const cardText = card.textContent.toLowerCase();
+    const name = (card.getAttribute('data-name') || '').toLowerCase().trim();
 
-    // 检查各项筛选条件
-    if (nationalityValue && !nationality.includes(nationalityValue)) shouldShow = false;
-    if (jobValue && !job.includes(jobValue)) shouldShow = false;
-    if (japaneseValue && !japanese.includes(japaneseValue)) shouldShow = false;
+    console.log(`检查卡片: ${name}, 国籍:"${nationality}", 职种:"${job}", 日语:"${japanese}"`);
+
+    // 精确匹配检查
+    if (nationalityValue && nationality !== nationalityValue) {
+      console.log(`国籍不匹配: "${nationality}" !== "${nationalityValue}"`);
+      shouldShow = false;
+    }
+    if (jobValue && job !== jobValue) {
+      console.log(`职种不匹配: "${job}" !== "${jobValue}"`);
+      shouldShow = false;
+    }
+    if (japaneseValue && japanese !== japaneseValue) {
+      console.log(`日语不匹配: "${japanese}" !== "${japaneseValue}"`);
+      shouldShow = false;
+    }
     
     if (ageValue) {
       const [minAge, maxAge] = ageValue.split('-').map(a => parseInt(a));
-      if (age < minAge || age > maxAge) shouldShow = false;
+      if (age < minAge || age > maxAge) {
+        console.log(`年龄不匹配: ${age} not in ${minAge}-${maxAge}`);
+        shouldShow = false;
+      }
     }
     
     if (searchValue) {
+      const cardText = card.textContent.toLowerCase();
       if (!name.includes(searchValue) && 
-          !nationality.includes(searchValue) && 
-          !job.includes(searchValue) &&
+          !nationality.toLowerCase().includes(searchValue) && 
+          !job.toLowerCase().includes(searchValue) &&
           !cardText.includes(searchValue)) {
         shouldShow = false;
       }
@@ -1786,6 +1808,7 @@ function filterCandidates() {
     if (shouldShow) {
       card.removeAttribute('data-filtered');
       visibleCount++;
+      console.log(`显示卡片: ${name}`);
       
       const badge = card.querySelector('.availability-badge');
       if (badge && badge.textContent.includes('就職可能')) {
@@ -1793,8 +1816,11 @@ function filterCandidates() {
       }
     } else {
       card.setAttribute('data-filtered', 'hidden');
+      console.log(`隐藏卡片: ${name}`);
     }
   });
+
+  // 其余代码保持不变...
 
   // 更新统计数据
   const totalCountEl = document.getElementById('total-count');
