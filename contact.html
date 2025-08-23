@@ -163,7 +163,6 @@
        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
      }
 
-
     .dropdown {
       position: relative;
     }
@@ -465,6 +464,44 @@
       font-weight: bold;
     }
 
+    .service-notice {
+      background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+      border: 1px solid #191970;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 30px 0;
+      text-align: center;
+    }
+
+    .service-notice h4 {
+      color: #191970;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .service-notice p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .debug-info {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 20px 0;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #495057;
+    }
+
+    .debug-info h4 {
+      color: #dc3545;
+      margin-bottom: 10px;
+      font-family: Arial, sans-serif;
+    }
+
     footer {
       text-align: center;
       padding: 40px 20px;
@@ -549,7 +586,6 @@
         <button class="dropdown-btn" type="button">外国人雇用を知る</button>
         <div class="dropdown-menu">
           <div class="dropdown-content">
-            
             <div class="dropdown-item">
               <a href="ginou.html">技能実習</a>
             </div>
@@ -574,7 +610,18 @@
     <p class="subtitle">特定技能外国人の雇用をお考えなら、まずはお問い合わせください！<br>
     お客様のご質問やご相談に、専門スタッフが丁寧にお答えいたします。</p>
     
-    <div class="contact-form">
+    <div class="service-notice">
+      <h4>📧 メール送信サービス</h4>
+      <p>このフォームからお送りいただいた内容は、EmailJSサービスを通じて直接担当者のメールアドレスに送信されます。<br>
+      お客様の個人情報は安全に保護されています。</p>
+    </div>
+
+    <div class="debug-info">
+      <h4>🐛 デバッグ情報</h4>
+      <div id="debugLog">EmailJSの初期化を確認中...</div>
+    </div>
+    
+    <form id="contactForm" class="contact-form">
       <div class="form-group">
         <label for="name">お名前 *</label>
         <input type="text" id="name" name="name" placeholder="山田 太郎" required>
@@ -600,15 +647,15 @@
         <textarea id="message" name="message" placeholder="特定技能外国人の雇用について詳しく知りたいです。どのような手続きが必要でしょうか？" required></textarea>
       </div>
       
-      <button type="submit" class="submit-btn" onclick="handleSubmit(event)">
+      <button type="submit" class="submit-btn" id="submitBtn">
         送信する
       </button>
-    </div>
+    </form>
 
     <div class="contact-info">
       <h3>その他のお問い合わせ方法</h3>
       <p><span class="icon">📞</span> 電話: 03-1234-5678</p>
-      <p><span class="icon">📧</span> メール: info@hiroshikai.or.jp</p>
+      <p><span class="icon">📧</span> メール: reirei.ou@outlook.jp</p>
       <p><span class="icon">🕒</span> 受付時間: 平日 9:00-18:00</p>
     </div>
   </div>
@@ -618,8 +665,45 @@
   <p>&copy; 2025 広昌会協同組合 - あなたの国際人材パートナー</p>
 </footer>
 
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  const debugLog = document.getElementById('debugLog');
+  
+  function addDebugLog(message, type = 'info') {
+    const timestamp = new Date().toLocaleTimeString();
+    const logEntry = `[${timestamp}] ${message}`;
+    console.log(logEntry);
+    debugLog.innerHTML += `<div style="color: ${type === 'error' ? 'red' : type === 'success' ? 'green' : 'blue'}">${logEntry}</div>`;
+    debugLog.scrollTop = debugLog.scrollHeight;
+  }
+  
+  // 检查EmailJS是否加载
+  if (typeof emailjs === 'undefined') {
+    addDebugLog('❌ EmailJS library not loaded', 'error');
+    return;
+  }
+  
+  addDebugLog('✅ EmailJS library loaded successfully');
+  
+  // 初始化EmailJS - 请替换为你的Public Key
+  const publicKey = "G5-OSySdEYtSnWLKX"; // 你的Public Key
+  const serviceId = "service_24fa3sc"; // 你的Service ID
+  const templateId = "template_yp3a0ac"; // 你的Template ID
+  
+  addDebugLog(`初始化EmailJS with Public Key: ${publicKey}`);
+  addDebugLog(`Service ID: ${serviceId}`);
+  addDebugLog(`Template ID: ${templateId}`);
+  
+  try {
+    emailjs.init(publicKey);
+    addDebugLog('✅ EmailJS initialized successfully');
+  } catch (error) {
+    addDebugLog(`❌ EmailJS initialization failed: ${error.message}`, 'error');
+  }
+  
   // 搜索功能
   const searchInput = document.getElementById('searchInput');
   const searchBtn = document.getElementById('searchBtn');
@@ -627,7 +711,6 @@ document.addEventListener('DOMContentLoaded', function() {
   function performSearch() {
     const query = searchInput.value.trim();
     if (query) {
-      // 根据关键词跳转到不同页面
       if (query.includes('技能実習') || query.includes('技能')) {
         window.location.href = 'ginou.html';
       } else if (query.includes('特定技能') || query.includes('特定')) {
@@ -642,9 +725,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'mitumori.html';   
       } else if (query.includes('監理') || query.includes('かんり') || query.includes('監理団体')) {
         window.location.href = 'overview.html';   
-      
       } else {
-        // 默认跳转到contact.html
         window.location.href = 'contact.html';
       }  
     } else {
@@ -674,7 +755,6 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         e.stopPropagation();
         
-        // 关闭其他下拉菜单
         dropdowns.forEach(otherDropdown => {
           if (otherDropdown !== dropdown) {
             otherDropdown.classList.remove('active');
@@ -729,7 +809,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  
   // 点击页面其他地方关闭所有下拉菜单
   document.addEventListener('click', function(e) {
     dropdowns.forEach(dropdown => {
@@ -750,50 +829,123 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   });
-});
 
-  function handleSubmit(event) {
+  // 表单提交处理
+  const contactForm = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  
+  contactForm.addEventListener('submit', function(event) {
     event.preventDefault();
     
-    // 简单的表单验证
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const message = document.getElementById('message').value;
     
     if (!name || !email || !message) {
+      addDebugLog('❌ 必須項目が未入力です', 'error');
       alert('必須項目を入力してください。');
       return;
     }
     
-    // 成功动画
-    const btn = event.target;
-    btn.innerHTML = '送信中...';
-    btn.style.background = 'linear-gradient(135deg, #4ecdc4, #45b7d1)';
+    addDebugLog('📝 フォーム入力値を確認中...');
+    addDebugLog(`名前: ${name}`);
+    addDebugLog(`メール: ${email}`);
+    addDebugLog(`メッセージ: ${message.substring(0, 50)}...`);
     
-    setTimeout(() => {
-      btn.innerHTML = '送信完了！';
-      btn.style.background = 'linear-gradient(135deg, #55a3ff, #003d82)';
-      
-      setTimeout(() => {
-        alert('お問い合わせありがとうございます。\n24時間以内にご返信いたします。');
-        btn.innerHTML = '送信する';
-        btn.style.background = 'linear-gradient(135deg, #191970 0%, #191970 100%)';
-      }, 1500);
-    }, 2000);
-  }
-  
-  // 页面加载动画
-  window.addEventListener('load', () => {
-    const container = document.querySelector('.contact-container');
-    container.style.opacity = '0';
-    container.style.transform = 'translateY(30px)';
+    // 送信ボタンの状態変更
+    submitBtn.innerHTML = '送信中...';
+    submitBtn.style.background = 'linear-gradient(135deg, #4ecdc4, #45b7d1)';
+    submitBtn.disabled = true;
     
-    setTimeout(() => {
-      container.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-      container.style.opacity = '1';
-      container.style.transform = 'translateY(0)';
-    }, 100);
+    addDebugLog('📤 メール送信を開始...');
+    
+    // テンプレートパラメータの準備
+    const templateParams = {
+      to_email: 'reirei.ou@outlook.jp',
+      from_name: name,
+      from_email: email,
+      company: document.getElementById('company').value || '未記入',
+      phone: document.getElementById('phone').value || '未記入',
+      message: message,
+      reply_to: email
+    };
+    
+    addDebugLog('📋 テンプレートパラメータ:');
+    addDebugLog(JSON.stringify(templateParams, null, 2));
+    
+    // EmailJS送信
+    emailjs.send(serviceId, templateId, templateParams)
+      .then(function(response) {
+        addDebugLog('✅ メール送信成功!', 'success');
+        addDebugLog(`Response Status: ${response.status}`, 'success');
+        addDebugLog(`Response Text: ${response.text}`, 'success');
+        
+        submitBtn.innerHTML = '送信完了！';
+        submitBtn.style.background = 'linear-gradient(135deg, #55a3ff, #003d82)';
+        
+        setTimeout(() => {
+          alert('お問い合わせありがとうございます。\nメールが正常に送信されました。24時間以内にご返信いたします。');
+          contactForm.reset();
+          submitBtn.innerHTML = '送信する';
+          submitBtn.style.background = 'linear-gradient(135deg, #191970 0%, #191970 100%)';
+          submitBtn.disabled = false;
+          addDebugLog('🔄 フォームをリセットしました', 'success');
+        }, 1500);
+        
+      })
+      .catch(function(error) {
+        addDebugLog('❌ メール送信失敗', 'error');
+        addDebugLog(`Error: ${JSON.stringify(error)}`, 'error');
+        
+        submitBtn.innerHTML = '送信失敗';
+        submitBtn.style.background = 'linear-gradient(135deg, #ff6b6b, #ee5a24)';
+        
+        setTimeout(() => {
+          let errorMessage = '申し訳ございません。送信に失敗しました。\n\n';
+          
+          // エラーの詳細に応じたメッセージ
+          if (error.status === 403 || error.text?.includes('403')) {
+            errorMessage += '原因: アクセスが拒否されました。EmailJSの設定を確認してください。\n';
+            errorMessage += '- Public Keyが正しいか確認\n';
+            errorMessage += '- Service IDが正しいか確認\n';
+            errorMessage += '- Template IDが正しいか確認\n';
+            errorMessage += '- EmailJSダッシュボードでサービスが有効になっているか確認\n\n';
+          } else if (error.status === 400) {
+            errorMessage += '原因: リクエストに問題があります。テンプレートの設定を確認してください。\n\n';
+          } else {
+            errorMessage += `エラーコード: ${error.status}\n`;
+            errorMessage += `エラー内容: ${error.text}\n\n`;
+          }
+          
+          errorMessage += '直接メール（reirei.ou@outlook.jp）にお問い合わせいただくか、しばらく後に再度お試しください。';
+          
+          alert(errorMessage);
+          submitBtn.innerHTML = '送信する';
+          submitBtn.style.background = 'linear-gradient(135deg, #191970 0%, #191970 100%)';
+          submitBtn.disabled = false;
+        }, 2000);
+      });
   });
+  
+  // 初期化完了の確認
+  setTimeout(() => {
+    addDebugLog('🔍 EmailJS設定の最終確認...');
+    addDebugLog('すべての設定が完了しました。フォームの送信テストを行ってください。');
+  }, 1000);
+});
+  
+// 页面加载动画
+window.addEventListener('load', () => {
+  const container = document.querySelector('.contact-container');
+  container.style.opacity = '0';
+  container.style.transform = 'translateY(30px)';
+  
+  setTimeout(() => {
+    container.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+    container.style.opacity = '1';
+    container.style.transform = 'translateY(0)';
+  }, 100);
+});
 </script>
 </body>
 </html>
