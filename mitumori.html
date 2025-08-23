@@ -504,6 +504,13 @@
       background: linear-gradient(135deg, #667eea, #764ba2);
     }
 
+    .submit-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
     /* プロセス説明部分 */
     .process-section {
       margin: 60px 0;
@@ -610,6 +617,50 @@
       background: #191970;
       color: white;
       margin-top: 40px;
+    }
+
+    /* 成功消息样式 */
+    .success-message {
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px auto;
+      max-width: 600px;
+      text-align: center;
+      font-size: 1.1rem;
+      box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+      display: none;
+    }
+
+    .error-message {
+      background: linear-gradient(135deg, #f44336, #d32f2f);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px auto;
+      max-width: 600px;
+      text-align: center;
+      font-size: 1.1rem;
+      box-shadow: 0 10px 25px rgba(244, 67, 54, 0.3);
+      display: none;
+    }
+
+    /* Loading spinner */
+    .loading-spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #191970;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     /* 响应式设计 */
@@ -811,6 +862,18 @@
         <strong>※印の項目は必須項目です。</strong>
       </p>
 
+      <!-- 成功・エラーメッセージ -->
+      <div id="successMessage" class="success-message">
+        <h3>お申し込みありがとうございます！</h3>
+        <p>2営業日以内に各専門機関からの見積りをメールにてお送りいたします。</p>
+      </div>
+
+      <div id="errorMessage" class="error-message">
+        <h3>送信エラー</h3>
+        <p id="errorText">申し訳ございません。送信に失敗しました。しばらくしてから再度お試しください。</p>
+      </div>
+
+      <!-- フォーム本体 -->
       <div class="estimate-form" id="estimateForm">
         <div class="form-group">
           <label for="companyName">会社名 <span style="color: red;">※</span></label>
@@ -1008,7 +1071,13 @@
           <textarea id="requirements" name="requirements" placeholder="具体的なご要望や質問がございましたら、こちらにご記入ください。"></textarea>
         </div>
 
-        <button type="submit" class="submit-btn" onclick="submitForm()">無料見積りを依頼する</button>
+        <!-- ハニーポット（スパム対策） -->
+        <input type="text" id="_gotcha" style="display:none !important">
+
+        <button type="button" class="submit-btn" id="submitBtn" onclick="sendEmail()">
+          <span id="submitText">無料見積りを依頼する</span>
+          <span id="loadingSpinner" class="loading-spinner" style="display: none;"></span>
+        </button>
       </div>
     </div>
 
@@ -1028,8 +1097,25 @@
   <p>&copy; 2025 広昌会協同組合</p>
 </footer>
 
+<!-- EmailJS Script -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // EmailJS 配置 - 使用与contact.html相同的配置
+  const publicKey = "G5-OSySdEYtSnWLKX";
+  const serviceId = "service_24fa3sc"; 
+  const templateId = "template_yp3a0ac"; // 你可能需要创建新的模板用于见积表单
+  
+  // 初始化EmailJS
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init(publicKey);
+    console.log('✅ EmailJS initialized for estimate form');
+  } else {
+    console.error('❌ EmailJS library not loaded');
+    return;
+  }
+
   // 搜索功能
   const searchInput = document.getElementById('searchInput');
   const searchBtn = document.getElementById('searchBtn');
@@ -1037,7 +1123,6 @@ document.addEventListener('DOMContentLoaded', function() {
   function performSearch() {
     const query = searchInput.value.trim();
     if (query) {
-      // 根据关键词跳转到不同页面
       if (query.includes('技能実習') || query.includes('技能')) {
         window.location.href = 'ginou.html';
       } else if (query.includes('特定技能') || query.includes('特定')) {
@@ -1052,9 +1137,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'mitumori.html';   
       } else if (query.includes('監理') || query.includes('かんり') || query.includes('監理団体')) {
         window.location.href = 'overview.html';   
-      
       } else {
-        // 默认跳转到contact.html
         window.location.href = 'contact.html';
       }  
     } else {
@@ -1064,7 +1147,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (searchBtn && searchInput) {
     searchBtn.addEventListener('click', performSearch);
-    
     searchInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -1072,7 +1154,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  
+
   // 下拉菜单功能
   const dropdowns = document.querySelectorAll('.dropdown');
   
@@ -1084,7 +1166,6 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         e.stopPropagation();
         
-        // 关闭其他下拉菜单
         dropdowns.forEach(otherDropdown => {
           if (otherDropdown !== dropdown) {
             otherDropdown.classList.remove('active');
@@ -1100,105 +1181,257 @@ document.addEventListener('DOMContentLoaded', function() {
           dropdown.classList.remove('active');
         });
       });
-      
-      dropdownBtn.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          dropdown.classList.toggle('active');
-        } else if (e.key === 'ArrowDown' && dropdown.classList.contains('active')) {
-          e.preventDefault();
-          const firstLink = dropdown.querySelector('.dropdown-item a');
-          if (firstLink) firstLink.focus();
-        }
-      });
-      
-      dropdownLinks.forEach((link, index) => {
-        link.addEventListener('keydown', function(e) {
-          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-            e.preventDefault();
-            const nextLink = dropdownLinks[index + 1];
-            if (nextLink) {
-              nextLink.focus();
-            } else {
-              dropdownLinks[0].focus();
-            }
-          } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-            e.preventDefault();
-            const prevLink = dropdownLinks[index - 1];
-            if (prevLink) {
-              prevLink.focus();
-            } else {
-              dropdownLinks[dropdownLinks.length - 1].focus();
-            }
-          } else if (e.key === 'Escape') {
-            dropdown.classList.remove('active');
-            dropdownBtn.focus();
-          }
-        });
-      });
     }
   });
 
-  // 复选框互斥逻辑（对于"どちらも検討"选项）
+  // 点击外部区域关闭下拉菜单
+  document.addEventListener('click', function(e) {
+    dropdowns.forEach(dropdown => {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
+  });
+
+  // 复选框互斥逻辑
   const visaCheckboxes = document.querySelectorAll('input[name="visaType"]');
   const bothCheckbox = document.getElementById('both');
   
   visaCheckboxes.forEach(checkbox => {
     checkbox.addEventListener('change', function() {
       if (this === bothCheckbox && this.checked) {
-        // 如果选择了"どちらも検討"，取消其他选项
         visaCheckboxes.forEach(cb => {
           if (cb !== bothCheckbox) cb.checked = false;
         });
       } else if (this !== bothCheckbox && this.checked) {
-        // 如果选择了其他选项，取消"どちらも検討"
         bothCheckbox.checked = false;
       }
     });
   });
-});
 
-// 表单提交功能
-function submitForm() {
-  const form = document.getElementById('estimateForm');
-  const formData = new FormData(form);
-  
-  // 基本验证
-  const requiredFields = ['companyName', 'contactName', 'contactPhone', 'contactEmail', 'prefecture', 'industry'];
-  const missingFields = [];
-  
-  requiredFields.forEach(field => {
-    const value = formData.get(field);
-    if (!value || value.trim() === '') {
-      missingFields.push(field);
+  // 表单验证函数
+  function validateForm() {
+    const errors = [];
+    
+    const companyName = document.getElementById('companyName').value.trim();
+    if (!companyName) {
+      errors.push('会社名を入力してください');
     }
-  });
-  
-  // 检查visa type
-  const visaTypes = formData.getAll('visaType');
-  if (visaTypes.length === 0) {
-    missingFields.push('visaType');
+    
+    const contactName = document.getElementById('contactName').value.trim();
+    if (!contactName) {
+      errors.push('ご担当者名を入力してください');
+    }
+    
+    const contactPhone = document.getElementById('contactPhone').value.trim();
+    if (!contactPhone) {
+      errors.push('電話番号を入力してください');
+    } else {
+      const phoneRegex = /^[\d\-\+\(\)\s]{8,}$/;
+      if (!phoneRegex.test(contactPhone)) {
+        errors.push('電話番号の形式が正しくありません');
+      }
+    }
+    
+    const contactEmail = document.getElementById('contactEmail').value.trim();
+    if (!contactEmail) {
+      errors.push('メールアドレスを入力してください');
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(contactEmail)) {
+        errors.push('メールアドレスの形式が正しくありません');
+      }
+    }
+    
+    const prefecture = document.getElementById('prefecture').value;
+    if (!prefecture) {
+      errors.push('都道府県を選択してください');
+    }
+    
+    const industry = document.getElementById('industry').value;
+    if (!industry) {
+      errors.push('業種を選択してください');
+    }
+    
+    const visaTypes = document.querySelectorAll('input[name="visaType"]:checked');
+    if (visaTypes.length === 0) {
+      errors.push('ご希望のビザ種別を選択してください');
+    }
+    
+    return errors;
   }
-  
-  if (missingFields.length > 0) {
-    alert('必須項目が入力されていません。赤字の項目をご確認ください。');
-    return;
+
+  // 显示错误消息
+  function showErrorMessage(errors) {
+    const errorText = document.getElementById('errorText');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+    
+    if (!errorText || !errorMessage) {
+      alert('エラー: ' + errors.join('、'));
+      return;
+    }
+    
+    if (Array.isArray(errors)) {
+      errorText.innerHTML = `<strong>以下の項目を確認してください：</strong><br>• ${errors.join('<br>• ')}`;
+    } else {
+      errorText.textContent = errors;
+    }
+    
+    errorMessage.style.display = 'block';
+    successMessage.style.display = 'none';
+    errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    setTimeout(() => {
+      errorMessage.style.display = 'none';
+    }, 8000);
   }
-  
-  // 邮箱格式验证
-  const email = formData.get('contactEmail');
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert('メールアドレスの形式が正しくありません。');
-    return;
+
+  // 显示成功消息
+  function showSuccessMessage() {
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    
+    successMessage.style.display = 'block';
+    errorMessage.style.display = 'none';
+    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    setTimeout(() => {
+      successMessage.style.display = 'none';
+    }, 5000);
   }
-  
-  // 模拟表单提交
-  alert('お申し込みありがとうございます。\n2営業日以内に見積り結果をメールにてお送りいたします。\n\n※実際の実装では、ここで実際のフォーム送信処理を行います。');
-  
-  // 重置表单（可选）
-  // form.reset();
-}
+
+  // 设置加载状态
+  function setLoading(loading) {
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    
+    if (loading) {
+      submitBtn.disabled = true;
+      submitText.style.display = 'none';
+      loadingSpinner.style.display = 'inline-block';
+      submitBtn.style.cursor = 'not-allowed';
+    } else {
+      submitBtn.disabled = false;
+      submitText.style.display = 'inline';
+      loadingSpinner.style.display = 'none';
+      submitBtn.style.cursor = 'pointer';
+    }
+  }
+
+  // 清空表单
+  function clearForm() {
+    document.getElementById('companyName').value = '';
+    document.getElementById('contactName').value = '';
+    document.getElementById('contactPhone').value = '';
+    document.getElementById('contactEmail').value = '';
+    document.getElementById('prefecture').value = '';
+    document.getElementById('industry').value = '';
+    document.getElementById('employeeCount').value = '';
+    document.getElementById('foreignWorkerCount').value = '';
+    document.getElementById('timeline').value = '';
+    document.getElementById('requirements').value = '';
+    
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('input[type="radio"]').forEach(rb => rb.checked = false);
+  }
+
+  // 获取表单数据
+  function getFormData() {
+    const visaTypes = [];
+    document.querySelectorAll('input[name="visaType"]:checked').forEach(cb => {
+      visaTypes.push(cb.value);
+    });
+    
+    const nationalities = [];
+    document.querySelectorAll('input[name="nationality"]:checked').forEach(cb => {
+      nationalities.push(cb.value);
+    });
+    
+    const experienceElement = document.querySelector('input[name="experience"]:checked');
+    const experience = experienceElement ? experienceElement.value : '';
+    
+    const submittedAt = new Date().toLocaleString('ja-JP', {
+      timeZone: 'Asia/Tokyo',
+      year: 'numeric',
+      month: '2-digit', 
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
+    return {
+      to_email: 'reirei.ou@outlook.jp',
+      from_name: document.getElementById('contactName').value.trim(),
+      from_email: document.getElementById('contactEmail').value.trim(),
+      company_name: document.getElementById('companyName').value.trim(),
+      contact_phone: document.getElementById('contactPhone').value.trim(),
+      prefecture: document.getElementById('prefecture').value,
+      industry: document.getElementById('industry').value,
+      visa_types: visaTypes.length > 0 ? visaTypes.join('、') : '未選択',
+      employee_count: document.getElementById('employeeCount').value || '未選択',
+      foreign_worker_count: document.getElementById('foreignWorkerCount').value || '未選択',
+      nationalities: nationalities.length > 0 ? nationalities.join('、') : '未選択',
+      timeline: document.getElementById('timeline').value || '未選択',
+      experience: experience || '未選択',
+      requirements: document.getElementById('requirements').value.trim() || 'なし',
+      submitted_at: submittedAt,
+      subject: `【一括見積依頼】${document.getElementById('companyName').value.trim()}様より（${submittedAt}）`,
+      reply_to: document.getElementById('contactEmail').value.trim()
+    };
+  }
+
+  // 邮件发送函数 - 全局函数
+  window.sendEmail = async function() {
+    // 垃圾邮件检查
+    const honeypot = document.getElementById('_gotcha').value;
+    if (honeypot) {
+      console.log('スパムを検出しました');
+      return;
+    }
+
+    // 表单验证
+    const errors = validateForm();
+    if (errors.length > 0) {
+      showErrorMessage(errors);
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const formData = getFormData();
+      console.log('📤 見積依頼メール送信開始...');
+      console.log('送信データ:', formData);
+
+      const response = await emailjs.send(serviceId, templateId, formData);
+      
+      console.log('✅ 見積依頼メール送信成功!', response.status, response.text);
+      showSuccessMessage();
+      clearForm();
+      
+    } catch (error) {
+      console.error('❌ 見積依頼メール送信失敗', error);
+      let errorMessage = '申し訳ございません。送信に失敗しました。\n\n';
+      
+      if (error.status === 403) {
+        errorMessage += '原因: アクセスが拒否されました。設定を確認してください。';
+      } else if (error.status === 400) {
+        errorMessage += '原因: リクエストに問題があります。';
+      } else {
+        errorMessage += `エラーコード: ${error.status}\nエラー内容: ${error.text}`;
+      }
+      
+      errorMessage += '\n\n直接メール（reirei.ou@outlook.jp）にお問い合わせいただくか、しばらく後に再度お試しください。';
+      
+      showErrorMessage(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+});
 
 // 页面加载动画
 window.addEventListener('load', () => {
@@ -1209,41 +1442,33 @@ window.addEventListener('load', () => {
   if (heroSection) {
     heroSection.style.opacity = '0';
     heroSection.style.transform = 'translateY(30px)';
+    
+    setTimeout(() => {
+      heroSection.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+      heroSection.style.opacity = '1';
+      heroSection.style.transform = 'translateY(0)';
+    }, 100);
   }
   
   featureCards.forEach((card, index) => {
     card.style.opacity = '0';
     card.style.transform = 'translateY(50px)';
+    setTimeout(() => {
+      card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, 200 + index * 150);
   });
   
   processSteps.forEach((step, index) => {
     step.style.opacity = '0';
     step.style.transform = 'translateY(30px)';
+    setTimeout(() => {
+      step.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      step.style.opacity = '1';
+      step.style.transform = 'translateY(0)';
+    }, 600 + index * 200);
   });
-  
-  setTimeout(() => {
-    if (heroSection) {
-      heroSection.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-      heroSection.style.opacity = '1';
-      heroSection.style.transform = 'translateY(0)';
-    }
-    
-    featureCards.forEach((card, index) => {
-      setTimeout(() => {
-        card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, 200 + index * 150);
-    });
-    
-    processSteps.forEach((step, index) => {
-      setTimeout(() => {
-        step.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-        step.style.opacity = '1';
-        step.style.transform = 'translateY(0)';
-      }, 600 + index * 200);
-    });
-  }, 100);
 });
 </script>
 
